@@ -2,12 +2,7 @@
 
 from setuptools import setup, find_packages
 
-api_requirements = [
-    'werkzeug >= 1.0.0, < 2.0.0',
-    'flask == 1.1.2',
-    'flask-cors == 3.0.10',
-    'gunicorn >= 20.0.0, < 21.0.0',
-    ]
+api_requirements = open("requirements/web-api.in").readlines()
 
 dev_requirements = [
     'autopep8 >= 1.4.0, < 1.6.0',
