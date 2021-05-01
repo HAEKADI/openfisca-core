@@ -32,15 +32,15 @@ setup(
         'License :: OSI Approved :: GNU Affero General Public License v3',
         'Operating System :: POSIX',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Scientific/Engineering :: Information Analysis',
         ],
     description = 'A versatile microsimulation free software',
     keywords = 'benefit microsimulation social tax',
     license = 'https://www.fsf.org/licensing/licenses/agpl-3.0.html',
     url = 'https://github.com/openfisca/openfisca-core',
-
     data_files = [
         (
             'share/openfisca/openfisca-core',
@@ -53,6 +53,8 @@ setup(
             'openfisca-run-test=openfisca_core.scripts.openfisca_command:main',
             ],
         },
+    python_requires = ">= 3.7",
+    install_requires = open("requirements/install.in").readlines(),
     extras_require = {
         "coverage": require("coverage.in"),
         "debug": require("debug.in"),
@@ -62,6 +64,5 @@ setup(
         "web-api": require("web-api.in"),
         },
     include_package_data = True,  # Will read MANIFEST.in
-    install_requires = open("requirements/install.in").readlines(),
     packages = find_packages(exclude=['tests*']),
     )
