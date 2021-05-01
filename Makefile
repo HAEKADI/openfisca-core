@@ -8,7 +8,7 @@ all: test
 ## Install project dependencies.
 install:
 	@$(call help,$@:)
-	@pip install --upgrade pip twine wheel
+	@pip install --upgrade pip setuptools wheel
 	@pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
 
 ## Install openfisca-core for deployment and publishing.
@@ -54,7 +54,7 @@ check-types: openfisca_core openfisca_web_api
 ## Run openfisca-core tests.
 test: clean check-syntax-errors check-style check-types
 	@$(call help,$@:)
-	@env PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core" pytest
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core" pytest
 
 ## Check that the current changes do not break the doc.
 test-doc:
@@ -115,6 +115,4 @@ test-doc-build:
 ## Serve the openfisca Web API.
 api:
 	@$(call help,$@:)
-	@openfisca serve \
-		--country-package openfisca_country_template \
-		--extensions openfisca_extension_template
+	@openfisca serve --country-package openfisca_country_template --extensions openfisca_extension_template

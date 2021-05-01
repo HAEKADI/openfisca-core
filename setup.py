@@ -48,11 +48,11 @@ setup(
             ],
         },
     extras_require = {
-        'web-api': api_requirements,
-        'dev': dev_requirements,
-        'tracker': [
-            'openfisca-tracker == 0.4.0',
-            ],
+        "coverage": open("requirements/coverage.in").readlines(),
+        "dev": dev_requirements,
+        "publication": open("requirements/publication.in").readlines(),
+        "tracker": open("requirements/tracking.in").readlines(),
+        "web-api": api_requirements,
         },
     include_package_data = True,  # Will read MANIFEST.in
     install_requires = open("requirements/install.in").readlines(),
