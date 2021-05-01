@@ -1,20 +1,26 @@
 #! /usr/bin/env python
 
+import re
 from setuptools import setup, find_packages
+from typing import List
 
-api_requirements = open("requirements/web-api.in").readlines()
 
-dev_requirements = [
-    'autopep8 >= 1.4.0, < 1.6.0',
-    'flake8 >= 3.9.0, < 4.0.0',
-    'flake8-bugbear >= 19.3.0, < 20.0.0',
-    'flake8-print >= 3.1.0, < 4.0.0',
-    'flake8-rst-docstrings < 1.0.0',
-    'pytest-cov >= 2.6.1, < 3.0.0',
-    'mypy >= 0.701, < 0.800',
-    'openfisca-country-template >= 3.10.0, < 4.0.0',
-    'openfisca-extension-template >= 1.2.0rc0, < 2.0.0'
-    ] + api_requirements
+def require(filename: str) -> List[str]:
+    """
+    Allows for composable requirement files with the `-r filename` flag.
+    """
+    reqs = open(f"requirements/{filename}").readlines()
+    pattern = re.compile(r"^\s*-r\s*(?P<filename>.*)$")
+
+    for req in reqs:
+        match = pattern.match(req)
+
+        if match:
+            reqs.remove(req)
+            reqs.extend(require(match.group("filename")))
+
+    return reqs
+
 
 setup(
     name = 'OpenFisca-Core',
@@ -48,11 +54,12 @@ setup(
             ],
         },
     extras_require = {
-        "coverage": open("requirements/coverage.in").readlines(),
-        "dev": dev_requirements,
-        "publication": open("requirements/publication.in").readlines(),
-        "tracker": open("requirements/tracking.in").readlines(),
-        "web-api": api_requirements,
+        "coverage": require("coverage.in"),
+        "debug": require("debug.in"),
+        "dev": require("dev.in"),
+        "publication": require("publication.in"),
+        "tracker": require("tracker.in"),
+        "web-api": require("web-api.in"),
         },
     include_package_data = True,  # Will read MANIFEST.in
     install_requires = open("requirements/install.in").readlines(),
