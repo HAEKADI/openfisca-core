@@ -24,7 +24,7 @@ def require(filename: str) -> List[str]:
 
 setup(
     name = 'OpenFisca-Core',
-    version = '35.5.0',
+    version = '36.0.0',
     author = 'OpenFisca Team',
     author_email = 'contact@openfisca.org',
     classifiers = [
