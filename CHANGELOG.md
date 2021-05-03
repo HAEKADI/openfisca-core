@@ -1,5 +1,13 @@
 # Changelog
 
+### 35.4.3 [#1020](https://github.com/openfisca/openfisca-core/pull/1020)
+
+#### Technical changes
+
+- Run country & extension template tests systematically
+  - This will help prevent maintainers integrating incompatible breaking changes
+  - Also this will force to phase breaking changes so to adapt the packages depending on OpenFisca-Core
+
 ### 35.4.2 [#1026](https://github.com/openfisca/openfisca-core/pull/1026)
 
 #### Bug fix
