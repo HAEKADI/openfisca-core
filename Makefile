@@ -1,3 +1,9 @@
+COUNTRY_TEMPLATE := openfisca_country_template
+EXTENSION_TEMPLATE := openfisca_extension_template
+PYTHON_PACKAGES_PATH := $(shell python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
+COUNTRY_TEMPLATE_TESTS := ${PYTHON_PACKAGES_PATH}/${COUNTRY_TEMPLATE}/tests
+EXTENSION_TEMPLATE_TESTS := ${PYTHON_PACKAGES_PATH}/${EXTENSION_TEMPLATE}/tests
+
 all: test
 
 uninstall:
@@ -9,7 +15,7 @@ install:
 
 clean:
 	rm -rf build dist
-	find . -name '*.pyc' -exec rm \{\} \;
+	find . -name "*.pyc" -exec rm \{\} \;
 
 check-syntax-errors:
 	python -m compileall -q .
@@ -28,7 +34,9 @@ format-style:
 	autopep8 `git ls-files | grep "\.py$$"`
 
 test: clean check-syntax-errors check-style check-types
-	env PYTEST_ADDOPTS="$$PYTEST_ADDOPTS --cov=openfisca_core" pytest
+	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_addopts}" pytest
+	openfisca test ${COUNTRY_TEMPLATE_TESTS} -c ${COUNTRY_TEMPLATE} ${optional_arguments}
+	openfisca test ${EXTENSION_TEMPLATE_TESTS} -c ${COUNTRY_TEMPLATE} -e ${EXTENSION_TEMPLATE} ${optional_arguments}
 
-api:
-	openfisca serve --country-package openfisca_country_template --extensions openfisca_extension_template
+serve:
+	openfisca serve -c ${COUNTRY_TEMPLATE} -e ${EXTENSION_TEMPLATE} ${optional_arguments}
