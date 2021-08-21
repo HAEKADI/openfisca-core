@@ -20,11 +20,12 @@ install:
 	pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
 
 ## Delete builds and compiled python files.
-clean:
+clean:: ;
+clean::
 	@printf "Deleting builds..."
 	@rm -rf build dist
 	@echo ${OK}
-
+clean::
 	@printf "Deleting compiled files..."
 	@find . -name "*.pyc" -exec rm \{\} \;
 	@echo ${OK}
