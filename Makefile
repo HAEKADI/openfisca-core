@@ -7,9 +7,8 @@ EXTENSION_TEMPLATE_TESTS := ${PYTHON_PACKAGES_PATH}/${EXTENSION_TEMPLATE}/tests
 all: test
 
 ## List all the available tasks.
-## Usage: make help.
 help:
-	@# See https://gist.github.com/klmr/575726c7e05d8780505a
+	@## See https://gist.github.com/klmr/575726c7e05d8780505a
 	@sed -ne "/^## /{h;s/.*//;:d" -e "H;n;s/^## //;td" -e "s/:.*//;G;s/\\n## /---/;s/\\n/ /g;p;}" ${MAKEFILE_LIST} | sort -f | awk -F --- -v n=$$(tput cols) -v i=19 -v a="$$(tput setaf 6)" -v z="$$(tput sgr0)" '{printf"%s%*s%s ",a,-i,$$1,z;m=split($$2,w," ");l=n-i;for(j=1;j<=m;j++){l-=length(w[j])+1;if(l<= 0){l=n-i-length(w[j])-1;printf"\n%*s ",-i," ";}printf"%s ",w[j];}printf"\n";}'
 
 uninstall:
@@ -39,7 +38,17 @@ format-style:
 	@# `make` needs `$$` to output `$`. Ref: http://stackoverflow.com/questions/2382764.
 	autopep8 `git ls-files | grep "\.py$$"`
 
+## Run openfisca-core & country/extension template tests.
 test: clean check-syntax-errors check-style check-types
+	@##	Usage:
+	@##
+	@##		make test [pytest_args="--ARG"] [openfisca_args="--ARG"]
+	@##
+	@##	Examples:
+	@##
+	@##		make test pytest_args="--exitfirst"
+	@##		make test openfisca_args="--performance"
+	@##		make test pytest_args="--exitfirst" openfisca_args="--performance"
 	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" pytest
 	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${COUNTRY_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} ${openfisca_args}
 	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${EXTENSION_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${openfisca_args}
