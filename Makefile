@@ -77,6 +77,7 @@ test: clean check-syntax-errors check-style check-types
 	@##
 	@##	Examples:
 	@##
+	@##		make test
 	@##		make test pytest_args="--exitfirst"
 	@##		make test openfisca_args="--performance"
 	@##		make test pytest_args="--exitfirst" openfisca_args="--performance"
@@ -84,5 +85,16 @@ test: clean check-syntax-errors check-style check-types
 	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${COUNTRY_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} ${openfisca_args}
 	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${EXTENSION_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${openfisca_args}
 
+## Serve the OpenFisca Web API.
 serve:
-	openfisca serve -c ${COUNTRY_TEMPLATE} -e ${EXTENSION_TEMPLATE} ${optional_arguments}
+	@##	Usage:
+	@##
+	@##		make serve [gunicorn_args="--ARG"] [openfisca_args="--ARG"]
+	@##
+	@##	Examples:
+	@##
+	@##		make serve
+	@##		make serve gunicorn_args="--workers 1"
+	@##		make serve openfisca_args="--welcome-message 'Hola :)'"
+	@##		make serve gunicorn_args="--workers 1" openfisca_args="--welcome-message 'Hola :)'"
+	openfisca serve --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${gunicorn_args} ${openfisca_args}
