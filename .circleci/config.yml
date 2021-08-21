@@ -31,7 +31,7 @@ jobs:
 
       - run:
           name: Run tests
-          command: make test pytest_addopts="--exitfirst"
+          command: make test pytest_args="--exitfirst"
 
       - run:
           name: Check NumPy typing against latest 3 minor versions
