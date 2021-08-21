@@ -60,10 +60,14 @@ check-types: $(shell ls -d * | grep "openfisca_")
 		&& echo ${OK} \
 		|| { echo "\n$$(cat /tmp/result)" && exit $$(</tmp/status) ; }
 
-format-style:
-	@# Do not analyse .gitignored files.
-	@# `make` needs `$$` to output `$`. Ref: http://stackoverflow.com/questions/2382764.
-	autopep8 `git ls-files | grep "\.py$$"`
+## Run code formatters to correct style errors.
+format-style: $(shell git ls-files | grep "\.py$$")
+	@## Do not analyse .gitignored files.
+	@## `make` needs `$$` to output `$`.
+	@## See http://stackoverflow.com/questions/2382764.
+	@printf "Running code formatters..."
+	@autopep8 $?
+	@echo ${OK}
 
 ## Run openfisca-core & country/extension template tests.
 test: clean check-syntax-errors check-style check-types
