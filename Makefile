@@ -18,9 +18,12 @@ help:
 uninstall:
 	pip freeze | grep -v "^-e" | xargs pip uninstall -y
 
+## Install project dependencies.
 install:
-	pip install --upgrade pip twine wheel
-	pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
+	@printf ${WORKING}
+	@echo "Installing dependencies..."
+	@pip install --upgrade pip twine wheel
+	@pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
 
 ## Delete builds and compiled python files.
 clean:: ;
