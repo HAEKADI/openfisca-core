@@ -35,8 +35,8 @@ format-style:
 
 test: clean check-syntax-errors check-style check-types
 	PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_addopts}" pytest
-	openfisca test ${COUNTRY_TEMPLATE_TESTS} -c ${COUNTRY_TEMPLATE} ${optional_arguments}
-	openfisca test ${EXTENSION_TEMPLATE_TESTS} -c ${COUNTRY_TEMPLATE} -e ${EXTENSION_TEMPLATE} ${optional_arguments}
+	openfisca test ${COUNTRY_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} ${optional_arguments}
+	openfisca test ${EXTENSION_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${optional_arguments}
 
 serve:
 	openfisca serve -c ${COUNTRY_TEMPLATE} -e ${EXTENSION_TEMPLATE} ${optional_arguments}
