@@ -98,3 +98,5 @@ serve:
 	@##		make serve openfisca_args="--welcome-message 'Hola :)'"
 	@##		make serve gunicorn_args="--workers 1" openfisca_args="--welcome-message 'Hola :)'"
 	openfisca serve --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${gunicorn_args} ${openfisca_args}
+
+api: serve
