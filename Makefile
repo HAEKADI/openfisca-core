@@ -1,4 +1,5 @@
 OK := "\033[0;32m OK! \033[0m"
+PASS := "\033[0;33m PASS \033[0m"
 COUNTRY_TEMPLATE := openfisca_country_template
 EXTENSION_TEMPLATE := openfisca_extension_template
 PYTHON_PACKAGES_PATH := $(shell python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
@@ -21,10 +22,9 @@ install:
 
 ## Delete builds and compiled python files.
 clean:: ;
-clean::
+clean:: $(shell ls -d * | grep "build\|dist")
 	@printf "Deleting builds..."
-	@rm -rf build dist
-	@echo ${OK}
+	@[ ! -z "$?" ] && { rm -rf $? && echo ${OK} ; } || echo ${PASS}
 clean::
 	@printf "Deleting compiled files..."
 	@find . -name "*.pyc" -exec rm \{\} \;
