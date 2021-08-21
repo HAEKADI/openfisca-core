@@ -25,11 +25,15 @@ clean:: ;
 
 clean:: $(shell find . -name "*.pyc")
 	@printf "Deleting compiled files..."
-	@[ ! -z "$?" ] && { rm -f $? && echo ${OK} ; } || echo ${PASS}
+	@[ ! -z "$?" ] \
+		&& { rm -f $? && echo ${OK} ; } \
+		|| echo ${PASS}
 
 clean:: $(shell ls -d * | grep "build\|dist")
 	@printf "Deleting builds..."
-	@[ ! -z "$?" ] && { rm -rf $? && echo ${OK} ; } || echo ${PASS}
+	@[ ! -z "$?" ] \
+		&& { rm -rf $? && echo ${OK} ; } \
+		|| echo ${PASS}
 
 ## Compile python files to check for syntax errors.
 check-syntax-errors:
@@ -43,11 +47,18 @@ check-style: $(shell git ls-files | grep "\.py$$")
 	@## `make` needs `$$` to output `$`.
 	@## See http://stackoverflow.com/questions/2382764.
 	@printf "Running linters..."
-	@flake8 $?
-	@echo ${OK}
+	@flake8 $? &> /tmp/result; echo $$? > /tmp/status;
+	@[ $$(</tmp/status) -eq 0 ] \
+		&& echo ${OK} \
+		|| { echo "\n$$(cat /tmp/result)" && exit $$(</tmp/status) ; }
 
-check-types:
-	mypy openfisca_core && mypy openfisca_web_api
+## Run static type checkers for type errors.
+check-types: $(shell ls -d * | grep "openfisca_")
+	@printf "Running static type checkers..."
+	@mypy $? &> /tmp/result; echo $$? > /tmp/status;
+	@[ $$(</tmp/status) -eq 0 ] \
+		&& echo ${OK} \
+		|| { echo "\n$$(cat /tmp/result)" && exit $$(</tmp/status) ; }
 
 format-style:
 	@# Do not analyse .gitignored files.
