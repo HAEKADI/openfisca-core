@@ -22,13 +22,14 @@ install:
 
 ## Delete builds and compiled python files.
 clean:: ;
+
+clean:: $(shell find . -name "*.pyc")
+	@printf "Deleting compiled files..."
+	@[ ! -z "$?" ] && { rm -f $? && echo ${OK} ; } || echo ${PASS}
+
 clean:: $(shell ls -d * | grep "build\|dist")
 	@printf "Deleting builds..."
 	@[ ! -z "$?" ] && { rm -rf $? && echo ${OK} ; } || echo ${PASS}
-clean::
-	@printf "Deleting compiled files..."
-	@find . -name "*.pyc" -exec rm \{\} \;
-	@echo ${OK}
 
 ## Compile python files to check for syntax errors.
 check-syntax-errors:
