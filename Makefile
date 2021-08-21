@@ -29,8 +29,11 @@ clean:
 	@find . -name "*.pyc" -exec rm \{\} \;
 	@echo ${OK}
 
+## Compile python files to check for syntax errors.
 check-syntax-errors:
+	@printf "Compiling python files..."
 	@python -m compileall -q .
+	@echo ${OK}
 
 check-types:
 	mypy openfisca_core && mypy openfisca_web_api
