@@ -38,13 +38,12 @@ check-syntax-errors:
 	@echo ${OK}
 
 ## Run linters to check for syntax and style errors.
-check-style:
+check-style: $(shell git ls-files | grep "\.py$$")
 	@## Do not analyse .gitignored files.
 	@## `make` needs `$$` to output `$`.
 	@## See http://stackoverflow.com/questions/2382764.
-
 	@printf "Running linters..."
-	@flake8 `git ls-files | grep "\.py$$"`
+	@flake8 $?
 	@echo ${OK}
 
 check-types:
