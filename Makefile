@@ -1,7 +1,7 @@
-OK := "\033[1;32m ✓ \033[0m"
-PASS := "\033[0;33m ✓ \033[0m"
-WORKING := "\033[0;32m[⚙] \033[0m"
-OPTIONS := "\033[0;36m[ℹ] \033[0m"
+OK := "$$(tput setaf 2) ✓ $$(tput sgr0)"
+PASS := "$$(tput setaf 3) ✓ $$(tput sgr0)"
+WORKING := "$$(tput setaf 5)[⚙] $$(tput sgr0)"
+OPTIONS := "$$(tput setaf 6)[ℹ] $$(tput sgr0)"
 COUNTRY_TEMPLATE := openfisca_country_template
 EXTENSION_TEMPLATE := openfisca_extension_template
 PYTHON_PACKAGES_PATH := $(shell python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
