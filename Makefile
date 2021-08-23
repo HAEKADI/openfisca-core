@@ -3,6 +3,7 @@ KO := "$$(tput setaf 1) [!] $$(tput sgr0)"
 PASS := "$$(tput setaf 3) [~] $$(tput sgr0)"
 WORKING := "$$(tput setaf 5)[⚙]$$(tput sgr0)"
 OPTIONS := "$$(tput setaf 6)[ℹ]$$(tput sgr0)"
+WARNINGS = "$$(tput setaf 3)[ℹ]$1$$(tput sgr0)"
 COUNTRY_TEMPLATE := openfisca_country_template
 EXTENSION_TEMPLATE := openfisca_extension_template
 PYTHON_PACKAGES_PATH := $$(python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
@@ -143,7 +144,7 @@ test::
 	@PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${EXTENSION_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${openfisca_args}
 
 ## Serve the OpenFisca Web API.
-serve::
+serve:
 	@##	Usage:
 	@##
 	@##		make serve [gunicorn_args="--ARG"] [openfisca_args="--ARG"]
@@ -159,4 +160,6 @@ serve::
 	@[ ! -z "${openfisca_args}" ] && echo "${OPTIONS} openfisca arguments: ${openfisca_args}" ; :
 	@openfisca serve --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${gunicorn_args} ${openfisca_args}
 
-api: serve
+api:
+	@echo $(call WARNINGS, "[make api]\'s been deprecated... please use [make serve] instead!")
+	@$(MAKE) serve
