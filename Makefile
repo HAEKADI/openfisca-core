@@ -1,10 +1,11 @@
-OK := "$$(tput setaf 2) ✓ $$(tput sgr0)"
-PASS := "$$(tput setaf 3) ✓ $$(tput sgr0)"
-WORKING := "$$(tput setaf 5)[⚙] $$(tput sgr0)"
-OPTIONS := "$$(tput setaf 6)[ℹ] $$(tput sgr0)"
+OK := "$$(tput setaf 2) [✓] $$(tput sgr0)"
+KO := "$$(tput setaf 1) [!] $$(tput sgr0)"
+PASS := "$$(tput setaf 3) [~] $$(tput sgr0)"
+WORKING := "$$(tput setaf 5)[⚙]$$(tput sgr0)"
+OPTIONS := "$$(tput setaf 6)[ℹ]$$(tput sgr0)"
 COUNTRY_TEMPLATE := openfisca_country_template
 EXTENSION_TEMPLATE := openfisca_extension_template
-PYTHON_PACKAGES_PATH := $(shell python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
+PYTHON_PACKAGES_PATH := $$(python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
 COUNTRY_TEMPLATE_TESTS := ${PYTHON_PACKAGES_PATH}/${COUNTRY_TEMPLATE}/tests
 EXTENSION_TEMPLATE_TESTS := ${PYTHON_PACKAGES_PATH}/${EXTENSION_TEMPLATE}/tests
 
@@ -49,14 +50,12 @@ help:
 
 ## Uninstall project dependencies.
 uninstall:
-	@printf ${WORKING}
-	@echo "Uninstalling dependencies..."
+	@echo "${WORKING} Uninstalling dependencies..."
 	@pip freeze | grep -v "^-e" | xargs pip uninstall -y
 
 ## Install project dependencies.
 install:
-	@printf ${WORKING}
-	@echo "Installing dependencies..."
+	@echo "${WORKING} Installing dependencies..."
 	@pip install --upgrade pip twine wheel
 	@pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
 
@@ -64,23 +63,22 @@ install:
 clean:: ;
 
 clean:: $(shell find . -name "*.pyc")
-	@printf ${WORKING}
-	@printf "Deleting compiled files..."
+	@printf "${WORKING} Deleting compiled files..."
 	@[ ! -z "$?" ] \
-		&& { rm -f $? && echo ${OK} ; } \
+		&& rm -f $? \
+		&& echo ${OK} \
 		|| echo ${PASS}
 
 clean:: $(shell ls -d * | grep "build\|dist")
-	@printf ${WORKING}
-	@printf "Deleting builds..."
+	@printf "${WORKING} Deleting builds..."
 	@[ ! -z "$?" ] \
-		&& { rm -rf $? && echo ${OK} ; } \
+		&& rm -rf $? \
+		&& echo ${OK} \
 		|| echo ${PASS}
 
 ## Compile python files to check for syntax errors.
 check-syntax-errors:
-	@printf ${WORKING}
-	@printf "Compiling python files..."
+	@printf "${WORKING} Compiling python files..."
 	@python -m compileall -q .
 	@echo ${OK}
 
@@ -89,29 +87,28 @@ check-style: $(shell git ls-files | grep "\.py$$")
 	@## Do not analyse .gitignored files.
 	@## `make` needs `$$` to output `$`.
 	@## See http://stackoverflow.com/questions/2382764.
-	@printf ${WORKING}
-	@printf "Running linters..."
+	@printf "${WORKING} Running linters..."
 	@flake8 $? &> /tmp/result; echo $$? > /tmp/status;
 	@[ $$(</tmp/status) -eq 0 ] \
 		&& echo ${OK} \
-		|| { echo "\n$$(cat /tmp/result)" && exit $$(</tmp/status) ; }
+		|| echo "${KO}\n$$(</tmp/result)" \
+		&& exit $$(</tmp/status)
 
 ## Run static type checkers for type errors.
 check-types: $(shell ls -d * | grep "openfisca_")
-	@printf ${WORKING}
-	@printf "Running static type checkers..."
+	@printf "${WORKING} Running static type checkers..."
 	@mypy $? &> /tmp/result; echo $$? > /tmp/status;
 	@[ $$(</tmp/status) -eq 0 ] \
 		&& echo ${OK} \
-		|| { echo "\n$$(cat /tmp/result)" && exit $$(</tmp/status) ; }
+		|| echo "${KO}\n$$(</tmp/result)" \
+		&& exit $$(</tmp/status)
 
 ## Run code formatters to correct style errors.
 format-style: $(shell git ls-files | grep "\.py$$")
 	@## Do not analyse .gitignored files.
 	@## `make` needs `$$` to output `$`.
 	@## See http://stackoverflow.com/questions/2382764.
-	@printf ${WORKING}
-	@printf "Running code formatters..."
+	@printf "${WORKING} Running code formatters..."
 	@autopep8 $?
 	@echo ${OK}
 
@@ -129,23 +126,20 @@ test:: clean check-syntax-errors check-style check-types
 	@##		make test pytest_args="--exitfirst" openfisca_args="--performance"
 
 test::
-	@printf ${WORKING}
-	@echo "Running openfisca-core tests..."
-	@[ ! -z "${pytest_args}" ] && printf ${OPTIONS} && echo "pytest arguments: ${pytest_args}" ; :
+	@echo "${WORKING} Running openfisca-core tests..."
+	@[ ! -z "${pytest_args}" ] && echo "${OPTIONS} pytest arguments: ${pytest_args}" ; :
 	@PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" pytest
 
 test::
-	@printf ${WORKING}
-	@echo "Running country-template tests..."
-	@[ ! -z "${pytest_args}" ] && printf ${OPTIONS} && echo "pytest arguments: ${pytest_args}" ; :
-	@[ ! -z "${openfisca_args}" ] && printf ${OPTIONS} && echo "openfisca arguments: ${openfisca_args}" ; :
+	@echo "${WORKING} Running country-template tests..."
+	@[ ! -z "${pytest_args}" ] && echo "${OPTIONS} pytest arguments: ${pytest_args}" ; :
+	@[ ! -z "${openfisca_args}" ] && echo "${OPTIONS} openfisca arguments: ${openfisca_args}" ; :
 	@PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${COUNTRY_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} ${openfisca_args}
 
 test::
-	@printf ${WORKING}
-	@echo "Running extension-template tests..."
-	@[ ! -z "${pytest_args}" ] && printf ${OPTIONS} && echo "pytest arguments: ${pytest_args}" ; :
-	@[ ! -z "${openfisca_args}" ] && printf ${OPTIONS} && echo "openfisca arguments: ${openfisca_args}" ; :
+	@echo "${WORKING} Running extension-template tests..."
+	@[ ! -z "${pytest_args}" ] && echo "${OPTIONS} pytest arguments: ${pytest_args}" ; :
+	@[ ! -z "${openfisca_args}" ] && echo "${OPTIONS} openfisca arguments: ${openfisca_args}" ; :
 	@PYTEST_ADDOPTS="$$PYTEST_ADDOPTS ${pytest_args}" openfisca test ${EXTENSION_TEMPLATE_TESTS} --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${openfisca_args}
 
 ## Serve the OpenFisca Web API.
@@ -160,10 +154,9 @@ serve::
 	@##		make serve gunicorn_args="--workers 1"
 	@##		make serve openfisca_args="--welcome-message 'Hola :)'"
 	@##		make serve gunicorn_args="--workers 1" openfisca_args="--welcome-message 'Hola :)'"
-	@printf ${WORKING}
-	@echo "Serving the OpenFisca Web API..."
-	@[ ! -z "${gunicorn_args}" ] && printf ${OPTIONS} && echo "gunicorn arguments: ${gunicorn_args}" ; :
-	@[ ! -z "${openfisca_args}" ] && printf ${OPTIONS} && echo "openfisca arguments: ${openfisca_args}" ; :
+	@echo "${WORKING} Serving the OpenFisca Web API..."
+	@[ ! -z "${gunicorn_args}" ] && echo "${OPTIONS} gunicorn arguments: ${gunicorn_args}" ; :
+	@[ ! -z "${openfisca_args}" ] && echo "${OPTIONS} openfisca arguments: ${openfisca_args}" ; :
 	@openfisca serve --country-package ${COUNTRY_TEMPLATE} --extensions ${EXTENSION_TEMPLATE} ${gunicorn_args} ${openfisca_args}
 
 api: serve
