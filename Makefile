@@ -18,7 +18,7 @@ check-types:
 	mypy openfisca_core && mypy openfisca_web_api
 
 check-style: $(filter %.py, $(shell git ls-files))
-	@flake8 --select=C,E $?
+	@flake8 --select=C,E,F,W $?
 
 format-style:
 	@# Do not analyse .gitignored files.
