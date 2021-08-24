@@ -24,11 +24,11 @@ check-style.docs: $(filter openfisca_%.py, $(shell git ls-files))
 	@flake8 --select=D,F,R --doctests $?
 
 check-style.tests: $(filter openfisca_%.py, $(shell git ls-files))
-	@flake8 --select=A --doctests $?
+	@flake8 --select=A,P --doctests $?
 
 check-style.strict: $(filter %.py, $(shell git ls-files))
 	@flake8 \
-		--select=A,B,C,D,E,F,R,T,W \
+		--select=A,B,C,D,E,F,P,R,T,W \
 		--doctests \
 		--max-complexity 5 \
 		--max-doc-length 79 \
