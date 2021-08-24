@@ -25,7 +25,7 @@ check-style: $(filter %.py, $(shell git ls-files))
 
 check-style.docs: $(filter %.py, $(shell git ls-files))
 	@flake8 \
-		--select=F \
+		--select=D,F \
 		--doctests \
 		$?
 
