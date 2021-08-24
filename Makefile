@@ -20,12 +20,15 @@ check-types:
 check-style: $(filter %.py, $(shell git ls-files))
 	@flake8 --select=B,C,E,F,T,W $?
 
-check-style.docs: $(filter %.py, $(shell git ls-files))
+check-style.docs: $(filter openfisca_%.py, $(shell git ls-files))
 	@flake8 --select=D,F,R --doctests $?
+
+check-style.tests: $(filter openfisca_%.py, $(shell git ls-files))
+	@flake8 --select=A --doctests $?
 
 check-style.strict: $(filter %.py, $(shell git ls-files))
 	@flake8 \
-		--select=B,C,D,E,F,R,T,W \
+		--select=A,B,C,D,E,F,R,T,W \
 		--doctests \
 		--max-complexity 5 \
 		--max-doc-length 79 \
