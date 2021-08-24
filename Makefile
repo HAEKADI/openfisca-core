@@ -43,5 +43,20 @@ format-style:
 test: clean check-syntax-errors check-style check-types
 	env PYTEST_ADDOPTS="$$PYTEST_ADDOPTS --cov=openfisca_core" pytest
 
+test.docs: $(filter openfisca_%.py, $(shell git ls-files))
+	@${MAKE} clean
+	@${MAKE} check-syntax-errors
+	@PYTEST_ADDOPTS="$$PYTEST_ADDOPTS --exitfirst" pytest $?
+	@${MAKE} check-types
+	@${MAKE} check-style.docs
+	@${MAKE} check-style.tests
+
+test.strict: $(filter %.py, $(shell git ls-files))
+	@${MAKE} clean
+	@${MAKE} check-syntax-errors
+	@PYTEST_ADDOPTS="$$PYTEST_ADDOPTS --maxfail 5" pytest $?
+	@${MAKE} check-types
+	@${MAKE} check-style.strict
+
 api:
 	openfisca serve --country-package openfisca_country_template --extensions openfisca_extension_template
