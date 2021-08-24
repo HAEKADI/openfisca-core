@@ -19,7 +19,7 @@ check-types:
 
 check-style: $(filter %.py, $(shell git ls-files))
 	@flake8 \
-		--select=B,C,E,F,W, \
+		--select=B,C,E,F,T,W, \
 		${args} \
 		$?
 
