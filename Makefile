@@ -18,25 +18,19 @@ check-types:
 	mypy openfisca_core && mypy openfisca_web_api
 
 check-style: $(filter %.py, $(shell git ls-files))
-	@flake8 \
-		--select=B,C,E,F,T,W, \
-		${args} \
-		$?
+	@flake8 --select=B,C,E,F,T,W $?
 
 check-style.docs: $(filter %.py, $(shell git ls-files))
-	@flake8 \
-		--select=D,F \
-		--doctests \
-		$?
+	@flake8 --select=D,F --doctests $?
 
 check-style.strict:
-	@${MAKE} \
-		check-style \
-		args=" \
-			--max-complexity 5 \
-			--max-doc-length 79 \
-			--max-line-length 79 \
-			"
+	@flake8 \
+		--select=B,C,D,E,F,T,W \
+		--doctests \
+		--max-complexity 5 \
+		--max-doc-length 79 \
+		--max-line-length 79 \
+		$?
 
 format-style:
 	@# Do not analyse .gitignored files.
