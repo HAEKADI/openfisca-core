@@ -23,10 +23,11 @@ check-style: $(filter %.py, $(shell git ls-files))
 		${args} \
 		$?
 
-check-style.docs:
-	@${MAKE} \
-		check-style \
-		args="--doctests"
+check-style.docs: $(filter %.py, $(shell git ls-files))
+	@flake8 \
+		--select=F \
+		--doctests \
+		$?
 
 check-style.strict:
 	@${MAKE} \
