@@ -64,7 +64,7 @@ def run_tests(tax_benefit_system, paths, options = None):
 
     """
 
-    argv = ["--capture", "no"]
+    argv = []
 
     if options.get('pdb'):
         argv.append('--pdb')
