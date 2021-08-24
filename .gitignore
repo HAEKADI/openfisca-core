@@ -13,7 +13,7 @@ doc/
 *.pyc
 *~
 /cover
-/.coverage
+/.coverage*
 /tags
 .tags*
 .noseids
