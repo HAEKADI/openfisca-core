@@ -1,6 +1,7 @@
 help = sed -n "/^$1/ { x ; p ; } ; s/\#\#/[⚙]/ ; s/\./.../ ; x" ${MAKEFILE_LIST}
 repo = https://github.com/openfisca/openfisca-doc
 branch = $(shell git branch --show-current)
+python_packages = $(shell python -c "import sysconfig; print(sysconfig.get_paths()[\"purelib\"])")
 
 ## Same as `make test`.
 all: test
@@ -51,10 +52,38 @@ check-types: openfisca_core openfisca_web_api
 	@$(call help,$@:)
 	@mypy $?
 
-## Run openfisca-core tests.
+## Run openfisca-core & country/extension template tests.
 test: clean check-syntax-errors check-style check-types
+	@##	Usage:
+	@##
+	@##		make test [pytest_args="--ARG"] [openfisca_args="--ARG"]
+	@##
+	@##	Examples:
+	@##
+	@##		make test
+	@##		make test pytest_args="--exitfirst"
+	@##		make test openfisca_args="--performance"
+	@##		make test pytest_args="--exitfirst" openfisca_args="--performance"
+	@##
 	@$(call help,$@:)
-	@env PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core" pytest
+	@${MAKE} test-core
+	@${MAKE} test-country
+	@${MAKE} test-extension
+
+# Run openfisca-core tests.
+test-core: $(shell git ls-files "tests/*.py")
+	@$(call help,$@:)
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core ${pytest_args}" openfisca test $? ${openfisca_args}
+
+# Run country-template tests.
+test-country: ${python_packages}/openfisca_country_template/tests
+	@$(call help,$@:)
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS} ${pytest_args}" openfisca test $? --country-package openfisca_country_template ${openfisca_args}
+
+# Run extension-template tests.
+test-extension: ${python_packages}/openfisca_extension_template/tests
+	@$(call help,$@:)
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS} ${pytest_args}" openfisca test $? --country-package openfisca_country_template --extensions openfisca_extension_template ${openfisca_args}
 
 ## Check that the current changes do not break the doc.
 test-doc:
@@ -85,8 +114,8 @@ test-doc-checkout:
 	@cd doc && { \
 		git reset --hard ; \
 		git fetch --all ; \
-		[ $$(git branch --show-current) != master ] && git checkout master || : ; \
-		[ ${branch} != "master" ] \
+		[ "$$(git branch --show-current)" != "master" ] && git checkout master || : ; \
+		[ "${branch}" != "master" ] \
 			&& { \
 				{ \
 					git branch -D ${branch} 2> /dev/null ; \
