@@ -39,22 +39,30 @@ check-syntax-errors: .
 ## Run linters to check for syntax and style errors.
 check-style: $(shell git ls-files "*.py")
 	@$(call help,$@:)
-	@flake8 $?
+	@flake8 --extend-ignore=D $?
 
-## Run code formatters to correct style errors.
-format-style: $(shell git ls-files "*.py")
-	@$(call help,$@:)
-	@autopep8 $?
+	@# Check that docstrings are present in public class, method, and function definitions.
+	@# See: http://www.pydocstyle.org/en/2.1.1/error_codes.html
+	@flake8 --select=D101,D102,D103 openfisca_core/commons
+
+	@# Check that docstrings match the current implementation of functions/methods.
+	@# See: https://github.com/terrencepreilly/darglint
+	@flake8 --select=DAR openfisca_core/commons
 
 ## Run static type checkers for type errors.
 check-types: openfisca_core openfisca_web_api
 	@$(call help,$@:)
 	@mypy $?
 
+## Run code formatters to correct style errors.
+format-style: $(shell git ls-files "*.py")
+	@$(call help,$@:)
+	@autopep8 $?
+
 ## Run openfisca-core tests.
 test: clean check-syntax-errors check-style check-types
 	@$(call help,$@:)
-	@env PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core" pytest
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core" pytest
 
 ## Check that the current changes do not break the doc.
 test-doc:
@@ -85,8 +93,8 @@ test-doc-checkout:
 	@cd doc && { \
 		git reset --hard ; \
 		git fetch --all ; \
-		[ $$(git branch --show-current) != master ] && git checkout master || : ; \
-		[ ${branch} != "master" ] \
+		[ "$$(git branch --show-current)" != "master" ] && git checkout master || : ; \
+		[ "${branch}" != "master" ] \
 			&& { \
 				{ \
 					git branch -D ${branch} 2> /dev/null ; \
