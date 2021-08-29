@@ -94,7 +94,7 @@ test-doc:
 	@${MAKE} test-doc-install
 	@${MAKE} test-doc-build
 
-## Update the local copy of the doc.
+### Update the local copy of the doc.
 test-doc-checkout:
 	@$(call help,$@:)
 	@[ ! -d doc ] && git clone ${repo} doc || :
