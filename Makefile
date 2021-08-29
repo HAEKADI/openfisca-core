@@ -102,7 +102,7 @@ test-doc:
 	@${MAKE} test-doc-build
 	@$(call pass,$@:)
 
-## Update the local copy of the doc.
+### Update the local copy of the doc.
 test-doc-checkout:
 	@$(call help,$@:)
 	@[ ! -d doc ] && git clone ${repo} doc || :
