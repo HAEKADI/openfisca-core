@@ -47,7 +47,7 @@ def stringify_array(array: numpy.ndarray) -> str:
         array: An array.
 
     Returns:
-        "None" if the `array` is None, the stringified ``array`` otherwise.
+        "None" if the ``array`` is None, the stringified ``array`` otherwise.
 
     Examples:
         >>> import numpy

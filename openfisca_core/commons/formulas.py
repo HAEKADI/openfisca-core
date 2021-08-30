@@ -19,7 +19,7 @@ def apply_thresholds(input: numpy.ndarray, thresholds: ArrayLike[float], choices
         A list of the choices made.
 
     Raises:
-        :exc:`.AssertionError`: When the number of ``thresholds`` (t) and the
+        :exc:`AssertionError`: When the number of ``thresholds`` (t) and the
             number of choices (c) are not either t == c or t == c - 1.
 
     Examples:
@@ -80,7 +80,7 @@ def switch(conditions: numpy.ndarray, value_by_condition: dict) -> numpy.ndarray
         An array with the replaced values.
 
     Raises:
-        :exc:`.AssertionError`: When ``value_by_condition`` is empty.
+        :exc:`AssertionError`: When ``value_by_condition`` is empty.
 
     Examples:
         >>> conditions = numpy.array([1, 1, 1, 2])
