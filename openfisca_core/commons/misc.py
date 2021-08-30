@@ -18,6 +18,7 @@ def empty_clone(original):
         True
 
     """
+
     class Dummy(original.__class__):
         def __init__(self) -> None:
             pass
@@ -28,8 +29,14 @@ def empty_clone(original):
 
 
 def stringify_array(array: numpy.ndarray) -> str:
-    """
-    Generate a clean string representation of a NumPY array.
+    """Generate a clean string representation of a NumPY array.
+
+    Examples:
+        >>> import numpy
+        >>> array = numpy.array([10, 20])
+        >>> stringify_array(array)
+        '[10, 20]'
+
     """
 
     if array is None:
