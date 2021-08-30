@@ -2,7 +2,13 @@ import warnings
 
 
 class Dummy:
-    """A class that does nothing."""
+    """A class that does nothing.
+
+    Examples:
+        >>> Dummy()
+        <openfisca_core.commons.dummy.Dummy object...
+
+    """
 
     def __init__(self) -> None:
         message = [
