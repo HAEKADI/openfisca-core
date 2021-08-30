@@ -41,7 +41,13 @@ def empty_clone(original: Any) -> Any:
 
 
 def stringify_array(array: numpy.ndarray) -> str:
-    """Generate a clean string representation of a NumPY array.
+    """Generates a clean string representation of a numpy array.
+
+    Args:
+        array: An array.
+
+    Returns:
+        "None" if the `array` is None, the stringified ``array`` otherwise.
 
     Examples:
         >>> import numpy
