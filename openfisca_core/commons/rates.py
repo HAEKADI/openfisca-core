@@ -40,8 +40,23 @@ def average_rate(target: numpy.ndarray, varying: ArrayLike[float], trim: Optiona
     return average_rate
 
 
-def marginal_rate(target = None, varying = None, trim = None):
+def marginal_rate(target: numpy.ndarray, varying: numpy.ndarray, trim: Optional[ArrayLike[float]] = None) -> numpy.ndarray:
     """Computes the marginal rate of a target net income.
+
+    Given a ``target`` net income, and according to the ``varying`` gross
+    income. Optionally, a ``trim`` can be applied consisting of the lower and
+    upper bounds of the marginal rate to be computed.
+
+    Args:
+        target: The targeted net income.
+        varying: The varying gross income.
+        trim: The lower and upper bounds of the marginal rate.
+
+    Returns:
+        The marginal rate for each target.
+
+        When ``trim`` is provided, values that are out of the provided bounds
+        are replaced by :obj:`numpy.nan`.
 
     Examples:
         >>> target = numpy.array([1, 2, 3])
@@ -52,7 +67,6 @@ def marginal_rate(target = None, varying = None, trim = None):
 
     """
 
-    # target: numerator, varying: denominator
     marginal_rate = 1 - (target[:-1] - target[1:]) / (varying[:-1] - varying[1:])
     if trim is not None:
         marginal_rate = numpy.where(marginal_rate <= max(trim), marginal_rate, numpy.nan)
