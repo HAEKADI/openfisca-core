@@ -11,12 +11,12 @@ def apply_thresholds(input: numpy.ndarray, thresholds: ArrayLike[float], choices
     ``thresholds``. It does so for each ``input`` provided.
 
     Args:
-        input (:obj:`.int`): A list of inputs to make a choice.
-        thresholds (:obj:`.ArrayLike[float]`): A list of thresholds to choose.
-        choices (:obj:`.ArrayLike[float]`): A list of the possible choices.
+        input: A list of inputs to make a choice.
+        thresholds: A list of thresholds to choose.
+        choices: A list of the possible choices.
 
     Returns:
-        :class:`.ndarray`: A list of the choices made.
+        A list of the choices made.
 
     Raises:
         :exc:`.AssertionError`: When the number of ``thresholds`` (t) and the
@@ -40,15 +40,15 @@ def apply_thresholds(input: numpy.ndarray, thresholds: ArrayLike[float], choices
     return numpy.select(condlist, choices)
 
 
-def concat(this, that):
+def concat(this: ArrayLike[str], that: ArrayLike[str]) -> numpy.ndarray:
     """Concatenates the values of two arrays.
 
     Args:
-        this(:obj:`.ArrayLike[str]`): An array to concatenate.
-        that(:obj:`.ArrayLike[str]`): Another array to concatenate.
+        this: An array to concatenate.
+        that: Another array to concatenate.
 
     Returns:
-        :class:`.ndarray`: An array with the concatenated values.
+        An array with the concatenated values.
 
     Examples:
         >>> this = ["this", "that"]
@@ -58,18 +58,29 @@ def concat(this, that):
 
     """
 
-    if isinstance(this, numpy.ndarray) and not numpy.issubdtype(this.dtype, numpy.str):
+    if isinstance(this, numpy.ndarray) and not numpy.issubdtype(this.dtype, numpy.str_):
         this = this.astype('str')
-    if isinstance(that, numpy.ndarray) and not numpy.issubdtype(that.dtype, numpy.str):
+    if isinstance(that, numpy.ndarray) and not numpy.issubdtype(that.dtype, numpy.str_):
         that = that.astype('str')
 
-    return numpy.core.defchararray.add(this, that)
+    return numpy.char.add(this, that)
 
 
-def switch(conditions, value_by_condition):
-    '''
-    Reproduces a switch statement: given an array of conditions, return an array of the same size replacing each
-    condition item by the corresponding given value.
+def switch(conditions: numpy.ndarray, value_by_condition: dict) -> numpy.ndarray:
+    """Reproduces a switch statement.
+
+    Given an array of conditions, returns an array of the same size,
+    replacing each condition item by the corresponding given value.
+
+    Args:
+        conditions: An array of conditions.
+        value_by_condition: Values to replace for each condition.
+
+    Returns:
+        An array with the replaced values.
+
+    Raises:
+        :exc:`.AssertionError`: When ``value_by_condition`` is empty.
 
     Examples:
         >>> conditions = numpy.array([1, 1, 1, 2])
@@ -77,7 +88,7 @@ def switch(conditions, value_by_condition):
         >>> switch(conditions, value_by_condition)
         array([80, 80, 80, 90])
 
-    '''
+    """
 
     assert len(value_by_condition) > 0, \
         "switch must be called with at least one value"
