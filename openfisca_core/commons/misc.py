@@ -2,7 +2,22 @@ import numpy
 
 
 def empty_clone(original):
-    """Create a new empty instance of the same class of the original object."""
+    """Create a new empty instance of the same class of the original object.
+
+    Examples:
+        >>> Foo = type("Foo", (list,), {})
+        >>> foo = Foo([1, 2, 3])
+        >>> foo
+        [1, 2, 3]
+
+        >>> bar = empty_clone(foo)
+        >>> bar
+        []
+
+        >>> isinstance(bar, Foo)
+        True
+
+    """
     class Dummy(original.__class__):
         def __init__(self) -> None:
             pass
