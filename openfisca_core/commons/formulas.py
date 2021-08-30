@@ -5,16 +5,13 @@ def apply_thresholds(input, thresholds, choices):
     """
     Return one of the choices depending on the input position compared to thresholds, for each input.
 
-    >>> apply_thresholds(np.array([4]), [5, 7], [10, 15, 20])
-    array([10])
-    >>> apply_thresholds(np.array([5]), [5, 7], [10, 15, 20])
-    array([10])
-    >>> apply_thresholds(np.array([6]), [5, 7], [10, 15, 20])
-    array([15])
-    >>> apply_thresholds(np.array([8]), [5, 7], [10, 15, 20])
-    array([20])
-    >>> apply_thresholds(np.array([10]), [5, 7, 9], [10, 15, 20])
-    array([0])
+    Examples:
+        >>> input = numpy.array([4, 5, 6, 7, 8])
+        >>> thresholds = [5, 7]
+        >>> choices = [10, 15, 20]
+        >>> apply_thresholds(input, thresholds, choices)
+        array([10, 10, 15, 15, 20])
+
     """
     condlist = [input <= threshold for threshold in thresholds]
     if len(condlist) == len(choices) - 1:
