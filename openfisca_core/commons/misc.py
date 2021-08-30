@@ -1,8 +1,20 @@
+from typing import Any
+
 import numpy
 
 
-def empty_clone(original):
-    """Create a new empty instance of the same class of the original object.
+def empty_clone(original: Any) -> Any:
+    """Creates an empty instance of the same class of the original object.
+
+    Note:
+        We ignore the type of ``original`` because there's a bug in MyPy:
+        https://github.com/python/mypy/issues/4177
+
+    Args:
+        original: An object to clone.
+
+    Returns:
+        The cloned, empty, object.
 
     Examples:
         >>> Foo = type("Foo", (list,), {})
@@ -19,7 +31,7 @@ def empty_clone(original):
 
     """
 
-    class Dummy(original.__class__):
+    class Dummy(original.__class__):  # type: ignore
         def __init__(self) -> None:
             pass
 
