@@ -1,9 +1,11 @@
+from typing import Any, Dict
+
 import numpy
 
-from .typing import ArrayLike, Array
+from openfisca_core.types import ArrayLike, ArrayType
 
 
-def apply_thresholds(input: Array[float], thresholds: ArrayLike[float], choices: ArrayLike[float]) -> Array[float]:
+def apply_thresholds(input: ArrayType[float], thresholds: ArrayLike[float], choices: ArrayLike[float]) -> ArrayType[float]:
     """Makes a choice based on an input and thresholds.
 
     From list of ``choices``, it selects one of them based from a list of
@@ -40,7 +42,7 @@ def apply_thresholds(input: Array[float], thresholds: ArrayLike[float], choices:
     return numpy.select(condlist, choices)
 
 
-def concat(this: ArrayLike[str], that: ArrayLike[str]) -> Array[str]:
+def concat(this: ArrayLike[str], that: ArrayLike[str]) -> ArrayType[str]:
     """Concatenates the values of two arrays.
 
     Args:
@@ -66,7 +68,7 @@ def concat(this: ArrayLike[str], that: ArrayLike[str]) -> Array[str]:
     return numpy.char.add(this, that)
 
 
-def switch(conditions: Array[float], value_by_condition: dict) -> Array[float]:
+def switch(conditions: ArrayType[float], value_by_condition: Dict[float, Any]) -> ArrayType[float]:
     """Reproduces a switch statement.
 
     Given an array of conditions, returns an array of the same size,
