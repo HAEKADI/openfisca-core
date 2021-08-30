@@ -2,8 +2,7 @@ import numpy
 
 
 def apply_thresholds(input, thresholds, choices):
-    """
-    Return one of the choices depending on the input position compared to thresholds, for each input.
+    """Return one of the choices depending on the input position compared to thresholds, for each input.
 
     Examples:
         >>> input = numpy.array([4, 5, 6, 7, 8])
@@ -13,6 +12,7 @@ def apply_thresholds(input, thresholds, choices):
         array([10, 10, 15, 15, 20])
 
     """
+
     condlist = [input <= threshold for threshold in thresholds]
     if len(condlist) == len(choices) - 1:
         # If a choice is provided for input > highest threshold, last condition must be true to return it.
@@ -23,6 +23,16 @@ def apply_thresholds(input, thresholds, choices):
 
 
 def concat(this, that):
+    """Concatenates the values of two arrays.
+
+    Examples:
+        >>> this = ["this", "that"]
+        >>> that = numpy.array([1, 2.5])
+        >>> concat(this, that)
+        array(['this1.0', 'that2.5']...)
+
+    """
+
     if isinstance(this, numpy.ndarray) and not numpy.issubdtype(this.dtype, numpy.str):
         this = this.astype('str')
     if isinstance(that, numpy.ndarray) and not numpy.issubdtype(that.dtype, numpy.str):
