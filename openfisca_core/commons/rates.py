@@ -2,8 +2,7 @@ import numpy
 
 
 def average_rate(target = None, varying = None, trim = None):
-    '''
-    Computes the average rate of a targeted net income, according to the varying gross income.
+    '''Computes the average rate of a targeted net income, according to the varying gross income.
 
     :param target: Targeted net income, numerator
     :param varying: Varying gross income, denominator
@@ -27,6 +26,17 @@ def average_rate(target = None, varying = None, trim = None):
 
 
 def marginal_rate(target = None, varying = None, trim = None):
+    """Computes the marginal rate of a target net income.
+
+    Examples:
+        >>> target = numpy.array([1, 2, 3])
+        >>> varying = numpy.array([1, 2, 4])
+        >>> trim = [.25, .75]
+        >>> marginal_rate(target, varying, trim)
+        array([nan, 0.5])
+
+    """
+
     # target: numerator, varying: denominator
     marginal_rate = 1 - (target[:-1] - target[1:]) / (varying[:-1] - varying[1:])
     if trim is not None:
