@@ -1,8 +1,26 @@
 import numpy
 
+from . import ArrayLike
 
-def apply_thresholds(input, thresholds, choices):
-    """Return one of the choices depending on the input position compared to thresholds, for each input.
+
+def apply_thresholds(input: numpy.ndarray, thresholds: ArrayLike[float], choices: ArrayLike[float]) -> numpy.ndarray:
+    """Makes a choice based on an input and thresholds.
+
+    From list of ``choices``, it selects one of them based from a list of
+    inputs, depending on the position of each ``input`` whithin a list of
+    ``thresholds``. It does so for each ``input`` provided.
+
+    Args:
+        input (:obj:`.int`): A list of inputs to make a choice.
+        thresholds (:obj:`.ArrayLike[float]`): A list of thresholds to choose.
+        choices (:obj:`.ArrayLike[float]`): A list of the possible choices.
+
+    Returns:
+        :obj:`.ndarray`: A list of the choices made.
+
+    Raises:
+        :exc:`.AssertionError`: When the number of ``thresholds`` (t) and the number of
+            choices (c) are not either t == c or t == c - 1.
 
     Examples:
         >>> input = numpy.array([4, 5, 6, 7, 8])
