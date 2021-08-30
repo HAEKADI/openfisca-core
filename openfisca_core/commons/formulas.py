@@ -16,11 +16,11 @@ def apply_thresholds(input: numpy.ndarray, thresholds: ArrayLike[float], choices
         choices (:obj:`.ArrayLike[float]`): A list of the possible choices.
 
     Returns:
-        :obj:`.ndarray`: A list of the choices made.
+        :class:`.ndarray`: A list of the choices made.
 
     Raises:
-        :exc:`.AssertionError`: When the number of ``thresholds`` (t) and the number of
-            choices (c) are not either t == c or t == c - 1.
+        :exc:`.AssertionError`: When the number of ``thresholds`` (t) and the
+            number of choices (c) are not either t == c or t == c - 1.
 
     Examples:
         >>> input = numpy.array([4, 5, 6, 7, 8])
@@ -42,6 +42,13 @@ def apply_thresholds(input: numpy.ndarray, thresholds: ArrayLike[float], choices
 
 def concat(this, that):
     """Concatenates the values of two arrays.
+
+    Args:
+        this(:obj:`.ArrayLike[str]`): An array to concatenate.
+        that(:obj:`.ArrayLike[str]`): Another array to concatenate.
+
+    Returns:
+        :class:`.ndarray`: An array with the concatenated values.
 
     Examples:
         >>> this = ["this", "that"]
