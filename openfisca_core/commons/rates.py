@@ -1,12 +1,27 @@
+from typing import Optional
+
 import numpy
 
+from . import ArrayLike
 
-def average_rate(target = None, varying = None, trim = None):
-    '''Computes the average rate of a targeted net income, according to the varying gross income.
 
-    :param target: Targeted net income, numerator
-    :param varying: Varying gross income, denominator
-    :param trim: Lower and upper bound of average rate to return
+def average_rate(target: numpy.ndarray, varying: ArrayLike[float], trim: Optional[ArrayLike[float]] = None) -> numpy.ndarray:
+    """Computes the average rate of a target net income.
+
+    Given a ``target`` net income, and according to the ``varying`` gross
+    income. Optionally, a ``trim`` can be applied consisting on the lower and
+    upper bounds of the average rate to be computed.
+
+    Args:
+        target: The targeted net income.
+        varying: The varying gross income.
+        trim: The lower and upper bounds of the average rate.
+
+    Returns:
+        The average rate for each target.
+
+        When ``trim`` is provided, values that are out of the provided bounds
+        are replaced by :obj:`numpy.nan`.
 
     Examples:
         >>> target = numpy.array([1, 2, 3])
@@ -15,7 +30,7 @@ def average_rate(target = None, varying = None, trim = None):
         >>> average_rate(target, varying, trim)
         array([ nan,  0. , -0.5])
 
-    '''
+    """
 
     average_rate = 1 - target / varying
     if trim is not None:
