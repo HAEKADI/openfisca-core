@@ -46,10 +46,14 @@ def switch(conditions, value_by_condition):
     Reproduces a switch statement: given an array of conditions, return an array of the same size replacing each
     condition item by the corresponding given value.
 
-    Example:
-        >>> switch(np.array([1, 1, 1, 2]), {1: 80, 2: 90})
+    Examples:
+        >>> conditions = numpy.array([1, 1, 1, 2])
+        >>> value_by_condition = {1: 80, 2: 90}
+        >>> switch(conditions, value_by_condition)
         array([80, 80, 80, 90])
+
     '''
+
     assert len(value_by_condition) > 0, \
         "switch must be called with at least one value"
     condlist = [
