@@ -1,9 +1,9 @@
-import typing
+from typing import Iterable
 
 import numpy
 
 from openfisca_core import projectors
-from openfisca_core.entities import Role
+from openfisca_core.commons import Rolifiable
 from openfisca_core.indexed_enums import EnumArray
 from openfisca_core.populations import Population
 
@@ -64,7 +64,7 @@ class GroupPopulation(Population):
         return self._members_role
 
     @members_role.setter
-    def members_role(self, members_role: typing.Iterable[Role]):
+    def members_role(self, members_role: Iterable[Rolifiable]):
         if members_role is not None:
             self._members_role = numpy.array(list(members_role))
 
