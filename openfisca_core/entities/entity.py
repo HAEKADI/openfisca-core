@@ -1,8 +1,9 @@
 import os
 from typing import Optional
 
-from openfisca_core.commons import Personifiable
-from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+from openfisca_core.commons import Representable, Personifiable
+
+from .. import entities
 
 
 class Entity(Personifiable):
@@ -35,9 +36,9 @@ class Entity(Personifiable):
     """
 
     is_person: bool = True
-    _tax_benefit_system: Optional[TaxBenefitSystem] = None
+    _tax_benefit_system: Optional[Representable] = None
 
-    def set_tax_benefit_system(self, tax_benefit_system: TaxBenefitSystem) -> None:
+    def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
         """Sets :attr:`._tax_benefit_system`."""
         self._tax_benefit_system = tax_benefit_system
 
