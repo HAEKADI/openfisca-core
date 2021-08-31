@@ -2,8 +2,8 @@ from typing import Sequence, TypeVar, Union
 
 from nptyping import NDArray as Array
 
-_Types = TypeVar("_Types", float, int, str, bool)
-_Array = Union[Array[float], Array[int], Array[str], Array[bool]]
+_Types = TypeVar("_Types", bool, float, int, str)
+_Array = Union[Array[bool], Array[float], Array[int], Array[str]]
 ArrayLike = Union[_Array, Sequence[_Types]]
 """:obj:`.Generic`: Type of any castable to :class:`.ndarray`.
 
