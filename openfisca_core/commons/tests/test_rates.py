@@ -8,7 +8,7 @@ def test_average_rate_when_varying_is_zero():
     """Yields infinity when the varying gross income crosses zero."""
 
     target = numpy.array([1, 2, 3])
-    varying = 0
+    varying = [0, 0, 0]
 
     result = commons.average_rate(target, varying)
 
@@ -19,7 +19,7 @@ def test_marginal_rate_when_varying_is_zero():
     """Yields infinity when the varying gross income crosses zero."""
 
     target = numpy.array([1, 2, 3])
-    varying = numpy.array([0, 0])
+    varying = numpy.array([0, 0, 0])
 
     result = commons.marginal_rate(target, varying)
 

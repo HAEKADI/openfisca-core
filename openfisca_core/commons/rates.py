@@ -2,15 +2,18 @@ from typing import Optional
 
 import numpy
 
-from .typing import ArrayLike, NDArray
+from .typing import ArrayLike, Array
 
 
-def average_rate(target: NDArray[float], varying: ArrayLike[float], trim: Optional[ArrayLike[float]] = None) -> NDArray[float]:
+def average_rate(target: Array[float], varying: ArrayLike[float], trim: Optional[ArrayLike[float]] = None) -> Array[float]:
     """Computes the average rate of a target net income.
 
     Given a ``target`` net income, and according to the ``varying`` gross
     income. Optionally, a ``trim`` can be applied consisting on the lower and
     upper bounds of the average rate to be computed.
+
+    Note:
+        Usually, ``target`` and ``varying`` are the same size.
 
     Args:
         target: The targeted net income.
@@ -25,7 +28,7 @@ def average_rate(target: NDArray[float], varying: ArrayLike[float], trim: Option
 
     Examples:
         >>> target = numpy.array([1, 2, 3])
-        >>> varying = 2
+        >>> varying = [2, 2, 2]
         >>> trim = [-1, .25]
         >>> average_rate(target, varying, trim)
         array([ nan,  0. , -0.5])
@@ -40,12 +43,15 @@ def average_rate(target: NDArray[float], varying: ArrayLike[float], trim: Option
     return average_rate
 
 
-def marginal_rate(target: NDArray[float], varying: NDArray[float], trim: Optional[ArrayLike[float]] = None) -> NDArray[float]:
+def marginal_rate(target: Array[float], varying: Array[float], trim: Optional[ArrayLike[float]] = None) -> Array[float]:
     """Computes the marginal rate of a target net income.
 
     Given a ``target`` net income, and according to the ``varying`` gross
     income. Optionally, a ``trim`` can be applied consisting of the lower and
     upper bounds of the marginal rate to be computed.
+
+    Note:
+        Usually, ``target`` and ``varying`` are the same size.
 
     Args:
         target: The targeted net income.

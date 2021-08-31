@@ -1,9 +1,9 @@
 import numpy
 
-from .typing import ArrayLike, NDArray
+from .typing import ArrayLike, Array
 
 
-def apply_thresholds(input: NDArray[float], thresholds: ArrayLike[float], choices: ArrayLike[float]) -> NDArray[float]:
+def apply_thresholds(input: Array[float], thresholds: ArrayLike[float], choices: ArrayLike[float]) -> Array[float]:
     """Makes a choice based on an input and thresholds.
 
     From list of ``choices``, it selects one of them based from a list of
@@ -40,7 +40,7 @@ def apply_thresholds(input: NDArray[float], thresholds: ArrayLike[float], choice
     return numpy.select(condlist, choices)
 
 
-def concat(this: ArrayLike[str], that: ArrayLike[str]) -> NDArray[str]:
+def concat(this: ArrayLike[str], that: ArrayLike[str]) -> Array[str]:
     """Concatenates the values of two arrays.
 
     Args:
@@ -66,7 +66,7 @@ def concat(this: ArrayLike[str], that: ArrayLike[str]) -> NDArray[str]:
     return numpy.char.add(this, that)
 
 
-def switch(conditions: NDArray[float], value_by_condition: dict) -> NDArray[float]:
+def switch(conditions: Array[float], value_by_condition: dict) -> Array[float]:
     """Reproduces a switch statement.
 
     Given an array of conditions, returns an array of the same size,

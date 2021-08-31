@@ -21,7 +21,7 @@
 #
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
-from .typing import ArrayLike, NDArray  # noqa: F401
+from .typing import ArrayLike, Array  # noqa: F401
 from .formulas import apply_thresholds, concat, switch  # noqa: F401
 from .misc import empty_clone, stringify_array  # noqa: F401
 from .rates import average_rate, marginal_rate  # noqa: F401
