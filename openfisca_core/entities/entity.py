@@ -1,7 +1,7 @@
 import os
-from typing import Any, Optional
+from typing import Optional
 
-from openfisca_core.commons import Personifiable, Rolifiable
+from openfisca_core.commons import Personifiable
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 
 
@@ -40,32 +40,6 @@ class Entity(Personifiable):
     def set_tax_benefit_system(self, tax_benefit_system: TaxBenefitSystem) -> None:
         """Sets :attr:`._tax_benefit_system`."""
         self._tax_benefit_system = tax_benefit_system
-
-    def check_role_validity(self, role: Any) -> None:
-        """Checks if ``role`` is an instance of :class:`.Role`.
-
-        Note:
-            This should be extracted to a helper function!
-
-        Args:
-            role: Any object.
-
-        Returns:
-            None.
-
-        Raises:
-            :exc:`ValueError`: When ``role`` is not a :class:`Role`.
-
-        Examples:
-            >>> from . import Role
-            >>> entity = Entity("key", "label", "plural", "doc")
-            >>> role = Role({"key": "key"}, entity)
-            >>> entity.check_role_validity(role)
-
-        """
-
-        if role is not None and not isinstance(role, Rolifiable):
-            raise ValueError(f"{role} is not a valid role")
 
     def get_variable(self, variable_name, check_existence = False):
         return self._tax_benefit_system.get_variable(variable_name, check_existence)
