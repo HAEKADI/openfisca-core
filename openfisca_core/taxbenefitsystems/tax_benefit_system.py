@@ -6,11 +6,11 @@ import logging
 import os
 import pkg_resources
 import traceback
-import typing
 from imp import find_module, load_module
+from typing import Dict, Optional
 
 from openfisca_core import commons, periods, variables
-from openfisca_core.entities import Entity
+from openfisca_core.commons import Personifiable
 from openfisca_core.errors import VariableNameConflictError, VariableNotFoundError
 from openfisca_core.parameters import ParameterNode
 from openfisca_core.periods import Instant, Period
@@ -71,7 +71,7 @@ class TaxBenefitSystem:
     def instantiate_entities(self):
         person = self.person_entity
         members = Population(person)
-        entities: typing.Dict[Entity.key, Entity] = {person.key: members}
+        entities: Dict[Personifiable.key, Personifiable] = {person.key: members}
 
         for entity in self.group_entities:
             entities[entity.key] = GroupPopulation(entity, members)
@@ -307,7 +307,7 @@ class TaxBenefitSystem:
         """
         self.variables[variable_name] = variables.get_neutralized_variable(self.get_variable(variable_name))
 
-    def annualize_variable(self, variable_name: str, period: typing.Optional[Period] = None):
+    def annualize_variable(self, variable_name: str, period: Optional[Period] = None):
         self.variables[variable_name] = variables.get_annualized_variable(self.get_variable(variable_name, period))
 
     def load_parameters(self, path_to_yaml_dir):
