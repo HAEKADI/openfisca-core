@@ -51,6 +51,7 @@ lint-style: \
 	lint-style-all \
 	lint-style-doc-commons \
 	lint-style-doc-entities \
+	lint-style-doc-indexed_enums \
 	lint-style-doc-types
 	@$(call pass,$@:)
 
@@ -70,6 +71,7 @@ lint-types: \
 	lint-types-all \
 	lint-types-strict-commons \
 	lint-types-strict-entities \
+	lint-types-strict-indexed_enums \
 	lint-types-strict-types
 	@$(call pass,$@:)
 
@@ -112,7 +114,7 @@ test-doc:
 	@${MAKE} test-doc-build
 	@$(call pass,$@:)
 
-### Update the local copy of the doc.
+## Update the local copy of the doc.
 test-doc-checkout:
 	@$(call help,$@:)
 	@[ ! -d doc ] && git clone ${repo} doc || :
