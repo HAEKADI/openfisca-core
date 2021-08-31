@@ -7,7 +7,7 @@ import sortedcontainers
 import numpy
 
 from openfisca_core import periods, tools
-from openfisca_core.entities import Entity
+from openfisca_core.commons import Personifiable
 from openfisca_core.indexed_enums import Enum, EnumArray
 from openfisca_core.periods import Period
 
@@ -160,7 +160,7 @@ class Variable:
         return value
 
     def set_entity(self, entity):
-        if not isinstance(entity, Entity):
+        if not isinstance(entity, Personifiable):
             raise ValueError(f"Invalid value '{entity}' for attribute 'entity' in variable '{self.name}'. Must be an instance of Entity.")
         return entity
 
