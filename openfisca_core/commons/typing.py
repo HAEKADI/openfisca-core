@@ -1,11 +1,12 @@
 from typing import Sequence, TypeVar, Union
 
-import numpy
+from nptyping import NDArray
+
 
 _T = TypeVar("_T", float, str)
 """:obj:`.TypeVar`: A wildcard type used by other types."""
 
-ArrayLike = Union[numpy.ndarray, Sequence[_T]]
+ArrayLike = Union[Union[NDArray[float], NDArray[str]], Sequence[_T]]
 """:obj:`.Generic`: Type of any castable to :class:`.ndarray`.
 
 These include any :obj:`.ndarray` and sequences (like
