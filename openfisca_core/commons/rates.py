@@ -2,10 +2,10 @@ from typing import Optional
 
 import numpy
 
-from . import ArrayLike
+from .typing import ArrayLike, NDArray
 
 
-def average_rate(target: numpy.ndarray, varying: ArrayLike[float], trim: Optional[ArrayLike[float]] = None) -> numpy.ndarray:
+def average_rate(target: NDArray[float], varying: ArrayLike[float], trim: Optional[ArrayLike[float]] = None) -> NDArray[float]:
     """Computes the average rate of a target net income.
 
     Given a ``target`` net income, and according to the ``varying`` gross
@@ -40,7 +40,7 @@ def average_rate(target: numpy.ndarray, varying: ArrayLike[float], trim: Optiona
     return average_rate
 
 
-def marginal_rate(target: numpy.ndarray, varying: numpy.ndarray, trim: Optional[ArrayLike[float]] = None) -> numpy.ndarray:
+def marginal_rate(target: NDArray[float], varying: NDArray[float], trim: Optional[ArrayLike[float]] = None) -> NDArray[float]:
     """Computes the marginal rate of a target net income.
 
     Given a ``target`` net income, and according to the ``varying`` gross
