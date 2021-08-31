@@ -39,7 +39,8 @@ class Entity(Personifiable):
     is_person: bool = True
     _tax_benefit_system: Optional[TaxBenefitSystem] = None
 
-    def set_tax_benefit_system(self, tax_benefit_system):
+    def set_tax_benefit_system(self, tax_benefit_system: TaxBenefitSystem) -> None:
+        """Sets :attr:`._tax_benefit_system`."""
         self._tax_benefit_system = tax_benefit_system
 
     def check_role_validity(self, role):
