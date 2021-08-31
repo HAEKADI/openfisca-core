@@ -47,15 +47,15 @@ check-style: $(shell git ls-files "*.py")
 
 	@# Check that docstrings are present in public class, method, and function definitions.
 	@# See: http://www.pydocstyle.org/en/2.1.1/error_codes.html
-	@flake8 --select=D101,D102,D103 openfisca_core/commons
+	@flake8 --select=D101,D102,D103 openfisca_core/commons openfisca_core/entities
 
 	@# Check that docstrings match the current implementation of functions/methods.
 	@# See: https://github.com/terrencepreilly/darglint
-	@flake8 --select=DAR openfisca_core/commons
+	@flake8 --select=DAR openfisca_core/commons openfisca_core/entities
 
 	@# Further check for syntax and design errors —style excluded.
 	@# See: `pylint --list-msgs`
-	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/commons
+	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/commons openfisca_core/entities
 
 ## Run static type checkers for type errors.
 check-types: openfisca_core openfisca_web_api
