@@ -1,10 +1,8 @@
 import os
 from typing import Any, Optional
 
-from openfisca_core.commons import Personifiable
+from openfisca_core.commons import Personifiable, Rolifiable
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-
-from . import Role
 
 
 class Entity(Personifiable):
@@ -59,13 +57,14 @@ class Entity(Personifiable):
             :exc:`ValueError`: When ``role`` is not a :class:`Role`.
 
         Examples:
+            >>> from . import Role
             >>> entity = Entity("key", "label", "plural", "doc")
             >>> role = Role({"key": "key"}, entity)
             >>> entity.check_role_validity(role)
 
         """
 
-        if role is not None and not type(role) == Role:
+        if role is not None and not isinstance(role, Rolifiable):
             raise ValueError("{} is not a valid role".format(role))
 
     def get_variable(self, variable_name, check_existence = False):
