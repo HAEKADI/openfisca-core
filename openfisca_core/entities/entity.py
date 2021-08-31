@@ -1,15 +1,40 @@
 import os
 import textwrap
 
-from openfisca_core.entities import Role
+from .role import Role
 
 
 class Entity:
-    """
-    Represents an entity (e.g. a person, a household, etc.) on which calculations can be run.
+    """Represents an entity on which calculations can be run.
+
+    For example an individual, a company, etc.
+
+    Attributes:
+        key (:obj:`str`): Key to identify the :class:`.Entity`.
+        plural (:obj:`str`): The :attr:`key`, pluralised.
+        label (:obj:`str`): Summary description.
+        doc (:obj:`str`): Full description.
+        is_person (:obj:`bool`): If is an individual, or not. Defaults to True.
+        _tax_benefit_system (:obj:`.TaxBenefitSystem`, optional): Ruleset.
+
+    Args:
+        key: :attr:`key`.
+        plural: :attr:`plural`.
+        label: :attr:`label`.
+        doc: :attr:`doc`.
+
+    Examples:
+        >>> Entity(
+        ...     "individual",
+        ...     "individuals",
+        ...     "An individual",
+        ...     "The minimal legal entity on which a rule might be applied.",
+        ...    )
+        <openfisca_core.entities.entity.Entity...
+
     """
 
-    def __init__(self, key, plural, label, doc):
+    def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
         self.key = key
         self.label = label
         self.plural = plural
