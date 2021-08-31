@@ -65,7 +65,7 @@ class Entity(Personifiable):
         """
 
         if role is not None and not isinstance(role, Rolifiable):
-            raise ValueError("{} is not a valid role".format(role))
+            raise ValueError(f"{role} is not a valid role")
 
     def get_variable(self, variable_name, check_existence = False):
         return self._tax_benefit_system.get_variable(variable_name, check_existence)
