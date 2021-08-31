@@ -23,7 +23,7 @@ log = logging.getLogger(__name__)
 
 class TaxBenefitSystem(Representable):
     """
-    Represents the legislation.
+    A machine-consumable representation of the tax-benefit legislation.
 
     It stores parameters (values defined for everyone) and variables (values defined for some given entity e.g. a person).
 
