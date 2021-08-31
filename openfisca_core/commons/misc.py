@@ -1,6 +1,6 @@
 from typing import Any
 
-import numpy
+from .typing import NDArray
 
 
 def empty_clone(original: Any) -> Any:
@@ -40,7 +40,7 @@ def empty_clone(original: Any) -> Any:
     return new
 
 
-def stringify_array(array: numpy.ndarray) -> str:
+def stringify_array(array: NDArray) -> str:
     """Generates a clean string representation of a numpy array.
 
     Args:
@@ -51,9 +51,21 @@ def stringify_array(array: numpy.ndarray) -> str:
 
     Examples:
         >>> import numpy
-        >>> array = numpy.array([10, 20])
+
+        >>> stringify_array(None)
+        'None'
+
+        >>> array = numpy.array([10, 20.])
         >>> stringify_array(array)
-        '[10, 20]'
+        '[10.0, 20.0]'
+
+        >>> array = numpy.array(["10", "Twenty"])
+        >>> stringify_array(array)
+        '[10, Twenty]'
+
+        >>> array = numpy.array([list, dict(), stringify_array])
+        >>> stringify_array(array)
+        "[<class 'list'>, {}, <function stringify_array...]"
 
     """
 
