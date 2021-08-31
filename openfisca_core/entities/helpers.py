@@ -29,6 +29,8 @@ def check_role_validity(role: Any) -> None:
         >>> role = Role({"key": "key"}, object())
         >>> check_role_validity(role)
 
+    .. versionadded:: 35.5.0
+
     """
 
     if role is not None and not isinstance(role, Rolifiable):

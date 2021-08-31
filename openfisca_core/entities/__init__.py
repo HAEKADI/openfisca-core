@@ -1,4 +1,4 @@
-"""Provides a way of representing the entities of a rule system.
+"""Provides a way of representing the entities of a machine-consumable ruleset.
 
 Each rule system is comprised by legislation and regulations to be applied upon
 "someone". In legal and economical terms, "someone" is referred to as people:
@@ -32,4 +32,4 @@ individuals, families, tax households, companies, and so on.
 from .role import Role  # noqa: F401
 from .entity import Entity  # noqa: F401
 from .group_entity import GroupEntity  # noqa: F401
-from .helpers import build_entity  # noqa: F401
+from .helpers import build_entity, check_role_validity  # noqa: F401
