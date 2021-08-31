@@ -1,10 +1,13 @@
 import os
-import textwrap
+from typing import Optional
 
-from .role import Role
+from openfisca_core.commons import Personifiable
+from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+
+from . import Role
 
 
-class Entity:
+class Entity(Personifiable):
     """Represents an entity on which calculations can be run.
 
     For example an individual, a company, etc.
@@ -12,16 +15,15 @@ class Entity:
     Attributes:
         key (:obj:`str`): Key to identify the :class:`.Entity`.
         plural (:obj:`str`): The :attr:`key`, pluralised.
-        label (:obj:`str`): Summary description.
-        doc (:obj:`str`): Full description.
+        label (:obj:`str`): A summary description.
+        doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): If is an individual, or not. Defaults to True.
-        _tax_benefit_system (:obj:`.TaxBenefitSystem`, optional): Ruleset.
 
     Args:
-        key: :attr:`key`.
-        plural: :attr:`plural`.
-        label: :attr:`label`.
-        doc: :attr:`doc`.
+        key: Key to identify the :class:`.Entity`.
+        plural: ``key``, pluralised.
+        label: A summary description.
+        doc: A full description.
 
     Examples:
         >>> Entity(
@@ -34,13 +36,8 @@ class Entity:
 
     """
 
-    def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
-        self.key = key
-        self.label = label
-        self.plural = plural
-        self.doc = textwrap.dedent(doc)
-        self.is_person = True
-        self._tax_benefit_system = None
+    is_person: bool = True
+    _tax_benefit_system: Optional[TaxBenefitSystem] = None
 
     def set_tax_benefit_system(self, tax_benefit_system):
         self._tax_benefit_system = tax_benefit_system
