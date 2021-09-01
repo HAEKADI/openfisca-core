@@ -57,6 +57,30 @@ class Entity(Personifiable):
         return entities.check_role_validity(role)
 
     def get_variable(self, variable_name, check_existence = False):
+        """Gets ``variable_name`` from :attr:`_tax_benefit_system`.
+
+        Note:
+            This should be called directly from :class:`.TaxBenefitSystem` or
+            extracted to a helper function!
+
+        Args:
+
+            variable_name: The variable to be found.
+            check_existence: Was the variable found? Defaults to False.
+
+        Returns:
+            :obj:`.Variable`: When the variable exists.
+            None: When the variable does't exist.
+
+        Raises:
+            :exc:`VariableNotFoundError`: When the variable doesn't exist and
+            ``check_existence`` is True.
+
+        .. seealso::
+            Method :meth:``TaxBenefitSystem.get_variable`.
+
+        """
+
         return self._tax_benefit_system.get_variable(variable_name, check_existence)
 
     def check_variable_defined_for_entity(self, variable_name):
