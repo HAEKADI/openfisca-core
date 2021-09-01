@@ -2,9 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from openfisca_core.commons import Rolifiable
-
-from .. import entities
+from openfisca_core.commons import Personifiable, Rolifiable
 
 
 class Role(Rolifiable):
@@ -21,7 +19,7 @@ class Role(Rolifiable):
         label (:obj:`str`, optional): A summary description.
         doc (:obj:`str`, optional): A full description, dedented.
         max (:obj:`int`, optional): Max number of members. Defaults to None.
-        entity (:obj:`.Entity`): :obj:`.Entity` the :class:`.Role` belongs to.
+        entity (:obj:`.GroupEntity`): Entity the :class:`.Role` belongs to.
         subroles (list, optional): The ``subroles``. Defaults to None.
 
     Args:
@@ -42,10 +40,10 @@ class Role(Rolifiable):
     """
 
     max: Optional[int]
-    entity: entities.Entity
+    entity: Personifiable
     subroles: Optional[list]
 
-    def __init__(self, description: dict, entity: entities.Entity) -> None:
+    def __init__(self, description: dict, entity: Personifiable) -> None:
         self.key = description['key']
         self.plural = description.get('plural')
         self.label = description.get('label')
