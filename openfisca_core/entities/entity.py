@@ -1,7 +1,7 @@
 import os
-import warnings
 from typing import Any, Optional
 
+from openfisca_core import commons
 from openfisca_core.commons import Representable, Personifiable
 
 from .. import entities
@@ -43,20 +43,17 @@ class Entity(Personifiable):
         """Sets :attr:`._tax_benefit_system`."""
         self._tax_benefit_system = tax_benefit_system
 
+    @commons.deprecated(since = "35.5.0", expires = "the future")
     def check_role_validity(self, role: Any) -> None:
         """Checks if ``role`` is an instance of :class:`.Role`.
 
         .. deprecated:: 35.5.0
-            Functionality now provided by :func:`.entities.check_role_validity`
+            :meth:`.check_role_validity` has been deprecated and will be
+            removed in the future. The functionality is now provided by
+            :func:`.entities.check_role_validity`.
 
         """
 
-        message = [
-            "The 'check_role_validity' function has been deprecated since",
-            "version 34.5.0, and will be removed in the future.",
-            ]
-
-        warnings.warn(" ".join(message), DeprecationWarning)
         return entities.check_role_validity(role)
 
     def get_variable(self, variable_name, check_existence = False):
