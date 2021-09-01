@@ -3,6 +3,7 @@ from typing import Any, Optional
 
 from openfisca_core import commons
 from openfisca_core.commons import Representable, Personifiable
+from openfisca_core.variables import Variable
 
 from .. import entities
 
@@ -56,7 +57,7 @@ class Entity(Personifiable):
 
         return entities.check_role_validity(role)
 
-    def get_variable(self, variable_name, check_existence = False):
+    def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
         """Gets ``variable_name`` from :attr:`_tax_benefit_system`.
 
         Note:
@@ -70,6 +71,7 @@ class Entity(Personifiable):
 
         Returns:
             :obj:`.Variable`: When the variable exists.
+            None: When :attr:`_tax_benefit_system` is not defined.
             None: When the variable does't exist.
 
         Raises:
@@ -79,7 +81,13 @@ class Entity(Personifiable):
         .. seealso::
             Method :meth:``TaxBenefitSystem.get_variable`.
 
+    .. versionchanged:: 35.5.0
+        Now also returns None when :attr:`_tax_benefit_system` is not defined.
+
         """
+
+        if self._tax_benefit_system is None:
+            return None
 
         return self._tax_benefit_system.get_variable(variable_name, check_existence)
 
