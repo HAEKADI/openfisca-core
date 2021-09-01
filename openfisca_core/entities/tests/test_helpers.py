@@ -1,6 +1,17 @@
+import functools
+
 import pytest
 
 from openfisca_core import entities
+
+
+def test_build_entity_without_roles():
+    """Raises a TypeError when it's called without roles."""
+
+    build_entity = functools.partial(entities.build_entity, "", "", "")
+
+    with pytest.raises(TypeError, match = "'NoneType' object is not iterable"):
+        build_entity(roles = None)
 
 
 def test_check_role_validity_when_not_role():
