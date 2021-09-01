@@ -1,4 +1,4 @@
-from openfisca_core.entities import Entity, Role
+from . import Entity, Role
 
 
 class GroupEntity(Entity):
