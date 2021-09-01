@@ -81,8 +81,8 @@ class Entity(Personifiable):
         .. seealso::
             Method :meth:``TaxBenefitSystem.get_variable`.
 
-    .. versionchanged:: 35.5.0
-        Now also returns None when :attr:`_tax_benefit_system` is not defined.
+        .. versionchanged:: 35.5.0
+            Now also returns None when :attr:`_tax_benefit_system` is not defined.
 
         """
 
@@ -91,14 +91,43 @@ class Entity(Personifiable):
 
         return self._tax_benefit_system.get_variable(variable_name, check_existence)
 
-    def check_variable_defined_for_entity(self, variable_name):
-        variable_entity = self.get_variable(variable_name, check_existence = True).entity
-        # Should be this:
-        # if variable_entity is not self:
-        if variable_entity.key != self.key:
-            message = os.linesep.join([
-                "You tried to compute the variable '{0}' for the entity '{1}';".format(variable_name, self.plural),
-                "however the variable '{0}' is defined for '{1}'.".format(variable_name, variable_entity.plural),
-                "Learn more about entities in our documentation:",
-                "<https://openfisca.org/doc/coding-the-legislation/50_entities.html>."])
-            raise ValueError(message)
+    def check_variable_defined_for_entity(self, variable_name: str) -> None:
+        """Checks if ``variable_name`` is defined for :obj:`.Entity`.
+
+        Note:
+            This should be extracted to a helper function.
+
+        Args:
+            variable_name: The :class:`.Variable` to be found.
+
+        Returns:
+            None: When :class:`.Variable` does not exist.
+            None: When :class:`.Variable` exists, and its entity is ``self``.
+
+        Raises:
+            :exc:`ValueError`:
+                When the :obj:`.Variable` exists but its :obj:`.Entity` is not
+                ``self``.
+
+        .. seealso::
+            :class:`.Variable` and :attr:`.Variable.entity`.
+
+        .. versionchanged:: 35.5.0
+            Now also returns None when :class:`.Variable` is not found.
+
+        """
+
+        variable = self.get_variable(variable_name, check_existence = True)
+
+        if variable is not None:
+            variable_entity = variable.entity
+
+            # Should be this:
+            # if variable_entity is not self:
+            if variable_entity.key != self.key:
+                message = os.linesep.join([
+                    "You tried to compute the variable '{0}' for the entity '{1}';".format(variable_name, self.plural),
+                    "however the variable '{0}' is defined for '{1}'.".format(variable_name, variable_entity.plural),
+                    "Learn more about entities in our documentation:",
+                    "<https://openfisca.org/doc/coding-the-legislation/50_entities.html>."])
+                raise ValueError(message)
