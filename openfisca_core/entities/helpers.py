@@ -10,7 +10,7 @@ def build_entity(
         plural: str,
         label: str,
         doc: str = "",
-        roles: Optional[List[Rolifiable]] = None,
+        roles: Optional[List[dict]] = None,
         is_person: bool = False,
         class_override: Optional[Any] = None,
         ) -> Personifiable:
@@ -29,6 +29,9 @@ def build_entity(
         :class:`.Entity`: When ``is_person`` is True.
         :class:`.GroupEntity`: When ``is_person`` is False.
 
+    Raises:
+        :exc:`ValueError`: If ``roles`` is not iterable.
+
     Examples:
         >>> build_entity(
         ...     "syndicate",
@@ -46,12 +49,19 @@ def build_entity(
         ...     )
         <openfisca_core.entities.entity.Entity...
 
+    .. versionchanged:: 35.5.0
+        Instead of raising :exc:`TypeError` when ``roles`` is None, it does
+        now raise :exc:`ValueError` when ``roles`` is not iterable.
+
     """
 
     if is_person:
         return Entity(key, plural, label, doc)
-    else:
+
+    if roles is not None and hasattr(roles, "__iter__"):
         return GroupEntity(key, plural, label, doc, roles)
+
+    raise ValueError(f"Invalid value '{roles}' for 'roles', must be iterable.")
 
 
 def check_role_validity(role: Any) -> None:
