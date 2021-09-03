@@ -8,7 +8,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v1-py3-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+          key: v2-py3-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
           name: Create a virtualenv
@@ -25,14 +25,9 @@ jobs:
             # pip install --editable git+https://github.com/openfisca/extension-template.git@BRANCH_NAME#egg=OpenFisca-Extension-Template  # use a specific branch of OpenFisca-Extension-Template
 
       - save_cache:
-          key: v1-py3-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+          key: v2-py3-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
             - /tmp/venv/openfisca_core
-
-      - save_cache:
-          key: v1-py3-build-{{ .Revision }}
-          paths:
-            - dist
 
       - run:
           name: Run Core tests
@@ -115,7 +110,7 @@ jobs:
           at: .
 
       - restore_cache:
-          key: v1-py3-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+          key: v2-py3-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
           name: Submit coverage to Coveralls
@@ -125,7 +120,7 @@ jobs:
             coveralls
 
       - save_cache:
-          key: v1-py3-deps-{{ .Branch }}-{{ checksum "setup.py" }}
+          key: v2-py3-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
             - /tmp/venv/openfisca_core
 
@@ -140,10 +135,7 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: v1-py3-deps-{{ .Branch }}-{{ checksum "setup.py" }}
-
-      - restore_cache:
-          key: v1-py3-build-{{ .Revision }}
+          key: v2-py3-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
           name: Check for functional changes
