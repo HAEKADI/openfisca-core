@@ -1,3 +1,4 @@
 recursive-include openfisca_core/scripts *
 recursive-include openfisca_core/tests *
+recursive-include openfisca_web_api/tests *
 include openfisca_web_api/openAPI.yml
