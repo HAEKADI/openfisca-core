@@ -18,10 +18,8 @@ jobs:
             echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
 
       - run:
-          name: Install command-line utils
-          command: |
-            pip install --upgrade pip
-            pip install --upgrade wheel  #  To build openfisca-core.
+          name: Install base utils
+          command: pip install --upgrade pip setuptools wheel
 
       - run:
           name: Install dependencies
@@ -37,7 +35,13 @@ jobs:
             - /tmp/venv/openfisca_core
 
       - run:
-          name: Run Core tests
+          name: Build & install openfisca-core
+          command: |
+            python setup.py bdist_wheel
+            find dist -name "*.whl" -exec pip install --force-reinstall --no-dependencies {} \;  # https://github.com/openfisca/openfisca-core/pull/1015#discussion_r687051988
+
+      - run:
+          name: Run openfisca-core tests
           command: env PYTEST_ADDOPTS="--exitfirst" make test
 
       - run:
