@@ -14,7 +14,7 @@ TEST_CASE = {
         },
     }
 
-TEST_CASE_AGES = deepcopy(TEST_CASE)
+TEST_CASE_AGES: dict = deepcopy(TEST_CASE)
 AGES = [40, 37, 7, 9, 54, 20]
 for (individu, age) in zip(TEST_CASE_AGES['persons'].values(), AGES):
     individu['age'] = age

@@ -2,6 +2,7 @@
 
 import os
 import re
+from typing import Any
 
 import numpy as np
 import pytest
@@ -13,7 +14,7 @@ from openfisca_core.model_api import *  # noqa
 
 LOCAL_DIR = os.path.dirname(os.path.abspath(__file__))
 
-parameters = ParameterNode(directory_path = LOCAL_DIR)
+parameters: Any = ParameterNode(directory_path = LOCAL_DIR)
 
 P = parameters.rate('2015-01-01')
 
