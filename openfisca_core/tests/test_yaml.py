@@ -9,7 +9,7 @@ from openfisca_core.tools.test_runner import run_tests
 
 
 openfisca_core_dir = pkg_resources.get_distribution('OpenFisca-Core').location
-yaml_tests_dir = os.path.join(openfisca_core_dir, 'tests', 'core', 'yaml_tests')
+yaml_tests_dir = os.path.join(openfisca_core_dir, 'openfisca_core', 'tests', 'yaml_tests')
 EXIT_OK = 0
 EXIT_TESTSFAILED = 1
 
