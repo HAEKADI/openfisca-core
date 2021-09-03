@@ -18,9 +18,14 @@ jobs:
             echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
 
       - run:
-          name: Install dependencies
+          name: Install command-line utils
           command: |
             pip install --upgrade pip
+            pip install --upgrade wheel  #  To build openfisca-core.
+
+      - run:
+          name: Install dependencies
+          command: |
             python setup.py egg_info  # Create a requirements file.
             pip install `grep -v "^\[" *.egg-info/requires.txt`  # Install openfisca's dependencies.
             # pip install --editable git+https://github.com/openfisca/country-template.git@BRANCH_NAME#egg=OpenFisca-Country-Template  # use a specific branch of OpenFisca-Country-Template
