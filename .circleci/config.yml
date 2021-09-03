@@ -155,7 +155,19 @@ jobs:
           command: if ! .circleci/has-functional-changes.sh ; then circleci step halt ; fi
 
       - run:
-          name: Upload a Python package to Pypi
+          name: Install Twine
+          command: |
+            source /tmp/venv/openfisca_core/bin/activate
+            pip install --upgrade twine
+
+      - run:
+          name: Build openfisca-core
+          command: |
+            source /tmp/venv/openfisca_core/bin/activate
+            python setup.py bdist_wheel
+
+      - run:
+          name: Upload openfisca-core package to PyPi
           command: |
             source /tmp/venv/openfisca_core/bin/activate
             .circleci/publish-python-package.sh
