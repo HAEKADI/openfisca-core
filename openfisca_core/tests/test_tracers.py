@@ -9,7 +9,7 @@ from pytest import fixture, mark, raises, approx
 from openfisca_core.simulations import Simulation, CycleError, SpiralError
 from openfisca_core.tracers import SimpleTracer, FullTracer, TracingParameterNodeAtInstant, TraceNode
 from openfisca_country_template.variables.housing import HousingOccupancyStatus
-from .parameters_fancy_indexing.test_fancy_indexing import parameters
+from openfisca_core.tests.parameters_fancy_indexing.test_fancy_indexing import parameters
 
 
 class StubSimulation(Simulation):
