@@ -60,11 +60,10 @@ class Enum(enum.Enum):
 
         self.index = len(self._member_names_)
 
-    # Bypass the slow Enum.__eq__
+    #: Bypass the slow :meth:`~enum.Enum.__eq__`.
     __eq__ = object.__eq__
 
-    # In Python 3, __hash__ must be defined if __eq__ is defined to stay
-    # hashable.
+    #: :meth:`.__hash__` must also be defined as so to stay hashable.
     __hash__ = object.__hash__
 
     @classmethod
