@@ -5,20 +5,59 @@ from typing import Union
 
 import numpy
 
-from . import ENUM_ARRAY_DTYPE, EnumArray
+from .. import indexed_enums as enums
+from . import EnumArray
 
 
 class Enum(enum.Enum):
-    """
-    Enum based on `enum34 <https://pypi.python.org/pypi/enum34/>`_, whose items
-    have an index.
+    """Enum based on `enum34 <https://pypi.python.org/pypi/enum34/>`_.
+
+    Whose items have an :onb:`int` index. This is useful and performant when
+    running simulations on large populations.
+
+    Examples:
+        >>> class HousingOccupancyStatus(Enum):
+        ...     __order__ = "owner tenant free_lodger homeless"
+        ...     owner = "Owner"
+        ...     tenant = "Tenant"
+        ...     free_lodger = "Free lodger"
+        ...     homeless = "Homeless"
+
+        >>> HousingOccupancyStatus
+        <enum 'HousingOccupancyStatus'>
+
+        >>> list(HousingOccupancyStatus)
+        [<HousingOccupancyStatus.owner: 'Owner'>, ...]
+
+        >>> len(HousingOccupancyStatus)
+        4
+
+        >>> HousingOccupancyStatus.tenant
+        <HousingOccupancyStatus.tenant: 'Tenant'>
+
+        >>> HousingOccupancyStatus["tenant"]
+        <HousingOccupancyStatus.tenant: 'Tenant'>
+
+        >>> HousingOccupancyStatus.tenant.index
+        1
+
+        >>> HousingOccupancyStatus.tenant.name
+        'tenant'
+
+        >>> HousingOccupancyStatus.tenant.value
+        'Tenant'
+
     """
 
-    # Tweak enums to add an index attribute to each enum item
     def __init__(self, name: str) -> None:
-        # When the enum item is initialized, self._member_names_ contains the
-        # names of the previously initialized items, so its length is the index
-        # of this item.
+        """ Tweak :class:`~enum.Enum` to add an index to each enum item.
+
+        When the enum item is initialized, ``self._member_names_`` contains the
+        names of the previously initialized items, so its length is the index
+        of this item.
+
+        """
+
         self.index = len(self._member_names_)
 
     # Bypass the slow Enum.__eq__
