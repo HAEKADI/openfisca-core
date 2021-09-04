@@ -1,28 +1,34 @@
 from __future__ import annotations
 
-import typing
 from typing import Any, NoReturn, Optional, Type
 
 import numpy
 
-if typing.TYPE_CHECKING:
-    from openfisca_core.indexed_enums import Enum
+from openfisca_core.commons import Array
+
+from .. import indexed_enums as enums
 
 
 class EnumArray(numpy.ndarray):
-    """
-    Numpy array subclass representing an array of enum items.
+    """:class:`numpy.ndarray` subclass representing an array of :class:`.Enum`.
 
-    EnumArrays are encoded as ``int`` arrays to improve performance
+    :class:`EnumArrays <.EnumArray>` are encoded as :class:`int` arrays to
+    improve performance.
+
+    Note:
+        Subclassing `numpy.ndarray` is a little tricky™. To read more about the
+        :meth:`.__new__` and `.__array_finalize__` methods below, see
+        `Subclassing ndarray`_.
+
+    .. _Subclassing ndarray:
+        https://numpy.org/doc/stable/user/basics.subclassing.html
+
     """
 
-    # Subclassing ndarray is a little tricky.
-    # To read more about the two following methods, see:
-    # https://docs.scipy.org/doc/numpy-1.13.0/user/basics.subclassing.html#slightly-more-realistic-example-attribute-added-to-existing-array.
     def __new__(
             cls,
             input_array: numpy.int_,
-            possible_values: Optional[Type[Enum]] = None,
+            possible_values: Optional[Type[enums.Enum]] = None,
             ) -> EnumArray:
         obj = numpy.asarray(input_array).view(cls)
         obj.possible_values = possible_values
@@ -68,15 +74,19 @@ class EnumArray(numpy.ndarray):
         Return the array of enum items corresponding to self.
 
         For instance:
+            >>> class MyEnum(enums.Enum):
+            ...     foo = b"foo"
+            ...     bar = b"bar"
 
-        >>> enum_array = household('housing_occupancy_status', period)
-        >>> enum_array[0]
-        >>> 2  # Encoded value
-        >>> enum_array.decode()[0]
-        <HousingOccupancyStatus.free_lodger: 'Free lodger'>
+            >>> array = numpy.array([1])
+            >>> enum_array = EnumArray(array, MyEnum)
+            >>> enum_array.decode()[0]
+            <MyEnum.bar: b'bar'>
 
-        Decoded value: enum item
+            Decoded value: enum item
+
         """
+
         return numpy.select(
             [self == item.index for item in self.possible_values],
             list(self.possible_values),
@@ -88,12 +98,18 @@ class EnumArray(numpy.ndarray):
 
         For instance:
 
-        >>> enum_array = household('housing_occupancy_status', period)
-        >>> enum_array[0]
-        >>> 2  # Encoded value
-        >>> enum_array.decode_to_str()[0]
-        'free_lodger'  # String identifier
+        For instance:
+            >>> class MyEnum(enums.Enum):
+            ...     foo = b"foo"
+            ...     bar = b"bar"
+
+            >>> array = numpy.array([1])
+            >>> enum_array = EnumArray(array, MyEnum)
+            >>> enum_array.decode_to_str()[0]
+            'bar'
+
         """
+
         return numpy.select(
             [self == item.index for item in self.possible_values],
             [item.name for item in self.possible_values],
