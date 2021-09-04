@@ -3,12 +3,12 @@ from typing import Iterable
 import numpy
 
 from openfisca_core import entities, projectors
-from openfisca_core.commons import Rolifiable
+from openfisca_core.commons import Aggregatable, Rolifiable
 from openfisca_core.indexed_enums import EnumArray
 from openfisca_core.populations import Population
 
 
-class GroupPopulation(Population):
+class GroupPopulation(Population, Aggregatable):
     def __init__(self, entity, members):
         super().__init__(entity)
         self.members = members

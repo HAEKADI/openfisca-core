@@ -1,9 +1,11 @@
 from typing import List
 
+from openfisca_core.commons import Personifiable
+
 from . import Entity, Role, RoleBuilder
 
 
-class GroupEntity(Entity):
+class GroupEntity(Entity, Personifiable):
     """Represents a :class:`.GroupEntity` on which calculations can be run.
 
     A :class:`.GroupEntity` is basically a group of people, and thus it is
