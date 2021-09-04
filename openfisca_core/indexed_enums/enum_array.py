@@ -80,8 +80,8 @@ class EnumArray(numpy.ndarray):
 
             >>> array = numpy.array([1])
             >>> enum_array = EnumArray(array, MyEnum)
-            >>> enum_array.decode()[0]
-            <MyEnum.bar: b'bar'>
+            >>> enum_array.decode()
+            array([<MyEnum.bar: b'bar'>]...)
 
             Decoded value: enum item
 
@@ -105,8 +105,8 @@ class EnumArray(numpy.ndarray):
 
             >>> array = numpy.array([1])
             >>> enum_array = EnumArray(array, MyEnum)
-            >>> enum_array.decode_to_str()[0]
-            'bar'
+            >>> enum_array.decode_to_str()
+            array(['bar']...)
 
         """
 
