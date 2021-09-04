@@ -144,7 +144,7 @@ class Enum(enum.Enum):
 
         if isinstance(array, numpy.ndarray) and \
            array.size > 0 and \
-           isinstance(array.take(0), (cls, bytes, str)):
+           isinstance(array.take(0), (Enum, bytes, str)):
 
             if numpy.issubdtype(array.dtype, bytes):
 
