@@ -1,6 +1,6 @@
 from typing import List
 
-from openfisca_core.types import RolesLike
+from openfisca_core.types import Rolifiable, RolesLike
 
 from .entity import Entity
 from .role import Role
@@ -49,7 +49,7 @@ class GroupEntity(Entity):
 
     is_person: bool = False
     roles_description: RolesLike
-    roles: List[Role]
+    roles: List[Rolifiable]
     flattened_roles: List[Role]
 
     def __init__(self, key: str, plural: str, label: str, doc: str, roles: RolesLike) -> None:
