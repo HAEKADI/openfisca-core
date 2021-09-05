@@ -9,7 +9,7 @@ from openfisca_core.populations import config
 from openfisca_core.projectors import Projector
 
 
-class Population(Aggregatable):
+class Population:
     def __init__(self, entity):
         self.simulation = None
         self.entity = entity

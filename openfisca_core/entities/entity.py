@@ -1,15 +1,12 @@
 import os
-import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
-from openfisca_core.types import Representable
+from openfisca_core.types import Personifiable, Representable
 from openfisca_core.variables import Variable
 
-from . import helpers
 
-
-class Entity:
+class Entity(Personifiable):
     """Represents an entity on which calculations can be run.
 
     For example an individual, a company, etc.
@@ -41,14 +38,6 @@ class Entity:
     is_person: bool = True
     _tax_benefit_system: Optional[Representable] = None
 
-    @property
-    def doc(self) -> str:
-        return self.__doc
-
-    @doc.setter
-    def doc(self, value: str) -> None:
-        self.__doc = textwrap.dedent(value)
-
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
         """Sets :attr:`._tax_benefit_system`."""
         self._tax_benefit_system = tax_benefit_system
@@ -64,7 +53,9 @@ class Entity:
 
         """
 
-        return helpers.check_role_validity(role)
+        from .helpers import check_role_validity
+
+        return check_role_validity(role)
 
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
         """Gets ``variable_name`` from :attr:`_tax_benefit_system`.

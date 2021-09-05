@@ -1,15 +1,11 @@
-import abc
-from typing_extensions import Protocol
+import dataclasses
 
-from .representable import Representable
-from ._documentable import _Documentable
+from .documentable import Documentable
 
 
-class Personifiable(_Documentable, Protocol):
-
-    @abc.abstractmethod
-    def set_tax_benefit_system(
-            self,
-            tax_benefit_system: Representable,
-            ) -> None:
-        ...
+@dataclasses.dataclass(repr = False)
+class Personifiable(Documentable):
+    key: str
+    plural: str
+    label: str
+    doc: str

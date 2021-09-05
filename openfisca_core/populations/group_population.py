@@ -8,7 +8,7 @@ from openfisca_core.indexed_enums import EnumArray
 from openfisca_core.populations import Population
 
 
-class GroupPopulation(Population, Aggregatable):
+class GroupPopulation(Population):
     def __init__(self, entity, members):
         super().__init__(entity)
         self.members = members

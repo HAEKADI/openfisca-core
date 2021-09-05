@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List, Type
 
-from openfisca_core.types import Personifiable, Rolifiable, RoleLike, Roles
+from openfisca_core.types import Personifiable, Rolifiable, RoleLike, RolesLike
 
 
 class RoleBuilder:
