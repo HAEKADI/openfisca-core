@@ -3,7 +3,7 @@ from __future__ import annotations
 import textwrap
 from typing import Optional
 
-from openfisca_core.types import Personifiable
+from openfisca_core.types import Personifiable, RoleLike, Subroles
 
 
 class Role:
@@ -42,7 +42,7 @@ class Role:
 
     max: Optional[int]
     entity: Personifiable
-    subroles: Optional[list]
+    subroles: Optional[Subroles]
 
     @property
     def doc(self) -> str:
@@ -52,7 +52,7 @@ class Role:
     def doc(self, value: str) -> None:
         self.__doc = textwrap.dedent(value)
 
-    def __init__(self, description: dict, entity: Personifiable) -> None:
+    def __init__(self, description: RoleLike, entity: Personifiable) -> None:
         self.key = description['key']
         self.plural = description.get('plural')
         self.label = description.get('label')
@@ -61,5 +61,5 @@ class Role:
         self.entity = entity
         self.subroles = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "Role({})".format(self.key)
