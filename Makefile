@@ -55,7 +55,7 @@ check-types-all:
 ## Run static type checkers for type errors.
 check-types-strict-%:
 	@$(call help,$@:)
-	@mypy --strict --package openfisca_core.$*
+	@mypy --cache-dir .mypy_cache-openfisca_core.$* --strict --package openfisca_core.$*
 
 ## Run linters to check for syntax and style errors.
 check-style: \
