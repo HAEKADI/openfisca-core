@@ -42,9 +42,10 @@ check-syntax-errors: .
 
 ## Run static type checkers for type errors.
 check-types: \
-	check-types-all \
-	check-types-strict-commons \
+	check-types-strict-types \
 	check-types-strict-entities \
+	check-types-strict-commons \
+	check-types-all \
 	;
 
 ## Run static type checkers for type errors.
@@ -55,13 +56,14 @@ check-types-all:
 ## Run static type checkers for type errors.
 check-types-strict-%:
 	@$(call help,$@:)
-	@mypy --cache-dir .mypy_cache-openfisca_core.$* --strict --package openfisca_core.$*
+	@mypy --cache-dir .mypy_cache-openfisca_core.$* --implicit-reexport --strict --package openfisca_core.$*
 
 ## Run linters to check for syntax and style errors.
 check-style: \
-	check-style-all \
-	check-style-doc-commons \
+	check-style-doc-types \
 	check-style-doc-entities \
+	check-style-doc-commons \
+	check-style-all \
 	;
 
 ## Run linters to check for syntax and style errors.
