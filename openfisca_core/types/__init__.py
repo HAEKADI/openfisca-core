@@ -21,10 +21,14 @@
 #
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
+from .callables import (  # noqa: F401
+    Decorator,
+    Formula,
+    )
+
 from .data_types import (  # noqa: F401
     ArrayType,
     ArrayLike,
-    Formula,
     )
 
 from .protocols import (  # noqa: F401
