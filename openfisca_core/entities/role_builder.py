@@ -11,7 +11,7 @@ class RoleBuilder:
         self.cls = cls
         self.entity = entity
 
-    def __call__(self, roles: Roles) -> List[Rolifiable]:
+    def __call__(self, roles: RolesLike) -> List[Rolifiable]:
         return [self.build(desc) for desc in roles]
 
     def build(self, desc: RoleLike) -> Rolifiable:
