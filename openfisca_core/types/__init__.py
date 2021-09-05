@@ -22,18 +22,18 @@
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
 from .callables import (  # noqa: F401
+    Args,
+    Kwds,
     Decorator,
     Formula,
     )
 
 from .data_types import (  # noqa: F401
-    Args,
     ArrayType,
     ArrayLike,
-    Kwds,
+    Subroles,
     RoleLike,
     Roles,
-    Subroles,
     )
 
 from .protocols import (  # noqa: F401
