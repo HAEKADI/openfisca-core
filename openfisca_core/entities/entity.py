@@ -6,7 +6,7 @@ from openfisca_core import commons
 from openfisca_core.types import Representable, Personifiable
 from openfisca_core.variables import Variable
 
-from .. import entities
+from . import helpers
 
 
 class Entity(Personifiable):
@@ -64,7 +64,7 @@ class Entity(Personifiable):
 
         """
 
-        return entities.check_role_validity(role)
+        return helpers.check_role_validity(role)
 
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
         """Gets ``variable_name`` from :attr:`_tax_benefit_system`.
