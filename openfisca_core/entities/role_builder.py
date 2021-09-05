@@ -2,19 +2,19 @@ from __future__ import annotations
 
 from typing import List, Type
 
-from .. import entities
+from openfisca_core.types import Personifiable, Rolifiable
 
 
 class RoleBuilder:
 
-    def __init__(self, cls: Type[entities.Role], entity: entities.GroupEntity) -> None:
+    def __init__(self, cls: Type[Rolifiable], entity: Personifiable) -> None:
         self.cls = cls
         self.entity = entity
 
-    def __call__(self, roles: list) -> List[entities.Role]:
+    def __call__(self, roles: list) -> List[Rolifiable]:
         return [self.build(desc) for desc in roles]
 
-    def build(self, desc: dict) -> entities.Role:
+    def build(self, desc: dict) -> Rolifiable:
         role = self.cls(desc, self.entity)
         self.entity.__dict__[role.key.upper()] = role
         subroles = desc.get("subroles", [])

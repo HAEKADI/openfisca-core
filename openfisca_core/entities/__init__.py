@@ -29,8 +29,8 @@ individuals, families, tax households, companies, and so on.
 #
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
-from .role_builder import RoleBuilder  # noqa: F401
-from .role import Role  # noqa: F401
 from .entity import Entity  # noqa: F401
 from .group_entity import GroupEntity  # noqa: F401
+from .role import Role  # noqa: F401
+from .role_builder import RoleBuilder  # noqa: F401
 from .helpers import build_entity, check_role_validity  # noqa: F401

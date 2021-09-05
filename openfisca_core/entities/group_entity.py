@@ -2,7 +2,9 @@ from typing import List
 
 from openfisca_core.types import Personifiable
 
-from . import Entity, Role, RoleBuilder
+from .entity import Entity
+from .role import Role
+from .role_builder import RoleBuilder
 
 
 class GroupEntity(Entity, Personifiable):
