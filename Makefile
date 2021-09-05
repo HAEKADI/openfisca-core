@@ -50,8 +50,7 @@ check-types: \
 ## Run static type checkers for type errors.
 check-types-all:
 	@$(call help,$@:)
-	@mypy --package openfisca_core
-	@mypy --package openfisca_web_api
+	@mypy --package openfisca_core --package openfisca_web_api
 
 ## Run static type checkers for type errors.
 check-types-strict-%:
