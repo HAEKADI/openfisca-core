@@ -25,6 +25,7 @@ from .callables import (  # noqa: F401
     ArgsType,
     KwdsType,
     DecoType,
+    FuncType,
     FormulaType,
     )
 
