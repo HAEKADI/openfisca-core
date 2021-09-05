@@ -1,9 +1,12 @@
-import abc
 import dataclasses
+from typing import Optional
 
-from ._documentable import _Documentable
+from .documentable import Documentable
 
 
 @dataclasses.dataclass(init = False, repr = False)
-class Rolifiable(_Documentable, abc.ABC):
-    ...
+class Rolifiable(Documentable):
+    key: str
+    plural: Optional[str]
+    label: Optional[str]
+    doc: Optional[str]

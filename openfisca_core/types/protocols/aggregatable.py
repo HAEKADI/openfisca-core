@@ -1,5 +1,5 @@
-import abc
+from typing_extensions import Protocol
 
 
-class Aggregatable(abc.ABC):
+class Aggregatable(Protocol):
     ...
