@@ -3,8 +3,7 @@ from typing import Callable
 from openfisca_core.periods import Instant, Period
 
 from ..protocols import Aggregatable, Instantizable
-
-from . import Array
+from ..data_types import Array
 
 #: A callable to get the parameters for the given instant.
 Params = Callable[[Instant], Instantizable]
