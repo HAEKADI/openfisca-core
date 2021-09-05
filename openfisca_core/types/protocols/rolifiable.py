@@ -1,9 +1,9 @@
 import abc
 import dataclasses
 
-from . import Personifiable
+from ._documentable import _Documentable
 
 
 @dataclasses.dataclass(init = False, repr = False)
-class Rolifiable(Personifiable, abc.ABC):
+class Rolifiable(_Documentable, abc.ABC):
     ...

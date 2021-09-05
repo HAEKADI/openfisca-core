@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import textwrap
 from typing import Optional
 
-from openfisca_core.commons import Personifiable, Rolifiable
+from openfisca_core.types import Personifiable, Rolifiable
 
 
 class Role(Rolifiable):
@@ -42,6 +43,14 @@ class Role(Rolifiable):
     max: Optional[int]
     entity: Personifiable
     subroles: Optional[list]
+
+    @property
+    def doc(self) -> str:
+        return self.__doc
+
+    @doc.setter
+    def doc(self, value: str) -> None:
+        self.__doc = textwrap.dedent(value)
 
     def __init__(self, description: dict, entity: Personifiable) -> None:
         self.key = description['key']

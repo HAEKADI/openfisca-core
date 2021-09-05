@@ -1,6 +1,6 @@
 from typing import Any, List, Optional
 
-from openfisca_core.commons import Personifiable, Rolifiable
+from openfisca_core.types import Personifiable, Rolifiable
 
 from . import Entity, GroupEntity
 

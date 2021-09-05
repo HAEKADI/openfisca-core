@@ -1,11 +1,13 @@
 from typing import Callable
 
-from openfisca_core.commons import Aggregatable, Array
-from openfisca_core.parameters import ParameterNodeAtInstant
 from openfisca_core.periods import Instant, Period
 
+from ..protocols import Aggregatable, Instantizable
+
+from . import Array
+
 #: A callable to get the parameters for the given instant.
-Params = Callable[[Instant], ParameterNodeAtInstant]
+Params = Callable[[Instant], Instantizable]
 
 #: A callable defining a calculation, or a rule, on a system.
 Formula = Callable[[Aggregatable, Period, Params], Array]

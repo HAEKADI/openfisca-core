@@ -7,9 +7,9 @@ import sortedcontainers
 import numpy
 
 from openfisca_core import periods, tools
-from openfisca_core.commons import Personifiable
 from openfisca_core.indexed_enums import Enum, EnumArray
 from openfisca_core.periods import Period
+from openfisca_core.types import Personifiable
 
 from . import config, helpers
 

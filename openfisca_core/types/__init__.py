@@ -24,4 +24,13 @@
 from .data_types import (  # noqa: F401
     ArrayType,
     ArrayLike,
+    Formula,
+    )
+
+from .protocols import (  # noqa: F401
+    Aggregatable,
+    Instantizable,
+    Personifiable,
+    Representable,
+    Rolifiable,
     )
