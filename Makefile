@@ -42,34 +42,42 @@ check-syntax-errors: .
 
 ## Run static type checkers for type errors.
 check-types: \
+	check-types-all \
 	check-types-strict-commons \
 	check-types-strict-entities \
-	check-types-core \
-	check-types-web_api \
 	;
 
+## Run static type checkers for type errors.
+check-types-all:
+	@$(call help,$@:)
+	@mypy --package openfisca_core
+	@mypy --package openfisca_web_api
+
+## Run static type checkers for type errors.
 check-types-strict-%:
+	@$(call help,$@:)
 	@mypy --strict --package openfisca_core.$*
 
-check-types-%:
-	@mypy --package openfisca_$*
+## Run linters to check for syntax and style errors.
+check-style: \
+	check-style-all \
+	check-style-doc-commons \
+	check-style-doc-entities \
+	;
 
 ## Run linters to check for syntax and style errors.
-check-style: $(shell git ls-files "*.py")
+check-style-all:
 	@$(call help,$@:)
-	@flake8 $?
+	@flake8 `git ls-files | grep "\.py$$"`
 
-	@# Check that docstrings are present in public class, method, and function definitions.
-	@# See: http://www.pydocstyle.org/en/2.1.1/error_codes.html
-	@flake8 --select=D101,D102,D103 openfisca_core/commons openfisca_core/entities
-
-	@# Check that docstrings match the current implementation of functions/methods.
-	@# See: https://github.com/terrencepreilly/darglint
-	@flake8 --select=DAR openfisca_core/commons openfisca_core/entities
+## Run linters to check for syntax and style errors.
+check-style-doc-%:
+	@$(call help,$@:)
+	@flake8 --select=D101,D102,D103,DAR openfisca_core/$*
 
 	@# Further check for syntax and design errors —style excluded.
 	@# See: `pylint --list-msgs`
-	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/commons openfisca_core/entities
+	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/$*
 
 ## Run code formatters to correct style errors.
 format-style: $(shell git ls-files "*.py")
