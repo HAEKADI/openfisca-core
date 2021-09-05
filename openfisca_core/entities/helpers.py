@@ -2,7 +2,8 @@ from typing import Any, List, Optional
 
 from openfisca_core.types import Personifiable, Rolifiable
 
-from . import Entity, GroupEntity
+from .entity import Entity
+from .group_entity import GroupEntity
 
 
 def build_entity(
