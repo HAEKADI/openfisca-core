@@ -7,14 +7,15 @@ from setuptools import setup, find_packages
 
 general_requirements = [
     'dpath >= 1.5.0, < 2.0.0',
-    'pytest >= 4.4.1, < 6.0.0',  # For openfisca test
-    'numpy >= 1.11, < 1.21',
     'nptyping >= 1.4.3, < 2.0.0',
-    'pylint == 2.10.2',
+    'numpy >= 1.11, < 1.21',
+    'numexpr >= 2.7.0, <= 3.0',
     'psutil >= 5.4.7, < 6.0.0',
+    'pylint == 2.10.2',
+    'pytest >= 4.4.1, < 6.0.0',  # For openfisca test
     'PyYAML >= 3.10',
     'sortedcontainers == 2.2.2',
-    'numexpr >= 2.7.0, <= 3.0',
+    'typing-extensions >= 3.0.0.0, < 4.0.0.0',
     ]
 
 api_requirements = [
@@ -33,7 +34,7 @@ dev_requirements = [
     'flake8-print >= 3.1.0, < 4.0.0',
     'flake8-rst-docstrings < 1.0.0',
     'pytest-cov >= 2.6.1, < 3.0.0',
-    'mypy >= 0.701, < 0.800',
+    'mypy >= 0.701, < 1.000',
     'openfisca-country-template >= 3.10.0, < 4.0.0',
     'openfisca-extension-template >= 1.2.0rc0, < 2.0.0'
     ] + api_requirements
