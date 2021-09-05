@@ -1,6 +1,6 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
-from openfisca_core.types import Personifiable, Rolifiable
+from openfisca_core.types import Personifiable, Rolifiable, Roles
 
 from .entity import Entity
 from .group_entity import GroupEntity
@@ -11,7 +11,7 @@ def build_entity(
         plural: str,
         label: str,
         doc: str = "",
-        roles: Optional[List[Dict[str, Any]]] = None,
+        roles: Optional[Roles] = None,
         is_person: bool = False,
         class_override: Optional[Any] = None,
         ) -> Personifiable:
