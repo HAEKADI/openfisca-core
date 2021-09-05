@@ -33,6 +33,7 @@ from .data_types import (  # noqa: F401
     Kwds,
     RoleLike,
     Roles,
+    Subroles,
     )
 
 from .protocols import (  # noqa: F401
