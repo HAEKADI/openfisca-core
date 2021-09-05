@@ -40,6 +40,20 @@ check-syntax-errors: .
 	@$(call help,$@:)
 	@python -m compileall -q $?
 
+## Run static type checkers for type errors.
+check-types: \
+	check-types-strict-commons \
+	check-types-strict-entities \
+	check-types-core \
+	check-types-web_api \
+	;
+
+check-types-strict-%:
+	@mypy --strict --package openfisca_core.$*
+
+check-types-%:
+	@mypy --package openfisca_$*
+
 ## Run linters to check for syntax and style errors.
 check-style: $(shell git ls-files "*.py")
 	@$(call help,$@:)
@@ -56,11 +70,6 @@ check-style: $(shell git ls-files "*.py")
 	@# Further check for syntax and design errors —style excluded.
 	@# See: `pylint --list-msgs`
 	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/commons openfisca_core/entities
-
-## Run static type checkers for type errors.
-check-types: openfisca_core openfisca_web_api
-	@$(call help,$@:)
-	@mypy $?
 
 ## Run code formatters to correct style errors.
 format-style: $(shell git ls-files "*.py")
@@ -94,7 +103,7 @@ test-doc:
 	@${MAKE} test-doc-install
 	@${MAKE} test-doc-build
 
-### Update the local copy of the doc.
+## Update the local copy of the doc.
 test-doc-checkout:
 	@$(call help,$@:)
 	@[ ! -d doc ] && git clone ${repo} doc || :
