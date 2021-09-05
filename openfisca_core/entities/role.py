@@ -3,10 +3,10 @@ from __future__ import annotations
 import textwrap
 from typing import Optional
 
-from openfisca_core.types import Personifiable, Rolifiable
+from openfisca_core.types import Personifiable
 
 
-class Role(Rolifiable):
+class Role:
     """Role of an :class:`.Entity` within a :class:`.GroupEntity`.
 
     Each :class:`.Entity` related to a :class:`.GroupEntity` has a
