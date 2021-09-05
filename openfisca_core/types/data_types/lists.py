@@ -1,7 +1,9 @@
-from typing import Dict, List, TypeVar, Union
+from typing import List, TypeVar
+
+from .dicts import RoleLike
 
 
 Args = List
 T = TypeVar("T", bound = Args)
 
-Roles = List[Dict[str, Union[str, List[str]]]]
+Roles = List[RoleLike]
