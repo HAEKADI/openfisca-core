@@ -1,8 +1,9 @@
 import os
+import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
-from openfisca_core.commons import Representable, Personifiable
+from openfisca_core.types import Representable, Personifiable
 from openfisca_core.variables import Variable
 
 from .. import entities
@@ -39,6 +40,14 @@ class Entity(Personifiable):
 
     is_person: bool = True
     _tax_benefit_system: Optional[Representable] = None
+
+    @property
+    def doc(self) -> str:
+        return self.__doc
+
+    @doc.setter
+    def doc(self, value: str) -> None:
+        self.__doc = textwrap.dedent(value)
 
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
         """Sets :attr:`._tax_benefit_system`."""

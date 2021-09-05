@@ -5,9 +5,9 @@ from typing import Dict, List, Iterable
 import numpy
 
 from openfisca_core import periods
-from openfisca_core.commons import Personifiable
 from openfisca_core.errors import PeriodMismatchError, SituationParsingError, VariableNotFoundError
 from openfisca_core.populations import Population
+from openfisca_core.types import Personifiable
 from openfisca_core.simulations import helpers, Simulation
 from openfisca_core.variables import Variable
 

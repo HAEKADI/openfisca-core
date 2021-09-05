@@ -3,7 +3,7 @@ from typing import Iterable
 import numpy
 
 from openfisca_core import entities, projectors
-from openfisca_core.commons import Aggregatable, Rolifiable
+from openfisca_core.types import Aggregatable, Rolifiable
 from openfisca_core.indexed_enums import EnumArray
 from openfisca_core.populations import Population
 

@@ -1,6 +1,6 @@
 from typing import List
 
-from openfisca_core.commons import Personifiable
+from openfisca_core.types import Personifiable
 
 from . import Entity, Role, RoleBuilder
 

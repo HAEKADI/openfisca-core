@@ -22,7 +22,7 @@
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
 from .aggregatable import Aggregatable  # noqa: F401
-from .documentable import Documentable  # noqa: F401
+from .instantizable import Instantizable  # noqa: F401
 from .personifiable import Personifiable  # noqa: F401
 from .representable import Representable  # noqa: F401
 from .rolifiable import Rolifiable  # noqa: F401

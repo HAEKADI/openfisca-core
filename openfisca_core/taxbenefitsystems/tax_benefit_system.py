@@ -10,7 +10,7 @@ from imp import find_module, load_module
 from typing import Dict, Optional
 
 from openfisca_core import commons, periods, variables
-from openfisca_core.commons import Representable, Personifiable
+from openfisca_core.types import Representable, Personifiable
 from openfisca_core.errors import VariableNameConflictError, VariableNotFoundError
 from openfisca_core.parameters import ParameterNode
 from openfisca_core.periods import Instant, Period
