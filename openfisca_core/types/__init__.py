@@ -30,9 +30,7 @@ from .callables import (  # noqa: F401
 from .data_types import (  # noqa: F401
     ArrayType,
     ArrayLike,
-    SubrolesLike,
     RoleLike,
-    RolesLike,
     )
 
 from .protocols import (  # noqa: F401

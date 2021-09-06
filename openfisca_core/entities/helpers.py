@@ -1,6 +1,6 @@
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
 
-from openfisca_core.types import Personifiable, Rolifiable, RolesLike
+from openfisca_core.types import Personifiable, Rolifiable, RoleLike
 
 from .entity import Entity
 from .group_entity import GroupEntity
@@ -11,7 +11,7 @@ def build_entity(
         plural: str,
         label: str,
         doc: str = "",
-        roles: Optional[RolesLike] = None,
+        roles: Optional[Iterable[RoleLike]] = None,
         is_person: bool = False,
         class_override: Optional[Any] = None,
         ) -> Personifiable:

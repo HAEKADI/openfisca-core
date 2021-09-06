@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import abc
-from typing import Iterable, Sequence, Type, TypeVar
+from typing import Iterable, Mapping, Sequence, Type, TypeVar
 from typing_extensions import Protocol
 
 BuilderType = TypeVar("BuilderType")
 BuildeeType = TypeVar("BuildeeType")
-BuildeeLike = TypeVar("BuildeeLike")
+BuildeeLike = TypeVar("BuildeeLike", bound = Mapping)
 
 
 class Buildable(Protocol):
