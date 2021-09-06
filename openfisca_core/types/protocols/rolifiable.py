@@ -1,7 +1,9 @@
 import dataclasses
 from typing import Optional
 
-from .documentable import Documentable, Personifiable, SubrolesLike
+from ..data_types import SubrolesLike
+from .documentable import Documentable
+from .personifiable import Personifiable
 
 
 @dataclasses.dataclass(init = False, repr = False)
