@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import abc
-from typing import Iterable, Type, TypeVar
+from typing import Iterable, Sequence, Type, TypeVar
 from typing_extensions import Protocol
 
 BuilderType = TypeVar("BuilderType")
@@ -20,7 +20,7 @@ class Buildable(Protocol):
         ...
 
     @abc.abstractmethod
-    def __call__(self, items: Iterable[BuildeeLike]) -> Iterable[BuildeeType]:
+    def __call__(self, items: Iterable[BuildeeLike]) -> Sequence[BuildeeType]:
         ...
 
     @abc.abstractmethod

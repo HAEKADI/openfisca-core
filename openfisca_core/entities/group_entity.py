@@ -54,7 +54,7 @@ class GroupEntity(Entity):
     is_person: bool = False
     roles_description: RolesLike
     roles: List[Rolifiable]
-    flattened_roles: List[Role]
+    flattened_roles: List[Rolifiable]
 
     def __init__(
             self,
