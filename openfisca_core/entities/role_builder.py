@@ -24,7 +24,7 @@ class RoleBuilder:
         subroles = item.get("subroles", [])
 
         if subroles:
-            role.subroles = [self.build({"key": key, "max": 1}) for key in subroles]
+            role.subroles = [self.build(RoleLike({"key": key, "max": 1})) for key in subroles]
             role.max = len(role.subroles)
 
         return role
