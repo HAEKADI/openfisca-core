@@ -35,6 +35,10 @@ class Entity(Personifiable):
 
     """
 
+    key: str
+    plural: str
+    label: str
+    doc: str
     is_person: bool = True
     _tax_benefit_system: Optional[Representable] = None
 

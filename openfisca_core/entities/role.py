@@ -1,6 +1,13 @@
 from __future__ import annotations
 
-from openfisca_core.types import Personifiable, Rolifiable, RoleLike
+from typing import Optional
+
+from openfisca_core.types import (
+    Personifiable,
+    Rolifiable,
+    RoleLike,
+    SubrolesLike,
+    )
 
 
 class Role(Rolifiable):
@@ -36,6 +43,14 @@ class Role(Rolifiable):
         Role(parent)
 
     """
+
+    key: str
+    plural: Optional[str]
+    label: Optional[str]
+    doc: Optional[str]
+    max: Optional[int]
+    entity: Personifiable
+    subroles: Optional[SubrolesLike]
 
     def __init__(self, description: RoleLike, entity: Personifiable) -> None:
         self.key = description['key']
