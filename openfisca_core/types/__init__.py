@@ -37,6 +37,7 @@ from .data_types import (  # noqa: F401
 
 from .protocols import (  # noqa: F401
     Aggregatable,
+    Buildable,
     Documentable,
     Instantizable,
     Personifiable,
