@@ -1,7 +1,9 @@
-import dataclasses
-from typing import Optional
+from __future__ import annotations
 
-from ..data_types import SubrolesLike, RoleLike
+import dataclasses
+from typing import Optional, Sequence
+
+from ..data_types import RoleLike
 from .documentable import Documentable
 from .personifiable import Personifiable
 
@@ -13,7 +15,7 @@ class Rolifiable(Documentable):
     label: Optional[str] = None
     doc: Optional[str] = None
     max: Optional[int] = None
-    subroles: Optional[SubrolesLike] = None
+    subroles: Optional[Sequence[Rolifiable]] = None
 
     def __init__(self, description: RoleLike, entity: Personifiable) -> None:
         ...

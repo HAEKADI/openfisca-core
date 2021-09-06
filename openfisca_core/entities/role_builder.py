@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Iterable, Type
+from typing import Iterable, Sequence, Type
 
-from openfisca_core.types import Personifiable, Rolifiable, RoleLike, RolesLike
+from openfisca_core.types import Personifiable, Rolifiable, RoleLike
 
 
 class RoleBuilder:
@@ -15,7 +15,7 @@ class RoleBuilder:
         self.builder = builder
         self.buildee = buildee
 
-    def __call__(self, items: RolesLike) -> Iterable[Rolifiable]:
+    def __call__(self, items: Iterable[RoleLike]) -> Sequence[Rolifiable]:
         return [self.build(item) for item in items]
 
     def build(self, item: RoleLike) -> Rolifiable:
