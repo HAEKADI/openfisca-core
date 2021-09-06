@@ -1,10 +1,12 @@
-from typing import List, Iterable, Sequence
+from typing import Iterable, TypeVar, Sequence
 
 from openfisca_core.types import Buildable, Rolifiable, RoleLike
 
 from .entity import Entity
 from .role import Role
 from .role_builder import RoleBuilder
+
+T = TypeVar("T", bound = "GroupEntity")
 
 
 class GroupEntity(Entity):
@@ -57,7 +59,7 @@ class GroupEntity(Entity):
     flattened_roles: Sequence[Rolifiable]
 
     def __init__(
-            self,
+            self: T,
             key: str,
             plural: str,
             label: str,
@@ -65,7 +67,8 @@ class GroupEntity(Entity):
             roles: Iterable[RoleLike],
             ) -> None:
         super().__init__(key, plural, label, doc)
-        builder: Buildable = RoleBuilder(self, Role)
+        builder: Buildable[T, Rolifiable, RoleLike]
+        builder = RoleBuilder(self, Role)
         self.roles_description = roles
         self.roles = builder(roles)
         self.flattened_roles = sum([role2.subroles or [role2] for role2 in self.roles], [])
