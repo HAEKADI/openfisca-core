@@ -170,7 +170,7 @@ class EnumArray(numpy.ndarray):
             list(self.possible_values),
             )
 
-    def decode_to_str(self) -> numpy.str_:
+    def decode_to_str(self) -> ArrayType[str]:
         """Return the string identifiers of the :obj:`.EnumArray`.
 
         Examples:
