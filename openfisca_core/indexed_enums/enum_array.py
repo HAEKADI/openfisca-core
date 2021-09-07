@@ -91,12 +91,9 @@ class EnumArray(numpy.ndarray):
             )
 
     def decode_to_str(self) -> numpy.str_:
-        """
-        Return the array of string identifiers corresponding to self.
+        """Return the string identifiers of the :obj:`.EnumArray`.
 
-        For instance:
-
-        For instance:
+        Examples:
             >>> class MyEnum(enums.Enum):
             ...     foo = b"foo"
             ...     bar = b"bar"
