@@ -136,7 +136,7 @@ class Entity:
                 ``check_existence`` is True.
 
         .. seealso::
-            Method :meth:``TaxBenefitSystem.get_variable`.
+            Method :meth:`TaxBenefitSystem.get_variable`.
 
         .. versionchanged:: 35.5.0
             Now also returns None when :attr:`.variable` is not defined.
