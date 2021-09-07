@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import textwrap
 
-from typing import List, Optional, Sequence
+from typing import Optional, Sequence
 
 from openfisca_core.types import (
     Personifiable,
