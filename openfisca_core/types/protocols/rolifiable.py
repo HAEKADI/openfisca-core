@@ -13,6 +13,14 @@ from .personifiable import Personifiable
 
 @typing_extensions.runtime_checkable
 class Rolifiable(Documentable, Protocol):
+    """Base type for any role-like model.
+
+    Type-checking against abstractions rather than implementations helps in
+    (a) decoupling the codebse, thanks to structural subtyping, and
+    (b) documenting/enforcing the blueprints of the different OpenFisca models.
+
+    """
+
     entity: Personifiable
     key: str
     plural: Optional[str]
