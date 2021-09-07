@@ -4,7 +4,7 @@ from typing import Any, NoReturn, Optional, Type, Union
 
 import numpy
 
-from openfisca_core.types import ArrayType
+from openfisca_core.types import ArrayLike, ArrayType
 
 from .. import indexed_enums as enums
 
@@ -160,7 +160,7 @@ class EnumArray(numpy.ndarray):
     __and__ = _forbidden_operation
     __or__ = _forbidden_operation
 
-    def decode(self) -> ArrayType["enums.Enum"]:
+    def decode(self) -> ArrayLike[enums.Enum]:
         """Decodes itself to a normal array.
 
         Returns:
