@@ -50,6 +50,8 @@ class EnumArray(numpy.ndarray):
             input_array: numpy.int_,
             possible_values: Optional[Type[enums.Enum]] = None,
             ) -> EnumArray:
+        """See comment above…"""
+
         obj = numpy.asarray(input_array).view(cls)
         obj.possible_values = possible_values
         return obj
