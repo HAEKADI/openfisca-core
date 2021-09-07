@@ -7,7 +7,7 @@ F = Callable[..., Optional[T]]
 
 
 class Descriptable(Protocol[T]):
-    """Base type for any model implementing a descriptor.
+    """Base type for any model implementing a descriptor protocol.
 
     Type-checking against abstractions rather than implementations helps in
     (a) decoupling the codebse, thanks to structural subtyping, and

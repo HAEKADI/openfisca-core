@@ -5,25 +5,30 @@ from typing import Iterable, Sequence, Type, TypeVar
 
 from typing_extensions import Protocol
 
-BuilderType = TypeVar("BuilderType", covariant = True)
-BuildeeType = TypeVar("BuildeeType", covariant = True)
-BuildeeLike = TypeVar("BuildeeLike", contravariant = True)
+RT = TypeVar("RT", covariant = True)
+ET = TypeVar("ET", covariant = True)
+EL = TypeVar("EL", contravariant = True)
 
 
-class Buildable(Protocol[BuilderType, BuildeeType, BuildeeLike]):
+class Buildable(Protocol[RT, ET, EL]):
+    """Base type for any model implementing a builder protocol.
+
+    Type-checking against abstractions rather than implementations helps in
+    (a) decoupling the codebse, thanks to structural subtyping, and
+    (b) documenting/enforcing the blueprints of the different OpenFisca models.
+
+    """
 
     @abc.abstractmethod
-    def __init__(
-            self,
-            builder: BuilderType,
-            buildee: Type[BuildeeType],
-            ) -> None:
+    def __init__(self, builder: RT, buildee: Type[ET]) -> None:
         ...
 
     @abc.abstractmethod
-    def __call__(self, items: Iterable[BuildeeLike]) -> Sequence[BuildeeType]:
+    def __call__(self, items: Iterable[EL]) -> Sequence[ET]:
+        """A concrete builder implements :meth:`.__call__`."""
         ...
 
     @abc.abstractmethod
-    def build(self, item: BuildeeLike) -> BuildeeType:
+    def build(self, item: EL) -> ET:
+        """A concrete builder implements :meth:`.build`."""
         ...
