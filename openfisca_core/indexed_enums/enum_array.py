@@ -76,6 +76,9 @@ class EnumArray(numpy.ndarray):
         Args:
             other: Another object to compare to.
 
+        Returns:
+            True, False, or a boolean :class:`numpy.ndarray`.
+
         Examples:
             >>> class MyEnum(enums.Enum):
             ...     foo = b"foo"
@@ -111,6 +114,9 @@ class EnumArray(numpy.ndarray):
 
         Args:
             other: Another object to compare to.
+
+        Returns:
+            True, False, or a boolean :class:`numpy.ndarray`.
 
         Examples:
             >>> class MyEnum(enums.Enum):
@@ -155,7 +161,10 @@ class EnumArray(numpy.ndarray):
     __or__ = _forbidden_operation
 
     def decode(self) -> ArrayType["enums.Enum"]:
-        """Return the enum items of the :obj:`.EnumArray`.
+        """Decodes itself to a normal array.
+
+        Returns:
+            The enum items of the :obj:`.EnumArray`.
 
         Examples:
             >>> class MyEnum(enums.Enum):
@@ -175,7 +184,10 @@ class EnumArray(numpy.ndarray):
             )
 
     def decode_to_str(self) -> ArrayType[str]:
-        """Return the string identifiers of the :obj:`.EnumArray`.
+        """Decodes itself to an array of strings.
+
+        Returns:
+            The string identifiers of the :obj:`.EnumArray`.
 
         Examples:
             >>> class MyEnum(enums.Enum):

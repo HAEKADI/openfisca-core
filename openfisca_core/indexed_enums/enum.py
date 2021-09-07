@@ -65,6 +65,21 @@ class Enum(enum.Enum):
         names of the previously initialized items, so its length is the index
         of this item.
 
+        Args:
+            name: The name of the enum.
+
+        Examples:
+            >>> MyEnum = Enum("MyEnum", "foo bar")
+            >>> MyEnum.bar.index
+            1
+
+            >>> class MyEnum(Enum):
+            ...     foo = b"foo"
+            ...     bar = b"bar"
+
+            >>> MyEnum.bar.index
+            1
+
         """
 
         self.index = len(self._member_names_)
