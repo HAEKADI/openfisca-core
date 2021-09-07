@@ -57,7 +57,6 @@ setup(
     install_requires = open("requirements/install").readlines(),
     extras_require = {
         "coverage": require("coverage"),
-        "debug": require("debug"),
         "dev": require("dev"),
         "publication": require("publication"),
         "tracker": require("tracker"),
