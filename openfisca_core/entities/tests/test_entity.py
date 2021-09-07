@@ -14,6 +14,19 @@ def role(entity):
     return Role({"key": "key"}, entity)
 
 
+def test_variable_when_not_set(entity):
+    """Returns None when not yet defined."""
+
+    assert not entity.variable
+
+
+def test_variable_query_when_not_set(entity):
+    """Raises an exceptions when called and not yet defined."""
+
+    with pytest.raises(TypeError):
+        entity.variable("variable")
+
+
 def test_set_tax_benefit_system_deprecation(entity):
     """:meth:`.set_tax_benefit_system` throws a deprecation warning."""
 

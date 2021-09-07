@@ -29,13 +29,33 @@ class Entity:
         doc: A full description.
 
     Examples:
-        >>> Entity(
+        >>> from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+
+        >>> entity = Entity(
         ...     "individual",
         ...     "individuals",
         ...     "An individual",
         ...     "The minimal legal entity on which a rule might be applied.",
         ...    )
+        >>> entity
         <openfisca_core.entities.entity.Entity...
+
+        >>> class Variable(Variable):
+        ...     definition_period = "month"
+        ...     value_type = float
+        ...     entity = entity
+
+        >>> tbs = TaxBenefitSystem([entity])
+        >>> tbs.load_variable(Variable)
+        <openfisca_core.entities.entity.Variable...
+
+        >>> get_variable = tbs.get_variable
+        >>> get_variable("Variable")
+        <openfisca_core.entities.entity.Variable...
+
+        >>> entity.variable = tbs.get_variable
+        >>> entity.variable("Variable")
+        <openfisca_core.entities.entity.Variable...
 
     """
 
@@ -44,7 +64,13 @@ class Entity:
     label: str
     doc: str
     is_person: bool = True
+
     variable: Descriptable[Variable] = VariableDescriptor()
+    """Queries :class:`.TaxBenefitSystem` to find a :class:`.Variable`.
+
+    .. versionadded:: 35.5.0
+
+    """
 
     def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
         self.key = key
