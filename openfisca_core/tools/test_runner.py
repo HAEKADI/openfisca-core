@@ -64,14 +64,16 @@ def run_tests(tax_benefit_system, paths, options = None):
 
     """
 
-    if not hasattr(paths, "__setitem__"):
+    argv = []
+
+    if options.get('pdb'):
+        argv.append('--pdb')
+
+    if options.get('verbose'):
+        argv.append('--verbose')
+
+    if isinstance(paths, str):
         paths = [paths]
-
-    if not hasattr(options, "__iter__"):
-        options = {}
-
-    #: Check whether pytest args were passed to ``openfisca test``.
-    argv = [f"--{arg}" for arg, flag in _pytest_args(options) if flag is True]
 
     return pytest.main([*argv, *paths] if True else paths, plugins = [OpenFiscaPlugin(tax_benefit_system, options)])
 
@@ -283,8 +285,3 @@ def _get_tax_benefit_system(baseline, reforms, extensions):
     _tax_benefit_system_cache[key] = current_tax_benefit_system
 
     return current_tax_benefit_system
-
-
-def _pytest_args(options):
-    """Options we pass on to pytest if they're present."""
-    return ((k, v) for k, v in options.items() if k in {"pdb", "verbose"})
