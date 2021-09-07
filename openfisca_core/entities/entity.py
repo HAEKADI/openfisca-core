@@ -3,11 +3,11 @@ import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
-from openfisca_core.types import Personifiable, Representable
+from openfisca_core.types import Representable
 from openfisca_core.variables import Variable
 
 
-class Entity(Personifiable):
+class Entity:
     """Represents an entity on which calculations can be run.
 
     For example an individual, a company, etc.

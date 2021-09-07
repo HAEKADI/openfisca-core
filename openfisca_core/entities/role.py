@@ -11,7 +11,7 @@ from openfisca_core.types import (
     )
 
 
-class Role(Rolifiable):
+class Role:
     """Role of an :class:`.Entity` within a :class:`.GroupEntity`.
 
     Each :class:`.Entity` related to a :class:`.GroupEntity` has a
