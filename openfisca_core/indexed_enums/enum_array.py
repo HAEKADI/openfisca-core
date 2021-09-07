@@ -18,6 +18,26 @@ class EnumArray(numpy.ndarray):
         :meth:`.__new__` and `.__array_finalize__` methods below, see
         `Subclassing ndarray`_.
 
+    Examples:
+        >>> from openfisca_core.variables import Variable
+
+        >>> class Housing(enums.Enum):
+        ...     owner = "Owner"
+        ...     tenant = "Tenant"
+        ...     free_lodger = "Free lodger"
+        ...     homeless = "Homeless"
+
+        >>> array = numpy.array([1])
+        >>> EnumArray(array, Housing)
+        EnumArray([<Housing.tenant: 'Tenant'>])
+
+        >>> class OccupancyStatus(Variable):
+        ...     value_type = enums.Enum
+        ...     possible_values = Housing
+
+        >>> EnumArray(array, OccupancyStatus.possible_values)
+        EnumArray([<Housing.tenant: 'Tenant'>])
+
     .. _Subclassing ndarray:
         https://numpy.org/doc/stable/user/basics.subclassing.html
 
