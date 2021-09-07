@@ -51,9 +51,18 @@ class Entity:
         self.label = label
         self.doc = textwrap.dedent(doc)
 
+    @commons.deprecated(since = "35.5.0", expires = "the future")
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
-        """Sets :attr:`._tax_benefit_system`."""
-        self._tax_benefit_system = tax_benefit_system
+        """Sets :attr:`.variable`.
+
+        .. deprecated:: 35.5.0
+            :meth:`.set_tax_benefit_system` has been deprecated and will be
+            removed in the future. The functionality is now provided by
+            :attr:`.variable`.
+
+        """
+
+        self.variable = tax_benefit_system.get_variable
 
     @commons.deprecated(since = "35.5.0", expires = "the future")
     def check_role_validity(self, role: Any) -> None:
@@ -70,6 +79,7 @@ class Entity:
 
         return check_role_validity(role)
 
+    @commons.deprecated(since = "35.5.0", expires = "the future")
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
         """Gets ``variable_name`` from :attr:`_tax_benefit_system`.
 
@@ -99,10 +109,7 @@ class Entity:
 
         """
 
-        if self._tax_benefit_system is None:
-            return None
-
-        return self._tax_benefit_system.get_variable(variable_name, check_existence)
+        return self.variable(variable_name, check_existence)
 
     def check_variable_defined_for_entity(self, variable_name: str) -> None:
         """Checks if ``variable_name`` is defined for :obj:`.Entity`.
