@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import abc
 from typing import Iterable, Sequence, Type, TypeVar
+
 from typing_extensions import Protocol
 
 BuilderType = TypeVar("BuilderType", covariant = True)

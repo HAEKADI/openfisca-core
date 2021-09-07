@@ -10,12 +10,12 @@ from imp import find_module, load_module
 from typing import Dict, Optional
 
 from openfisca_core import commons, periods, variables
-from openfisca_core.types import Personifiable
 from openfisca_core.errors import VariableNameConflictError, VariableNotFoundError
 from openfisca_core.parameters import ParameterNode
 from openfisca_core.periods import Instant, Period
 from openfisca_core.populations import Population, GroupPopulation
 from openfisca_core.simulations import SimulationBuilder
+from openfisca_core.types import Personifiable
 from openfisca_core.variables import Variable
 
 log = logging.getLogger(__name__)

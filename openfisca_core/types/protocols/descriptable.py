@@ -1,5 +1,6 @@
 import abc
 from typing import Any, Type, TypeVar
+
 from typing_extensions import Protocol
 
 DescType = TypeVar("DescType", contravariant = True)
