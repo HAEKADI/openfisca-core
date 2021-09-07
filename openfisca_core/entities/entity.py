@@ -109,6 +109,9 @@ class Entity:
 
         """
 
+        if self.variable is None:
+            return None
+
         return self.variable(variable_name, check_existence)
 
     def check_variable_defined_for_entity(self, variable_name: str) -> None:
