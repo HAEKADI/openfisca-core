@@ -10,6 +10,14 @@ from .documentable import Documentable
 
 @typing_extensions.runtime_checkable
 class Personifiable(Documentable, Protocol):
+    """Base type for any entity-like model.
+
+    Type-checking against abstractions rather than implementations helps in
+    (a) decoupling the codebse, thanks to structural subtyping, and
+    (b) documenting/enforcing the blueprints of the different OpenFisca models.
+
+    """
+
     key: str
     plural: str
     label: str
