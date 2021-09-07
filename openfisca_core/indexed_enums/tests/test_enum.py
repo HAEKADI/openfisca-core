@@ -4,6 +4,8 @@ from openfisca_core.indexed_enums import Enum
 
 
 class MyEnum(Enum):
+    """An enum…"""
+
     foo = b"foo"
     bar = b"bar"
 
