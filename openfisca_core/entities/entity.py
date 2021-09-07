@@ -20,6 +20,7 @@ class Entity:
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): If is an individual, or not. Defaults to True.
+        variable(:obj:`.VariableDescriotor`): To query for variables.
 
     Args:
         key: Key to identify the :class:`.Entity`.
@@ -55,6 +56,9 @@ class Entity:
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
         """Sets :attr:`.variable`.
 
+        Args:
+            tax_benefit_system: To query variables from.
+
         .. deprecated:: 35.5.0
             :meth:`.set_tax_benefit_system` has been deprecated and will be
             removed in the future. The functionality is now provided by
@@ -67,6 +71,15 @@ class Entity:
     @commons.deprecated(since = "35.5.0", expires = "the future")
     def check_role_validity(self, role: Any) -> None:
         """Checks if ``role`` is an instance of :class:`.Role`.
+
+        Args:
+            role: Any object.
+
+        Returns:
+            None.
+
+        Raises:
+            :exc:`ValueError`: When ``role`` is not a :class:`Role`.
 
         .. deprecated:: 35.5.0
             :meth:`.check_role_validity` has been deprecated and will be
@@ -81,31 +94,31 @@ class Entity:
 
     @commons.deprecated(since = "35.5.0", expires = "the future")
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
-        """Gets ``variable_name`` from :attr:`_tax_benefit_system`.
-
-        Note:
-            This should be called directly from :class:`.TaxBenefitSystem` or
-            extracted to a helper function!
+        """Gets ``variable_name`` from :attr:`.variable`.
 
         Args:
-
             variable_name: The variable to be found.
             check_existence: Was the variable found? Defaults to False.
 
         Returns:
             :obj:`.Variable`: When the variable exists.
-            None: When :attr:`_tax_benefit_system` is not defined.
+            None: When :attr:`.variable` is not defined.
             None: When the variable does't exist.
 
         Raises:
             :exc:`VariableNotFoundError`: When the variable doesn't exist and
-            ``check_existence`` is True.
+                ``check_existence`` is True.
 
         .. seealso::
             Method :meth:``TaxBenefitSystem.get_variable`.
 
         .. versionchanged:: 35.5.0
-            Now also returns None when :attr:`_tax_benefit_system` is not defined.
+            Now also returns None when :attr:`.variable` is not defined.
+
+        .. deprecated:: 35.5.0
+            :meth:`.get_variable` has been deprecated and will be
+            removed in the future. The functionality is now provided by
+            :meth:`.variable`.
 
         """
 
@@ -128,18 +141,17 @@ class Entity:
             None: When :class:`.Variable` exists, and its entity is ``self``.
 
         Raises:
-            :exc:`ValueError`:
-                When the :obj:`.Variable` exists but its :obj:`.Entity` is not
-                ``self``.
+            ValueError: When the :obj:`.Variable` exists but its :obj:`.Entity`
+                is not ``self``.
 
         .. seealso::
             :class:`.Variable` and :attr:`.Variable.entity`.
 
         .. versionchanged:: 35.5.0
-            Now also returns None when :attr:`_tax_benefit_system` is not defined.
+            Now also returns None when :class:`.Variable` is not found.
 
         .. versionchanged:: 35.5.0
-            Now also returns None when :class:`.Variable` is not found.
+            Now also returns None when :attr:`.variable` is not defined.
 
         """
 

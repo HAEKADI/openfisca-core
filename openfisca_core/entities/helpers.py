@@ -31,7 +31,7 @@ def build_entity(
         :class:`.GroupEntity`: When ``is_person`` is False.
 
     Raises:
-        :exc:`ValueError`: If ``roles`` is not iterable.
+        ValueError: If ``roles`` is not iterable.
 
     Examples:
         >>> build_entity(
@@ -71,11 +71,8 @@ def check_role_validity(role: Any) -> None:
     Args:
         role: Any object.
 
-    Returns:
-        None.
-
     Raises:
-        :exc:`ValueError`: When ``role`` is not a :class:`Role`.
+        ValueError: When ``role`` is not a :class:`Role`.
 
     Examples:
         >>> from . import Role
