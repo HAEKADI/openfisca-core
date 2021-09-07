@@ -2,11 +2,12 @@ from typing import Callable
 
 from openfisca_core.periods import Instant, Period
 
-from ..protocols import Aggregatable, Instantizable
+from ..protocols._aggregatable import Aggregatable
+from ..protocols._instantizable import Instantizable
 from ..data_types import ArrayType
 
-#: A callable to get the parameters for the given instant.
 ParamsType = Callable[[Instant], Instantizable]
+"""A callable to get the parameters for the given instant."""
 
-#: A callable defining a calculation, or a rule, on a system.
 FormulaType = Callable[[Aggregatable, Period, ParamsType], ArrayType]
+"""A callable defining a calculation, or a rule, on a system."""

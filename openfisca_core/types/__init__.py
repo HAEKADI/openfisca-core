@@ -32,11 +32,9 @@ from .data_types import (  # noqa: F401
     )
 
 from .protocols import (  # noqa: F401
-    Aggregatable,
     Buildable,
     Descriptable,
     Documentable,
-    Instantizable,
     Personifiable,
     Representable,
     Rolifiable,
