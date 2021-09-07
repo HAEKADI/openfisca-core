@@ -17,7 +17,7 @@ def load_requirements_from_file(filename: str) -> List[str]:
 
         if match:
             reqs.remove(req)
-            reqs.extend(require(match.group("filename")))
+            reqs.extend(load_requirements_from_file(match.group("filename")))
 
     return reqs
 
@@ -52,13 +52,13 @@ setup(
             ],
         },
     python_requires = ">= 3.7",
-    install_requires = open("requirements/install").readlines(),
+    install_requires = load_requirements_from_file("install"),
     extras_require = {
-        "coverage": require("coverage"),
-        "dev": require("dev"),
-        "publication": require("publication"),
-        "tracker": require("tracker"),
-        "web-api": require("web-api"),
+        "coverage": load_requirements_from_file("coverage"),
+        "dev": load_requirements_from_file("dev"),
+        "publication": load_requirements_from_file("publication"),
+        "tracker": load_requirements_from_file("tracker"),
+        "web-api": load_requirements_from_file("web-api"),
         },
     include_package_data = True,  # Will read MANIFEST.in
     packages = find_packages(exclude=['tests*']),
