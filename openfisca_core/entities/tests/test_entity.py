@@ -6,11 +6,13 @@ from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 
 @pytest.fixture
 def entity():
+    """An entity."""
     return Entity("key", "label", "plural", "doc")
 
 
 @pytest.fixture
 def role(entity):
+    """A role."""
     return Role({"key": "key"}, entity)
 
 
