@@ -8,7 +8,7 @@ all: test
 ## Install project dependencies.
 install:
 	@$(call help,$@:)
-	@pip install --upgrade pip setuptools wheel
+	@pip install --upgrade pip setuptools
 	@pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
 
 ## Install openfisca-core for deployment and publishing.
