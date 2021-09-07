@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 from typing import List
 
 
-def require(filename: str) -> List[str]:
+def load_requirements_from_file(filename: str) -> List[str]:
     """
     Allows for composable requirement files with the `-r filename` flag.
     """
