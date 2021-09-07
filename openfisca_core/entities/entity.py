@@ -3,7 +3,7 @@ import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
-from openfisca_core.types import Descriptable, Personifiable, Representable
+from openfisca_core.types import Descriptable, Representable
 from openfisca_core.variables import Variable
 
 from ._descriptors import VariableDescriptor
