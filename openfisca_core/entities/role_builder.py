@@ -38,6 +38,8 @@ class RoleBuilder:
         >>> builder(items)
         [Role(parent)]
 
+    .. versionadded:: 35.5.0
+
     """
 
     def __init__(
