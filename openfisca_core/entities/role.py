@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import textwrap
+
 from typing import List, Optional
 
 from openfisca_core.types import (
@@ -18,12 +20,12 @@ class Role(Rolifiable):
     could include the taxpayer, a spouse, several dependents, and so on.
 
     Attributes:
+        entity (:obj:`.GroupEntity`): Entity the :class:`.Role` belongs to.
         key (:obj:`str`): Key to identify the :class:`.Role`.
         plural (:obj:`str`, optional): The :attr:`key`, pluralised.
         label (:obj:`str`, optional): A summary description.
         doc (:obj:`str`, optional): A full description, dedented.
         max (:obj:`int`, optional): Max number of members. Defaults to None.
-        entity (:obj:`.GroupEntity`): Entity the :class:`.Role` belongs to.
         subroles (list, optional): The ``subroles``. Defaults to None.
 
     Args:
@@ -43,21 +45,21 @@ class Role(Rolifiable):
 
     """
 
+    entity: Personifiable
     key: str
     plural: Optional[str]
     label: Optional[str]
     doc: Optional[str]
     max: Optional[int]
-    entity: Personifiable
     subroles: Optional[List[Role]]
 
     def __init__(self, description: RoleLike, entity: Personifiable) -> None:
+        self.entity = entity
         self.key = description['key']
         self.plural = description.get('plural')
         self.label = description.get('label')
-        self.doc = description.get('doc', "")
+        self.doc = textwrap.dedent(description.get('doc', ""))
         self.max = description.get('max')
-        self.entity = entity
         self.subroles = None
 
     def __repr__(self) -> str:

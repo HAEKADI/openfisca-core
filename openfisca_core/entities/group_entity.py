@@ -6,8 +6,6 @@ from .entity import Entity
 from .role import Role
 from .role_builder import RoleBuilder
 
-T = TypeVar("T", bound = "GroupEntity")
-
 
 class GroupEntity(Entity):
     """Represents a :class:`.GroupEntity` on which calculations can be run.
@@ -59,7 +57,7 @@ class GroupEntity(Entity):
     flattened_roles: Sequence[Rolifiable]
 
     def __init__(
-            self: T,
+            self,
             key: str,
             plural: str,
             label: str,
@@ -67,7 +65,7 @@ class GroupEntity(Entity):
             roles: Iterable[RoleLike],
             ) -> None:
         super().__init__(key, plural, label, doc)
-        builder: Buildable[T, Rolifiable, RoleLike]
+        builder: Buildable[GroupEntity, Rolifiable, RoleLike]
         builder = RoleBuilder(self, Role)
         self.roles_description = roles
         self.roles = builder(roles)

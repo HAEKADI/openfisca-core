@@ -1,5 +1,6 @@
 import abc
 from typing import Iterable
+
 from typing_extensions import Protocol
 
 
