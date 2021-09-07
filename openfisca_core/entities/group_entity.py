@@ -1,4 +1,4 @@
-from typing import Iterable, TypeVar, Sequence
+from typing import Iterable, Sequence
 
 from openfisca_core.types import Buildable, Rolifiable, RoleLike
 

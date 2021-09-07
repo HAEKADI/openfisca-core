@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import textwrap
 
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from openfisca_core.types import (
     Personifiable,
@@ -51,7 +51,7 @@ class Role:
     label: Optional[str]
     doc: Optional[str]
     max: Optional[int]
-    subroles: Optional[List[Role]]
+    subroles: Optional[Sequence[Rolifiable]]
 
     def __init__(self, description: RoleLike, entity: Personifiable) -> None:
         self.entity = entity
