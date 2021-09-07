@@ -3,11 +3,18 @@ from typing import Any, Iterable, TypeVar
 
 from typing_extensions import Protocol
 
-_T = TypeVar("_T", covariant = True)
+T = TypeVar("T", covariant = True)
 
 
-class Instantizable(Iterable[_T], Protocol):
+class Instantizable(Iterable[T], Protocol):
+    """Base type for any model implementing a time-based index.
+
+    Type-checking against abstractions rather than implementations helps in
+    (a) decoupling the codebse, thanks to structural subtyping, and
+    (b) documenting/enforcing the blueprints of the different OpenFisca models.
+
+    """
 
     @abc.abstractmethod
-    def __getitem__(self, key: Any) -> _T:
+    def __getitem__(self, key: Any) -> T:
         ...
