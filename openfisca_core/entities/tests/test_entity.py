@@ -26,3 +26,10 @@ def test_check_role_validity_deprecation(entity, role):
 
     with pytest.warns(DeprecationWarning):
         entity.check_role_validity(role)
+
+
+def test_get_variable_deprecation(entity):
+    """:meth:`.get_variable` throws a deprecation warning."""
+
+    with pytest.warns(DeprecationWarning):
+        entity.get_variable("variable")
