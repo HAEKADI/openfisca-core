@@ -5,7 +5,7 @@ from typing import Union
 
 import numpy
 
-from openfisca_core.commons import ArrayLike, Array
+from openfisca_core.types import ArrayLike, ArrayType
 
 from .. import indexed_enums as enums
 
@@ -13,9 +13,9 @@ from .. import indexed_enums as enums
 Encodable = Union[
     enums.EnumArray,
     ArrayLike["Enum"],
-    Array[bytes],
-    Array[int],
-    Array[str],
+    ArrayType[bytes],
+    ArrayType[int],
+    ArrayType[str],
     ]
 
 

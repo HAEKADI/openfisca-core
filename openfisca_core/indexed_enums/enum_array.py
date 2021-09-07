@@ -4,8 +4,6 @@ from typing import Any, NoReturn, Optional, Type
 
 import numpy
 
-from openfisca_core.commons import Array
-
 from .. import indexed_enums as enums
 
 
