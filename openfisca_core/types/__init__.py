@@ -23,6 +23,7 @@
 
 from .callables import (  # noqa: F401
     FormulaType,
+    ParamsType,
     )
 
 from .data_types import (  # noqa: F401
