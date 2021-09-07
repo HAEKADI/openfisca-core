@@ -32,7 +32,6 @@ class EnumArray(numpy.ndarray):
         obj.possible_values = possible_values
         return obj
 
-    # See previous comment
     def __array_finalize__(self, obj: Optional[numpy.int_]) -> None:
         if obj is None:
             return
@@ -40,11 +39,20 @@ class EnumArray(numpy.ndarray):
         self.possible_values = getattr(obj, "possible_values", None)
 
     def __eq__(self, other: Any) -> bool:
-        # When comparing to an item of self.possible_values, use the item index
-        # to speed up the comparison.
+        """Compare equality with the item index.
+
+        When comparing to an item of :attr:`.possible_values`, use the item
+        index to speed up the comparison.
+
+        Whenever possible, use :meth:`numpy.ndarray.view` so that the result is
+        a classic :obj:`numpy.ndarray`, not an :obj:`.EnumArray`.
+
+        Args:
+            other: Another object to compare to.
+
+        """
+
         if other.__class__.__name__ is self.possible_values.__name__:
-            # Use view(ndarray) so that the result is a classic ndarray, not an
-            # EnumArray.
             return self.view(numpy.ndarray) == other.index
 
         return self.view(numpy.ndarray) == other
