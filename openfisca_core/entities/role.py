@@ -24,7 +24,7 @@ class Role:
         key (:obj:`str`): Key to identify the :class:`.Role`.
         plural (:obj:`str`, optional): The :attr:`key`, pluralised.
         label (:obj:`str`, optional): A summary description.
-        doc (:obj:`str`, optional): A full description, dedented.
+        doc (:obj:`str`): A full description, dedented.
         max (:obj:`int`, optional): Max number of members. Defaults to None.
         subroles (list, optional): The ``subroles``. Defaults to None.
 
@@ -49,7 +49,7 @@ class Role:
     key: str
     plural: Optional[str]
     label: Optional[str]
-    doc: Optional[str]
+    doc: str
     max: Optional[int]
     subroles: Optional[Sequence[Rolifiable]]
 
@@ -58,7 +58,7 @@ class Role:
         self.key = description['key']
         self.plural = description.get('plural')
         self.label = description.get('label')
-        self.doc = textwrap.dedent(description.get('doc', ""))
+        self.doc = textwrap.dedent(str(description.get('doc', "")))
         self.max = description.get('max')
         self.subroles = None
 
