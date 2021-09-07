@@ -22,8 +22,6 @@
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
 from .callables import (  # noqa: F401
-    DecoType,
-    FuncType,
     FormulaType,
     )
 
