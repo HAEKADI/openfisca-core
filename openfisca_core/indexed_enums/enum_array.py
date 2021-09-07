@@ -57,6 +57,8 @@ class EnumArray(numpy.ndarray):
         return obj
 
     def __array_finalize__(self, obj: Optional[numpy.int_]) -> None:
+        """See comment above…"""
+
         if obj is None:
             return
 
