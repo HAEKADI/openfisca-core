@@ -1,3 +1,5 @@
+import abc
+
 import typing_extensions
 from typing_extensions import Protocol
 
@@ -13,3 +15,7 @@ class Personifiable(Documentable, Protocol):
     doc: str
     is_person: bool
     variable: Descriptable
+
+    @abc.abstractmethod
+    def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
+        ...
