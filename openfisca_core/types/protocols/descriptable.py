@@ -6,11 +6,13 @@ DescType = TypeVar("DescType", contravariant = True)
 
 
 class Descriptable(Protocol[DescType]):
+    public_name: str
+    private_name: str
 
     @abc.abstractmethod
-    def __get__(self, obj: DescType, type: Type[DescType] = None) -> Any:
+    def __get__(self, instance: DescType, owner: Type[DescType] = None) -> Any:
         ...
 
     @abc.abstractmethod
-    def __set__(self, obj: DescType, value: Any) -> None:
+    def __set__(self, instance: DescType, value: Any) -> None:
         ...

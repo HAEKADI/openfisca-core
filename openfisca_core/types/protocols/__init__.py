@@ -23,7 +23,6 @@
 
 from .aggregatable import Aggregatable  # noqa: F401
 from .buildable import Buildable  # noqa: F401
-from .dedentable import Dedentable  # noqa: F401
 from .descriptable import Descriptable  # noqa: F401
 from .documentable import Documentable  # noqa: F401
 from .instantizable import Instantizable  # noqa: F401
