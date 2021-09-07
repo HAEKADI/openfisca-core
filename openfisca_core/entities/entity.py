@@ -136,11 +136,17 @@ class Entity:
             :class:`.Variable` and :attr:`.Variable.entity`.
 
         .. versionchanged:: 35.5.0
+            Now also returns None when :attr:`_tax_benefit_system` is not defined.
+
+        .. versionchanged:: 35.5.0
             Now also returns None when :class:`.Variable` is not found.
 
         """
 
-        variable = self.get_variable(variable_name, check_existence = True)
+        if self.variable is None:
+            return None
+
+        variable = self.variable(variable_name, check_existence = True)
 
         if variable is not None:
             variable_entity = variable.entity
