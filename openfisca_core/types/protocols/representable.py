@@ -15,4 +15,5 @@ class Representable(Protocol):
 
     @abc.abstractmethod
     def get_variable(self, name: str, check: bool) -> Optional[Any]:
+        """A concrete representable model implements :meth:`.get_variable`."""
         ...
