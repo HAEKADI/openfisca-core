@@ -1,6 +1,7 @@
 import typing_extensions
 from typing_extensions import Protocol
 
+from .descriptable import Descriptable
 from .documentable import Documentable
 
 
@@ -11,3 +12,4 @@ class Personifiable(Documentable, Protocol):
     label: str
     doc: str
     is_person: bool
+    variable: Descriptable

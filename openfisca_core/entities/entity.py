@@ -3,8 +3,10 @@ import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
-from openfisca_core.types import Representable
+from openfisca_core.types import Descriptable, Representable
 from openfisca_core.variables import Variable
+
+from ._descriptors import VariableDescriptor
 
 
 class Entity:
@@ -41,6 +43,7 @@ class Entity:
     label: str
     doc: str
     is_person: bool = True
+    variable: Descriptable = VariableDescriptor()
 
     def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
         self.key = key

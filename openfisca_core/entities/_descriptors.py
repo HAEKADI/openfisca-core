@@ -5,7 +5,7 @@ from typing import Callable, Type, Union
 from openfisca_core.types import Personifiable
 
 
-class Variable:
+class VariableDescriptor:
     public_name: str = "variable"
     private_name: str = "_variable"
 
@@ -13,7 +13,7 @@ class Variable:
             self,
             instance: Personifiable,
             owner: Type[Personifiable] = None,
-            ) -> Union[Variable, Callable]:
+            ) -> Union[VariableDescriptor, Callable]:
 
         return getattr(instance, self.private_name, None)
 
