@@ -1,19 +1,17 @@
-import abc
-from typing import Any, Type, TypeVar
+from typing import Any, Callable, Optional, Type, TypeVar
 
 from typing_extensions import Protocol
 
-DescType = TypeVar("DescType", contravariant = True)
+T = TypeVar("T", covariant = True)
+F = Callable[..., Optional[T]]
 
 
-class Descriptable(Protocol[DescType]):
+class Descriptable(Protocol[T]):
     public_name: str
     private_name: str
 
-    @abc.abstractmethod
-    def __get__(self, instance: DescType, owner: Type[DescType] = None) -> Any:
+    def __get__(self, obj: Any, type: Type[Any]) -> Optional[F]:
         ...
 
-    @abc.abstractmethod
-    def __set__(self, instance: DescType, value: Any) -> None:
+    def __set__(self, obj: Any, value: F) -> None:
         ...
