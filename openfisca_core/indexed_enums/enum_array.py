@@ -68,10 +68,9 @@ class EnumArray(numpy.ndarray):
     __or__ = _forbidden_operation
 
     def decode(self) -> numpy.object_:
-        """
-        Return the array of enum items corresponding to self.
+        """Return the enum items of the :obj:`.EnumArray`.
 
-        For instance:
+        Examples:
             >>> class MyEnum(enums.Enum):
             ...     foo = b"foo"
             ...     bar = b"bar"
@@ -80,8 +79,6 @@ class EnumArray(numpy.ndarray):
             >>> enum_array = EnumArray(array, MyEnum)
             >>> enum_array.decode()
             array([<MyEnum.bar: b'bar'>]...)
-
-            Decoded value: enum item
 
         """
 
