@@ -142,7 +142,7 @@ class Enum(enum.Enum):
 
         .. versionchanged:: 35.5.0
             Fixed a bug when encoding :class:`bytes` arrays, now they're casted
-            to :str:`str` prior to encoding.
+            to :obj:`str` prior to encoding.
 
         .. versionchanged:: 35.5.0
             Fixed a bug when encoding scalar arrays of :class:`.Enum` items,
