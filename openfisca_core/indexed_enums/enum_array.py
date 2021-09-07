@@ -100,7 +100,7 @@ class EnumArray(numpy.ndarray):
 
         return self.view(numpy.ndarray) == other
 
-    def __ne__(self, other: Any) -> bool:
+    def __ne__(self, other: Any) -> Any:
         return numpy.logical_not(self == other)
 
     def _forbidden_operation(self, other: Any) -> NoReturn:
