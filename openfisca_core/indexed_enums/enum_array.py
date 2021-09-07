@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, NoReturn, Optional, Type
+from typing import Any, NoReturn, Optional, Type, Union
 
 import numpy
+
+from openfisca_core.types import ArrayType
 
 from .. import indexed_enums as enums
 
@@ -58,7 +60,7 @@ class EnumArray(numpy.ndarray):
 
         self.possible_values = getattr(obj, "possible_values", None)
 
-    def __eq__(self, other: Any) -> Any:
+    def __eq__(self, other: Any) -> Union[ArrayType[bool], bool]:
         """Compare equality with the item index.
 
         When comparing to an item of :attr:`.possible_values`, use the item
@@ -100,7 +102,37 @@ class EnumArray(numpy.ndarray):
 
         return self.view(numpy.ndarray) == other
 
-    def __ne__(self, other: Any) -> Any:
+    def __ne__(self, other: Any) -> Union[ArrayType[bool], bool]:
+        """Inequality…
+
+        Args:
+            other: Another object to compare to.
+
+        Examples:
+            >>> class MyEnum(enums.Enum):
+            ...     foo = b"foo"
+            ...     bar = b"bar"
+
+            >>> array = numpy.array([1])
+            >>> enum_array = enums.EnumArray(array, MyEnum)
+
+            >>> enum_array != 1
+            array([False])
+
+            >>> enum_array != [1]
+            array([False])
+
+            >>> enum_array != [2]
+            array([ True])
+
+            >>> enum_array != "1"
+            True
+
+            >>> enum_array != None
+            array([ True])
+
+        """
+
         return numpy.logical_not(self == other)
 
     def _forbidden_operation(self, other: Any) -> NoReturn:
@@ -118,7 +150,7 @@ class EnumArray(numpy.ndarray):
     __and__ = _forbidden_operation
     __or__ = _forbidden_operation
 
-    def decode(self) -> numpy.object_:
+    def decode(self) -> ArrayType["enums.Enum"]:
         """Return the enum items of the :obj:`.EnumArray`.
 
         Examples:
