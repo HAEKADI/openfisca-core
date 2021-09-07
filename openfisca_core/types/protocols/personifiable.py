@@ -5,7 +5,7 @@ import typing_extensions
 from typing_extensions import Protocol
 
 from .descriptable import Descriptable
-from .documentable import Documentable
+from ._documentable import Documentable
 
 
 @typing_extensions.runtime_checkable

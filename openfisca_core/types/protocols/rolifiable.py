@@ -7,7 +7,7 @@ import typing_extensions
 from typing_extensions import Protocol
 
 from ..data_types import RoleLike
-from .documentable import Documentable
+from ._documentable import Documentable
 from .personifiable import Personifiable
 
 
