@@ -65,7 +65,7 @@ jobs:
 
       - run:
           name: Install core
-          command: pip install --editable .[dev] --upgrade --use-deprecated=legacy-resolver
+          command: pip install --editable . --upgrade --no-dependencies
 
       - run:
           name: Run core tests
@@ -101,7 +101,9 @@ jobs:
 
       - run:
           name: Install core constrained
-          command: pip install --editable .[dev] --upgrade --constraint requirements/constraints --use-deprecated=legacy-resolver
+          command: |
+            pip install --requirement requirements/dev --upgrade --constraint requirements/constraints
+            pip install --editable . --upgrade --no-dependencies
 
       - run:
           name: Run core tests
@@ -161,7 +163,9 @@ jobs:
           name: Submit coverage to Coveralls
           command: |
             source /tmp/venv/openfisca_core/bin/activate
-            pip install --editable .[coverage]
+            pip install --requirement requirements/coverage --upgrade
+            pip install --requirement requirements/dev --upgrade
+            pip install --editable . --upgrade --no-dependencies
             coveralls
 
       - save_cache:
@@ -194,7 +198,8 @@ jobs:
       - run:
           name: Upload a Python package to PyPi
           command: |
-            pip install --editable .[publication]
+            pip install --requirement requirements/publication --upgrade
+            pip install --editable . --upgrade --no-dependencies
             .circleci/publish-python-package.sh
 
       - run:
