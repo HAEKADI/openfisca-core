@@ -62,7 +62,7 @@ format-style: $(shell git ls-files "*.py")
 ## Run openfisca-core tests.
 test: clean check-syntax-errors check-style check-types
 	@$(call help,$@:)
-	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS} --cov=openfisca_core --cov=openfisca_web_api --cov-report=term-missing:skip-covered" pytest
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS}" pytest --cov=openfisca_core --cov=openfisca_web_api --cov-report=term-missing:skip-covered  --cov-fail-under=78
 
 ## Check that the current changes do not break the doc.
 test-doc:
