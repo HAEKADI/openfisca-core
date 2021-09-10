@@ -49,6 +49,10 @@ check-style: $(shell git ls-files "*.py")
 	@# See: https://github.com/terrencepreilly/darglint
 	@flake8 --select=DAR openfisca_core/commons
 
+	@# Further check for syntax and design errors —style excluded.
+	@# See: `pylint --list-msgs`
+	@pylint --disable=all --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 --score="no" openfisca_core/commons
+
 ## Run static type checkers for type errors.
 check-types: openfisca_core openfisca_web_api
 	@$(call help,$@:)
