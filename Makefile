@@ -39,7 +39,7 @@ check-syntax-errors: .
 ## Run linters to check for syntax and style errors.
 check-style: $(shell git ls-files "*.py")
 	@$(call help,$@:)
-	@flake8 --extend-ignore=D $?
+	@flake8 $?
 
 	@# Check that docstrings are present in public class, method, and function definitions.
 	@# See: http://www.pydocstyle.org/en/2.1.1/error_codes.html
