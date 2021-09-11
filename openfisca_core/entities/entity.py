@@ -3,8 +3,7 @@ import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
-from openfisca_core.types import Descriptable, Representable
-from openfisca_core.variables import Variable
+from openfisca_core.types import Descriptable, Modelable, Representable
 
 from .. import entities
 from ._descriptors import VariableDescriptor
@@ -31,6 +30,7 @@ class Entity:
 
     Examples:
         >>> from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+        >>> from openfisca_core.variables import Variable
 
         >>> entity = Entity(
         ...     "individual",
@@ -66,7 +66,7 @@ class Entity:
     doc: str
     is_person: bool = True
 
-    variable: Descriptable[Variable] = VariableDescriptor()
+    variable: Descriptable[Modelable] = VariableDescriptor()
     """Queries :class:`.TaxBenefitSystem` to find a :class:`.Variable`.
 
     .. versionadded:: 35.5.0
@@ -119,7 +119,7 @@ class Entity:
         return entities.check_role_validity(role)
 
     @commons.deprecated(since = "35.5.0", expires = "the future")
-    def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
+    def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Modelable]:
         """Gets ``variable_name`` from :attr:`.variable`.
 
         Args:
