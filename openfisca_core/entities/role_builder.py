@@ -79,11 +79,13 @@ class RoleBuilder:
         """
 
         role = self.buildee(item, self.builder)
-        self.builder.__dict__[role.key.upper()] = role
         subroles = item.get("subroles", [])
 
         if subroles:
-            role.subroles = [self.build(RoleLike({"key": key, "max": 1})) for key in subroles]
+            role.subroles = [
+                self.build(RoleLike({"key": key, "max": 1}))
+                for key in subroles
+                ]
             role.max = len(role.subroles)
 
         return role
