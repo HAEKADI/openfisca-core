@@ -39,6 +39,38 @@ def test_apply_thresholds_when_too_many_choices():
         assert commons.apply_thresholds(input_, thresholds, choices)
 
 
+def test_concat_when_this_is_array_not_str():
+    """Casts ``this`` to ``str`` when it is a numpy array other than string."""
+
+    this = numpy.array([1, 2])
+    that = numpy.array(["la", "o"])
+
+    result = commons.concat(this, that)
+
+    assert_array_equal(result, ["1la", "2o"])
+
+
+def test_concat_when_that_is_array_not_str():
+    """Casts ``that`` to ``str`` when it is a numpy array other than string."""
+
+    this = numpy.array(["ho", "cha"])
+    that = numpy.array([1, 2])
+
+    result = commons.concat(this, that)
+
+    assert_array_equal(result, ["ho1", "cha2"])
+
+
+def test_concat_when_args_not_str_array_like():
+    """Raises a TypeError when args are not a string array-like object."""
+
+    this = (1, 2)
+    that = (3, 4)
+
+    with pytest.raises(TypeError):
+        commons.concat(this, that)
+
+
 def test_switch_when_values_are_empty():
     """Raises an AssertionError when the values are empty."""
 
