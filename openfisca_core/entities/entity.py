@@ -69,7 +69,7 @@ class Entity:
     variable: Descriptable[Modelable] = VariableDescriptor()
     """Queries :class:`.TaxBenefitSystem` to find a :class:`.Variable`.
 
-    .. versionadded:: 35.5.0
+    .. versionadded:: 35.7.0
 
     """
 

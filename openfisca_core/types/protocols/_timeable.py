@@ -8,7 +8,7 @@ class Timeable(Protocol):
     (a) decoupling the codebse, thanks to structural subtyping, and
     (b) documenting/enforcing the blueprints of the different OpenFisca models.
 
-    .. versionadded:: 35.5.0
+    .. versionadded:: 35.7.0
 
     """
 

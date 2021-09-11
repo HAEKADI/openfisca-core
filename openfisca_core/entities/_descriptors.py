@@ -33,7 +33,7 @@ class VariableDescriptor:
 
     .. _descriptor: https://docs.python.org/3/howto/descriptor.html
 
-    .. versionadded:: 35.5.0
+    .. versionadded:: 35.7.0
 
     """
 

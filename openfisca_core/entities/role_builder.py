@@ -38,7 +38,7 @@ class RoleBuilder:
         >>> builder(items)
         [Role(parent)]
 
-    .. versionadded:: 35.5.0
+    .. versionadded:: 35.7.0
 
     """
 
@@ -59,6 +59,8 @@ class RoleBuilder:
         Returns:
             A :obj:`list` of :obj:`.Role`.
 
+        .. versionadded:: 35.7.0
+
         """
 
         return [self.build(item) for item in items]
@@ -71,6 +73,8 @@ class RoleBuilder:
 
         Returns:
             A role.
+
+        .. versionadded:: 35.7.0
 
         """
 
