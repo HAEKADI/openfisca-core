@@ -6,6 +6,7 @@ from openfisca_core import commons
 from openfisca_core.types import Descriptable, Representable
 from openfisca_core.variables import Variable
 
+from .. import entities
 from ._descriptors import VariableDescriptor
 
 
@@ -115,9 +116,7 @@ class Entity:
 
         """
 
-        from .helpers import check_role_validity
-
-        return check_role_validity(role)
+        return entities.check_role_validity(role)
 
     @commons.deprecated(since = "35.5.0", expires = "the future")
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Variable]:
