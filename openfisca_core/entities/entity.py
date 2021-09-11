@@ -3,10 +3,10 @@ import textwrap
 from typing import Any, Optional
 
 from openfisca_core import commons
+from openfisca_core.commons import MethodDescriptor
 from openfisca_core.types import Descriptable, Modelable, Representable
 
 from .. import entities
-from ._descriptors import VariableDescriptor
 
 
 class Entity:
@@ -16,7 +16,7 @@ class Entity:
 
     Attributes:
         key (:obj:`str`): Key to identify the :class:`.Entity`.
-        plural (:obj:`str`): The :attr:`key`, pluralised.
+        plural (:obj:`str`): The ``key``, pluralised.
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): If is an individual, or not. Defaults to True.
@@ -66,7 +66,7 @@ class Entity:
     doc: str
     is_person: bool = True
 
-    variable: Descriptable[Modelable] = VariableDescriptor()
+    variable: Descriptable[Modelable] = MethodDescriptor("variable")
     """Queries :class:`.TaxBenefitSystem` to find a :class:`.Variable`.
 
     .. versionadded:: 35.7.0

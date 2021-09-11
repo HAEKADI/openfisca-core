@@ -16,7 +16,7 @@ class GroupEntity(Entity):
 
     Attributes:
         key (:obj:`str`): Key to identify the :class:`.GroupEntity`.
-        plural (:obj:`str`): The :attr:`key`, pluralised.
+        plural (:obj:`str`): The ``key``, pluralised.
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): If is an individual or not. Defaults to False.
