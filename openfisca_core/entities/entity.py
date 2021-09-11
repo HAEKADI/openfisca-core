@@ -170,6 +170,31 @@ class Entity:
             ValueError: When the :obj:`.Variable` exists but its :obj:`.Entity`
                 is not ``self``.
 
+        Examples:
+            >>> from openfisca_core.taxbenefitsystems import TaxBenefitSystem
+            >>> from openfisca_core.variables import Variable
+
+            >>> entity = Entity(
+            ...     "individual",
+            ...     "individuals",
+            ...     "An individual",
+            ...     "The minimal legal entity on which a rule might be applied.",
+            ...    )
+            >>> entity
+            <openfisca_core.entities.entity.Entity...
+
+            >>> class Variable(Variable):
+            ...     definition_period = "month"
+            ...     value_type = float
+            ...     entity = entity
+
+            >>> tbs = TaxBenefitSystem([entity])
+            >>> tbs.load_variable(Variable)
+            <openfisca_core.entities.entity.Variable...
+
+            >>> entity.variable = tbs.get_variable
+            >>> entity.check_variable_defined_for_entity("Variable")
+
         .. seealso::
             :class:`.Variable` and :attr:`.Variable.entity`.
 
