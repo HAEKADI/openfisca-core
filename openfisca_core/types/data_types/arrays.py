@@ -15,6 +15,7 @@ A = Union[
 
 ArrayLike = Union[A, Sequence[T]]
 """:obj:`typing.Generic`: Type of any castable to :class:`numpy.ndarray`.
+
 These include any :obj:`numpy.ndarray` and sequences (like
 :obj:`list`, :obj:`tuple`, and so on).
 
@@ -43,7 +44,7 @@ Todo:
 .. versionadded:: 35.5.0
 
 .. versionchanged:: 35.6.0
-    Moved to :mod`.types`
+    Moved to :mod:`.types`
 
 .. _mypy:
     https://mypy.readthedocs.io/en/stable/

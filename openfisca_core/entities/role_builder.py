@@ -9,9 +9,9 @@ class RoleBuilder:
     """Builds roles & sub-roles from a given input.
 
     Attributes:
-        builder (:obj:`Personifiable`):
+        builder (:obj:`.Personifiable`):
             A builder object, like a :class:`.GroupEntity` for example.
-        buildee (:obj:`Rolifiable`):
+        buildee (:obj:`.Rolifiable`):
             The objects to be built, in this case :class:`.Role`.
 
     Args:
