@@ -94,8 +94,9 @@ class Entity:
 
         self.variable = tax_benefit_system.get_variable
 
+    @staticmethod
     @commons.deprecated(since = "35.5.0", expires = "the future")
-    def check_role_validity(self, role: Any) -> None:
+    def check_role_validity(role: Any) -> None:
         """Checks if ``role`` is an instance of :class:`.Role`.
 
         Args:
