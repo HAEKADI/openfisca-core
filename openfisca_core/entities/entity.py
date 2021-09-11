@@ -20,7 +20,7 @@ class Entity:
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): If is an individual, or not. Defaults to True.
-        variable(:obj:`.VariableDescriotor`): To query for variables.
+        variable(:obj:`.MethodDescriptor`): To query for variables.
 
     Args:
         key: Key to identify the :class:`.Entity`.
@@ -81,7 +81,7 @@ class Entity:
 
     @commons.deprecated(since = "35.7.0", expires = "the future")
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
-        """Sets :attr:`.variable`.
+        """Sets ``variable``.
 
         Args:
             tax_benefit_system: To query variables from.
@@ -89,7 +89,7 @@ class Entity:
         .. deprecated:: 35.7.0
             :meth:`.set_tax_benefit_system` has been deprecated and will be
             removed in the future. The functionality is now provided by
-            :attr:`.variable`.
+            ``variable``.
 
         """
 
@@ -120,7 +120,7 @@ class Entity:
 
     @commons.deprecated(since = "35.5.0", expires = "the future")
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Modelable]:
-        """Gets ``variable_name`` from :attr:`.variable`.
+        """Gets ``variable_name`` from ``variable``.
 
         Args:
             variable_name: The variable to be found.
@@ -128,23 +128,23 @@ class Entity:
 
         Returns:
             :obj:`.Variable`: When the variable exists.
-            None: When :attr:`.variable` is not defined.
+            None: When ``variable`` is not defined.
             None: When the variable does't exist.
 
         Raises:
-            :exc:`VariableNotFoundError`: When the variable doesn't exist and
+            :exc:`.VariableNotFoundError`: When the variable doesn't exist and
                 ``check_existence`` is True.
 
         .. seealso::
-            Method :meth:`TaxBenefitSystem.get_variable`.
+            Method :meth:`.TaxBenefitSystem.get_variable`.
 
         .. versionchanged:: 35.7.0
-            Now also returns None when :attr:`.variable` is not defined.
+            Now also returns None when ``variable`` is not defined.
 
         .. deprecated:: 35.7.0
             :meth:`.get_variable` has been deprecated and will be
             removed in the future. The functionality is now provided by
-            :meth:`.variable`.
+            ``variable``.
 
         """
 
@@ -177,7 +177,7 @@ class Entity:
             Now also returns None when :class:`.Variable` is not found.
 
         .. versionchanged:: 35.7.0
-            Now also returns None when :attr:`.variable` is not defined.
+            Now also returns None when ``variable`` is not defined.
 
         """
 

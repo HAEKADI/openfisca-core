@@ -13,6 +13,12 @@ class MethodDescriptor:
         :class:`.Entity`. However, it may be good also to completly deprecate
         this indirection in the future.
 
+    Attributes:
+        name (:obj:`str`): The name of the descriptor.
+
+    Args:
+        name: The name of the descriptor.
+
     Examples:
         >>> class Ruleset:
         ...     variable = MethodDescriptor("variable")

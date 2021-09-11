@@ -11,7 +11,7 @@ class GroupEntity(Entity):
     """Represents a :class:`.GroupEntity` on which calculations can be run.
 
     A :class:`.GroupEntity` is basically a group of people, and thus it is
-    composed of several :obj:`Entitity` with different :obj:`Role` within the
+    composed of several :obj:`Entity` with different :obj:`Role` within the
     group. For example a tax household, a family, a trust, etc.
 
     Attributes:
@@ -20,9 +20,10 @@ class GroupEntity(Entity):
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): If is an individual or not. Defaults to False.
-        roles_description(:obj:`List[dict]`): A list of the role attributes.
-        roles (:obj:`List[Role]`): A list of the roles of the group entity.
-        flattened_roles(:obj:`List[Role]`): :attr:`.roles` flattened out.
+        variable(:obj:`.MethodDescriptor`): To query for variables.
+        roles_description(List[dict]): A list of the role attributes.
+        roles (List[Role]): A list of the roles of the group entity.
+        flattened_roles(List[Role]): ``roles`` flattened out.
 
     Args:
         key: Key to identify the :class:`.GroupEntity`.
