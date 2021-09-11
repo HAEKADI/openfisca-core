@@ -20,8 +20,8 @@ class Descriptable(Protocol[T]):
     public_name: str
     private_name: str
 
-    def __get__(self, obj: Any, type: Type[Any]) -> Optional[F[T]]:
+    def __get__(self, instance: Any, owner: Type[Any]) -> Optional[F[T]]:
         ...
 
-    def __set__(self, obj: Any, value: F[T]) -> None:
+    def __set__(self, instance: Any, value: F[T]) -> None:
         ...

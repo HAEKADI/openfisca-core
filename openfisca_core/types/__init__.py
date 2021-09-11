@@ -35,6 +35,7 @@ from .data_types import (  # noqa: F401
 from .protocols import (  # noqa: F401
     Buildable,
     Descriptable,
+    Modelable,
     Personifiable,
     Representable,
     Rolifiable,
