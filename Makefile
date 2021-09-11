@@ -50,40 +50,40 @@ test-python:
 
 ## Run static type checkers for type errors.
 test-types: \
-	test-types-strict-types \
-	test-types-strict-entities \
-	test-types-strict-commons \
 	test-types-all \
+	test-types-strict-commons \
+	test-types-strict-entities \
+	test-types-strict-types \
 	;
-
-## Run static type checkers for type errors.
-test-types-strict-%:
-	@$(call help,$@:)
-	@mypy --cache-dir .mypy_cache-openfisca_core.$* --implicit-reexport --strict --package openfisca_core.$*
 
 ## Run static type checkers for type errors.
 test-types-all:
 	@$(call help,$@:)
 	@mypy --package openfisca_core --package openfisca_web_api
 
+## Run static type checkers for type errors.
+test-types-strict-%:
+	@$(call help,$@:)
+	@mypy --cache-dir .mypy_cache-openfisca_core.$* --implicit-reexport --strict --package openfisca_core.$*
+
 ## Run linters to check for syntax and style errors.
 test-style: \
-	test-style-doc-types \
-	test-style-doc-entities \
-	test-style-doc-commons \
 	test-style-all \
+	test-style-doc-commons \
+	test-style-doc-entities \
+	test-style-doc-types \
 	;
+
+## Run linters to check for syntax and style errors.
+test-style-all:
+	@$(call help,$@:)
+	@flake8 `git ls-files | grep "\.py$$"`
 
 ## Run linters to check for syntax and style errors.
 test-style-doc-%:
 	@$(call help,$@:)
 	@flake8 --select=D101,D102,D103,DAR openfisca_core/$*
 	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/$*
-
-## Run linters to check for syntax and style errors.
-test-style-all:
-	@$(call help,$@:)
-	@flake8 `git ls-files | grep "\.py$$"`
 
 ## Check that the current changes do not break the doc.
 test-doc:
