@@ -199,3 +199,5 @@ class Entity:
                     "Learn more about entities in our documentation:",
                     "<https://openfisca.org/doc/coding-the-legislation/50_entities.html>."])
                 raise ValueError(message)
+
+        return None
