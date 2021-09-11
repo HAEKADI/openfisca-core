@@ -50,7 +50,7 @@ def build_entity(
         ...     )
         <openfisca_core.entities.entity.Entity...
 
-    .. versionchanged:: 35.5.0
+    .. versionchanged:: 35.7.0
         Instead of raising :exc:`TypeError` when ``roles`` is None, it does
         now raise :exc:`ValueError` when ``roles`` is not iterable.
 
