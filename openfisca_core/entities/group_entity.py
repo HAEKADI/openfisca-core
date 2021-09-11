@@ -69,4 +69,6 @@ class GroupEntity(Entity):
         builder = RoleBuilder(self, Role)
         self.roles_description = roles
         self.roles = builder(roles)
+        [self.__dict__.update({role.key.upper(): role}) for role in self.roles]
         self.flattened_roles = sum([role2.subroles or [role2] for role2 in self.roles], [])
+        [self.__dict__.update({role.key.upper(): role}) for role in self.flattened_roles]

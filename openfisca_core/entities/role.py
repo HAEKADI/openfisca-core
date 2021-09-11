@@ -63,4 +63,4 @@ class Role:
         self.subroles = None
 
     def __repr__(self) -> str:
-        return "Role({})".format(self.key)
+        return f"Role({self.key})"
