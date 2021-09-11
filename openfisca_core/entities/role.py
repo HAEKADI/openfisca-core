@@ -22,7 +22,7 @@ class Role:
     Attributes:
         entity (:obj:`.GroupEntity`): Entity the :class:`.Role` belongs to.
         key (:obj:`str`): Key to identify the :class:`.Role`.
-        plural (:obj:`str`, optional): The :attr:`key`, pluralised.
+        plural (:obj:`str`, optional): The ``key``, pluralised.
         label (:obj:`str`, optional): A summary description.
         doc (:obj:`str`): A full description, dedented.
         max (:obj:`int`, optional): Max number of members. Defaults to None.
