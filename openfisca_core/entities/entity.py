@@ -79,14 +79,14 @@ class Entity:
         self.label = label
         self.doc = textwrap.dedent(doc)
 
-    @commons.deprecated(since = "35.5.0", expires = "the future")
+    @commons.deprecated(since = "35.7.0", expires = "the future")
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
         """Sets :attr:`.variable`.
 
         Args:
             tax_benefit_system: To query variables from.
 
-        .. deprecated:: 35.5.0
+        .. deprecated:: 35.7.0
             :meth:`.set_tax_benefit_system` has been deprecated and will be
             removed in the future. The functionality is now provided by
             :attr:`.variable`.
@@ -96,7 +96,7 @@ class Entity:
         self.variable = tax_benefit_system.get_variable
 
     @staticmethod
-    @commons.deprecated(since = "35.5.0", expires = "the future")
+    @commons.deprecated(since = "35.7.0", expires = "the future")
     def check_role_validity(role: Any) -> None:
         """Checks if ``role`` is an instance of :class:`.Role`.
 
@@ -109,7 +109,7 @@ class Entity:
         Raises:
             :exc:`ValueError`: When ``role`` is not a :class:`Role`.
 
-        .. deprecated:: 35.5.0
+        .. deprecated:: 35.7.0
             :meth:`.check_role_validity` has been deprecated and will be
             removed in the future. The functionality is now provided by
             :func:`.entities.check_role_validity`.
