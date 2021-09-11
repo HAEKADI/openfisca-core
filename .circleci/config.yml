@@ -1,6 +1,19 @@
 version: 2
 jobs:
-  run_tests:
+  check_version:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - run:
+          name: Check version number has been properly updated
+          command: |
+            git fetch
+            .circleci/is-version-number-acceptable.sh
+
+  install:
     docker:
       - image: python:3.7
 
@@ -24,18 +37,76 @@ jobs:
             # pip install --editable git+https://github.com/openfisca/country-template.git@BRANCH_NAME#egg=OpenFisca-Country-Template  # use a specific branch of OpenFisca-Country-Template
             # pip install --editable git+https://github.com/openfisca/extension-template.git@BRANCH_NAME#egg=OpenFisca-Extension-Template  # use a specific branch of OpenFisca-Extension-Template
 
+      - run:
+          name: Delete compiled python files
+          command: make clean
+
+      - run:
+          name: Compile python files to check for syntax errors
+          command: make check-syntax-errors
+
       - save_cache:
           key: v1-py3-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
             - /tmp/venv/openfisca_core
 
-      - run:
-          name: Run Core tests
-          command: env PYTEST_ADDOPTS="--exitfirst" make test
+  lint_style:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-py3-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
-          name: Check NumPy typing against latest 3 minor versions
-          command: for i in {1..3}; do VERSION=$(.circleci/get-numpy-version.py prev) && pip install numpy==$VERSION && make check-types; done
+          name: Activate virtualenv
+          command: echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
+
+      - run:
+          name: Lint style
+          command: make lint-style
+
+  lint_types:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-py3-{{ .Branch }}-{{ checksum "setup.py" }}
+
+      - run:
+          name: Activate virtualenv
+          command: echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
+
+      - run:
+          name: Lint types
+          command: make lint-types
+
+      - run:
+          name: Lint NumPy typing against latest 3 minor versions
+          command: for i in {1..3}; do VERSION=$(.circleci/get-numpy-version.py prev) && pip install numpy==$VERSION && make lint-types; done
+
+  test_code:
+    docker:
+      - image: python:3.7
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: v1-py3-{{ .Branch }}-{{ checksum "setup.py" }}
+
+      - run:
+          name: Activate virtualenv
+          command: echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
+
+      - run:
+          name: Run core & web-api tests
+          command: PYTEST_ADDOPTS="--exitfirst" make test-code
 
       - persist_to_workspace:
           root: .
@@ -43,7 +114,7 @@ jobs:
             - .coverage
 
       - run:
-          name: Run Country Template tests
+          name: Run country template tests
           command: |
             COUNTRY_TEMPLATE_PATH=`python -c "import openfisca_country_template; print(openfisca_country_template.CountryTaxBenefitSystem().get_package_metadata()['location'])"`
             openfisca test $COUNTRY_TEMPLATE_PATH/openfisca_country_template/tests/
@@ -85,20 +156,6 @@ jobs:
           name: Run doc tests
           command: make test-doc-build
 
-
-  check_version:
-    docker:
-      - image: python:3.7
-
-    steps:
-      - checkout
-
-      - run:
-          name: Check version number has been properly updated
-          command: |
-            git fetch
-            .circleci/is-version-number-acceptable.sh
-
   submit_coverage:
     docker:
       - image: python:3.7
@@ -113,9 +170,12 @@ jobs:
           key: v1-py3-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
+          name: Activate virtualenv
+          command: echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
+
+      - run:
           name: Submit coverage to Coveralls
           command: |
-            source /tmp/venv/openfisca_core/bin/activate
             pip install coveralls
             coveralls
 
@@ -127,6 +187,7 @@ jobs:
   deploy:
     docker:
       - image: python:3.7
+
     environment:
       PYPI_USERNAME: openfisca-bot
       # PYPI_PASSWORD: this value is set in CircleCI's web interface; do not set it here, it is a secret!
@@ -138,14 +199,16 @@ jobs:
           key: v1-py3-{{ .Branch }}-{{ checksum "setup.py" }}
 
       - run:
+          name: Activate virtualenv
+          command: echo "source /tmp/venv/openfisca_core/bin/activate" >> $BASH_ENV
+
+      - run:
           name: Check for functional changes
           command: if ! .circleci/has-functional-changes.sh ; then circleci step halt ; fi
 
       - run:
           name: Upload a Python package to Pypi
-          command: |
-            source /tmp/venv/openfisca_core/bin/activate
-            .circleci/publish-python-package.sh
+          command: .circleci/publish-python-package.sh
 
       - run:
           name: Publish a git tag
@@ -160,17 +223,30 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - run_tests
-      - test_docs
       - check_version
+      - install
+      - lint_style:
+          requires:
+            - install
+      - lint_types:
+          requires:
+            - install
+      - test_code:
+          requires:
+            - install
+      - test_docs:
+          requires:
+            - install
       - submit_coverage:
           requires:
-            - run_tests
+            - test_code
       - deploy:
           requires:
-            - run_tests
-            - test_docs
             - check_version
+            - lint_style
+            - lint_types
+            - test_code
+            - test_docs
           filters:
             branches:
               only: master

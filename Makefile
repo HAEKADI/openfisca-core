@@ -10,7 +10,7 @@ branch = $(shell git branch --show-current)
 all: test
 
 ## Run tests, type and style linters.
-test: clean check-syntax-errors test-python test-types test-style test-doc
+test: clean check-syntax-errors lint-style lint-types test-code test-doc
 
 ## Install project dependencies.
 install:
@@ -43,47 +43,47 @@ check-syntax-errors: .
 	@$(call help,$@:)
 	@python -m compileall -q $?
 
-## Run openfisca-core tests.
-test-python:
-	@$(call help,$@:)
-	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS}" pytest --cov=openfisca_core --cov=openfisca_web_api
-
-## Run static type checkers for type errors.
-test-types: \
-	test-types-all \
-	test-types-strict-commons \
-	test-types-strict-entities \
-	test-types-strict-types \
-	;
-
-## Run static type checkers for type errors.
-test-types-all:
-	@$(call help,$@:)
-	@mypy --package openfisca_core --package openfisca_web_api
-
-## Run static type checkers for type errors.
-test-types-strict-%:
-	@$(call help,$@:)
-	@mypy --cache-dir .mypy_cache-openfisca_core.$* --implicit-reexport --strict --package openfisca_core.$*
-
 ## Run linters to check for syntax and style errors.
-test-style: \
-	test-style-all \
-	test-style-doc-commons \
-	test-style-doc-entities \
-	test-style-doc-types \
+lint-style: \
+	lint-style-all \
+	lint-style-doc-commons \
+	lint-style-doc-entities \
+	lint-style-doc-types \
 	;
 
 ## Run linters to check for syntax and style errors.
-test-style-all:
+lint-style-all:
 	@$(call help,$@:)
 	@flake8 `git ls-files | grep "\.py$$"`
 
 ## Run linters to check for syntax and style errors.
-test-style-doc-%:
+lint-style-doc-%:
 	@$(call help,$@:)
 	@flake8 --select=D101,D102,D103,DAR openfisca_core/$*
 	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/$*
+
+## Run static type checkers for type errors.
+lint-types: \
+	lint-types-all \
+	lint-types-strict-commons \
+	lint-types-strict-entities \
+	lint-types-strict-types \
+	;
+
+## Run static type checkers for type errors.
+lint-types-all:
+	@$(call help,$@:)
+	@mypy --package openfisca_core --package openfisca_web_api
+
+## Run static type checkers for type errors.
+lint-types-strict-%:
+	@$(call help,$@:)
+	@mypy --cache-dir .mypy_cache-openfisca_core.$* --implicit-reexport --strict --package openfisca_core.$*
+
+## Run openfisca core & web-api tests.
+test-code:
+	@$(call help,$@:)
+	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS}" pytest --cov=openfisca_core --cov=openfisca_web_api
 
 ## Check that the current changes do not break the doc.
 test-doc:

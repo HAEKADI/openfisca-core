@@ -45,13 +45,13 @@ make test
 To run all the tests defined on a test file:
 
 ```sh
-pytest tests/core/test_parameters.py
+openfisca test tests/core/test_parameters.py
 ```
 
 To run a single test:
 
 ```sh
-pytest tests/core/test_parameters.py -k test_parameter_for_period
+PYTEST_ADDOPTS="$PYTEST_ADDOPTS -k test_parameter_for_period" openfisca test tests/core/test_parameters.py
 ```
 
 ## Types
@@ -63,7 +63,7 @@ As NumPy introduced the `typing` module in 1.20.0, to ensure type hints do not b
 Type checking is already run with `make test`. To run the type checker alone:
 
 ```sh
-make check-types
+make lint-types
 ```
 
 ## Style
@@ -73,7 +73,7 @@ This repository adheres to a [certain coding style](STYLEGUIDE.md), and we invit
 Style checking is already run with `make test`. To run the style checker alone:
 
 ```sh
-make check-style
+make lint-style
 ```
 
 To automatically style-format your code changes:
