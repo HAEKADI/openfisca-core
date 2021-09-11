@@ -138,10 +138,10 @@ class Entity:
         .. seealso::
             Method :meth:`TaxBenefitSystem.get_variable`.
 
-        .. versionchanged:: 35.5.0
+        .. versionchanged:: 35.7.0
             Now also returns None when :attr:`.variable` is not defined.
 
-        .. deprecated:: 35.5.0
+        .. deprecated:: 35.7.0
             :meth:`.get_variable` has been deprecated and will be
             removed in the future. The functionality is now provided by
             :meth:`.variable`.
@@ -173,10 +173,10 @@ class Entity:
         .. seealso::
             :class:`.Variable` and :attr:`.Variable.entity`.
 
-        .. versionchanged:: 35.5.0
+        .. versionchanged:: 35.7.0
             Now also returns None when :class:`.Variable` is not found.
 
-        .. versionchanged:: 35.5.0
+        .. versionchanged:: 35.7.0
             Now also returns None when :attr:`.variable` is not defined.
 
         """
