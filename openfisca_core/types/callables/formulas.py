@@ -8,13 +8,13 @@ from ..data_types import ArrayType
 ParamsType = Callable[[Timeable], Instantizable]
 """A callable to get the parameters for the given instant.
 
-.. versionadded:: 35.5.0
+.. versionadded:: 35.7.0
 
 """
 
 FormulaType = Callable[[Aggregatable, Timeable, ParamsType], ArrayType]
 """A callable defining a calculation, or a rule, on a system.
 
-.. versionadded:: 35.5.0
+.. versionadded:: 35.7.0
 
 """
