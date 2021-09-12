@@ -51,6 +51,16 @@ def method(tax_benefit_system):
     return tax_benefit_system.get_variable
 
 
+def test_init_when_doc_indented():
+    """Dedents the ``doc`` attribute if it is passed at initialisation."""
+
+    key = "\tkey"
+    doc = "\tdoc"
+    entity = Entity(key, "label", "plural", doc)
+    assert entity.key == key
+    assert entity.doc != doc
+
+
 def test_variable_when_not_set(entity):
     """Returns None when not yet defined."""
 
