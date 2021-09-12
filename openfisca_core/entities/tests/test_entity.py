@@ -58,28 +58,28 @@ def test_variable_when_not_set(entity):
 
 
 def test_variable_query_when_not_set(entity):
-    """Raises an exceptions when called and not yet defined."""
+    """Raises TypeError when called and not yet defined."""
 
     with pytest.raises(TypeError):
         entity.variable("variable")
 
 
 def test_set_tax_benefit_system_deprecation(entity, tax_benefit_system):
-    """:meth:`.set_tax_benefit_system` throws a deprecation warning."""
+    """Throws a deprecation warning when called."""
 
     with pytest.warns(DeprecationWarning):
         entity.set_tax_benefit_system(tax_benefit_system)
 
 
 def test_check_role_validity_deprecation(entity, role):
-    """:meth:`.check_role_validity` throws a deprecation warning."""
+    """Throws a deprecation warning when called."""
 
     with pytest.warns(DeprecationWarning):
         entity.check_role_validity(role)
 
 
 def test_get_variable_deprecation(entity):
-    """:meth:`.get_variable` throws a deprecation warning."""
+    """Throws a deprecation warning when called."""
 
     with pytest.warns(DeprecationWarning):
         entity.get_variable("variable")
@@ -100,10 +100,10 @@ def test_check_variable_defined_for_entity_when_no_variable(entity, method):
         entity.check_variable_defined_for_entity("asdf")
 
 
-def test_check_variable_defined_for_entity_when_not_hers(method):
-    """Raises ValueError when variable found is not hers."""
+def test_check_variable_defined_for_entity_when_different_entity(method):
+    """Raises ValueError when a variable is found but for another entity."""
 
-    entity = Entity("extra-key", "label", "plural", "doc")
+    entity = Entity("another-key", "label", "plural", "doc")
     entity.variable = method
 
     with pytest.raises(ValueError):
