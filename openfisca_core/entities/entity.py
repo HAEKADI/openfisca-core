@@ -1,7 +1,7 @@
 import dataclasses
 import os
 import textwrap
-from typing import Any, Optional
+from typing import Any, ClassVar, Optional
 
 from openfisca_core import commons
 from openfisca_core.commons import MethodDescriptor
@@ -10,7 +10,7 @@ from openfisca_core.types import Descriptable, Modelable, Representable
 from .. import entities
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(repr = False)
 class Entity:
     """Represents an entity on which calculations can be run.
 
@@ -21,8 +21,8 @@ class Entity:
         plural (:obj:`str`): The ``key``, pluralised.
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
-        is_person (:obj:`bool`): If is an individual, or not. Defaults to True.
-        variable(:obj:`.MethodDescriptor`): To query for variables.
+        is_person (:obj:`bool`): Represents an individual? Defaults to True.
+        variable (:obj:`callable`, optional): Find a :class:`.Variable`.
 
     Args:
         key: Key to identify the :class:`.Entity`.
@@ -70,8 +70,7 @@ class Entity:
 
         .. versionchanged:: 35.7.0
             Hereafter the equality of an :obj:`.Entity` is determined by its
-            data attributes: ``key``, ``plural``, ``label``, ``doc``, and
-            ``is_person``.
+            data attributes.
 
     """
 
@@ -79,18 +78,26 @@ class Entity:
     plural: str
     label: str
     doc: str
-    is_person: bool = True
+
+    #: bool: An entity represents an individual.
+    #:
+    #: .. versionchanged:: 35.7.0
+    #:    Hereafter declared as a class variable instead of as an attribute.
+    #:
+    is_person: ClassVar[bool] = True
+
+    #: :class:`.Descriptable`: Find a :class:`.Variable`.
+    #:
+    #: .. versionadded:: 35.7.0
+    #:
     variable: Descriptable[Modelable] = dataclasses.field(
-        repr = False,
+        init = False,
         compare = False,
         default = MethodDescriptor("variable"),
         )
 
-    def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
-        self.key = key
-        self.plural = plural
-        self.label = label
-        self.doc = textwrap.dedent(doc)
+    def __post_init__(self) -> None:
+        self.doc = textwrap.dedent(self.doc)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.key})"
@@ -238,8 +245,8 @@ class Entity:
                     f"You tried to compute the variable '{variable_name}' for",
                     f"the entity '{self.plural}'; however the variable",
                     f"'{variable_name}' is defined for '{entity.plural}'.",
-                    f"Learn more about entities in our documentation:",
-                    f"<https://openfisca.org/doc/coding-the-legislation/50_entities.html>.",
+                    "Learn more about entities in our documentation:",
+                    "<https://openfisca.org/doc/coding-the-legislation/50_entities.html>.",
                     ])
                 raise ValueError(message)
 
