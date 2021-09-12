@@ -118,29 +118,6 @@ class Entity:
 
         self.variable = tax_benefit_system.get_variable
 
-    @staticmethod
-    @commons.deprecated(since = "35.7.0", expires = "the future")
-    def check_role_validity(role: Any) -> None:
-        """Checks if ``role`` is an instance of :class:`.Role`.
-
-        Args:
-            role: Any object.
-
-        Returns:
-            None.
-
-        Raises:
-            :exc:`ValueError`: When ``role`` is not a :class:`Role`.
-
-        .. deprecated:: 35.7.0
-            :meth:`.check_role_validity` has been deprecated and will be
-            removed in the future. The functionality is now provided by
-            :func:`.entities.check_role_validity`.
-
-        """
-
-        return entities.check_role_validity(role)
-
     @commons.deprecated(since = "35.7.0", expires = "the future")
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Modelable]:
         """Gets ``variable_name`` from ``variable``.
@@ -251,3 +228,26 @@ class Entity:
                 raise ValueError(message)
 
         return None
+
+    @staticmethod
+    @commons.deprecated(since = "35.7.0", expires = "the future")
+    def check_role_validity(role: Any) -> None:
+        """Checks if ``role`` is an instance of :class:`.Role`.
+
+        Args:
+            role: Any object.
+
+        Returns:
+            None.
+
+        Raises:
+            :exc:`ValueError`: When ``role`` is not a :class:`.Role`.
+
+        .. deprecated:: 35.7.0
+            :meth:`.check_role_validity` has been deprecated and will be
+            removed in the future. The functionality is now provided by
+            :func:`.entities.check_role_validity`.
+
+        """
+
+        return entities.check_role_validity(role)

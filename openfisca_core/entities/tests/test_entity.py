@@ -29,8 +29,8 @@ def MyVariable(entity):
         (Variable,),
         {
             "definition_period": "month",
-            "value_type": float, "entity":
-            entity,
+            "value_type": float,
+            "entity": entity,
             },
         )
 
@@ -101,7 +101,7 @@ def test_check_variable_defined_for_entity_when_no_descriptor(entity):
     assert not entity.check_variable_defined_for_entity("asdf")
 
 
-def test_check_variable_defined_for_entity_when_no_variable(entity, method):
+def test_check_variable_defined_for_entity_when_no_var(entity, method):
     """Raises VariableNotFoundError when the variable is not found."""
 
     entity.variable = method
@@ -110,7 +110,7 @@ def test_check_variable_defined_for_entity_when_no_variable(entity, method):
         entity.check_variable_defined_for_entity("asdf")
 
 
-def test_check_variable_defined_for_entity_when_different_entity(method):
+def test_check_variable_defined_for_entity_when_diff_entity(method):
     """Raises ValueError when a variable is found but for another entity."""
 
     entity = Entity("another-key", "label", "plural", "doc")

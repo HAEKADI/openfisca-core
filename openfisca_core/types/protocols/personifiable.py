@@ -31,6 +31,7 @@ class Personifiable(Documentable, Protocol):
 
     @abc.abstractmethod
     def __repr__(self) -> str:
+        """Has to implement :meth:`.__repr__`."""
         ...
 
     @abc.abstractmethod
@@ -38,10 +39,13 @@ class Personifiable(Documentable, Protocol):
             self,
             tax_benefit_system: Representable,
             ) -> None:
+        """Has to implement :meth:`.set_tax_benefit_system`."""
         ...
 
-    @abc.abstractstaticmethod
+    @staticmethod
+    @abc.abstractmethod
     def check_role_validity(role: Any) -> None:
+        """Has to implement :meth:`.check_role_validity`."""
         ...
 
     @abc.abstractmethod
@@ -50,6 +54,7 @@ class Personifiable(Documentable, Protocol):
             variable_name: str,
             check_existence: bool = False,
             ) -> Optional[Modelable]:
+        """Has to implement :meth:`.check_role_validity`."""
         ...
 
     @abc.abstractmethod
@@ -57,4 +62,5 @@ class Personifiable(Documentable, Protocol):
             self,
             variable_name: str,
             ) -> None:
+        """Has to implement :meth:`.check_variable_defined_for_entity`."""
         ...
