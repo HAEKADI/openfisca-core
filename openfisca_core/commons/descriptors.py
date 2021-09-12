@@ -14,7 +14,8 @@ class MethodDescriptor:
         this indirection in the future.
 
     Attributes:
-        name (:obj:`str`): The name of the descriptor.
+        public_name (:obj:`str`): The public name of the descriptor.
+        private_name (:obj:`str`): The private name of the descriptor.
 
     Args:
         name: The name of the descriptor.
