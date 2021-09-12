@@ -72,7 +72,7 @@ def check_role_validity(role: Any) -> None:
         role: Any object.
 
     Raises:
-        ValueError: When ``role`` is not a :class:`Role`.
+        ValueError: When ``role`` is not a :class:`.Role`.
 
     Examples:
         >>> from . import Role
