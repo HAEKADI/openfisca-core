@@ -33,4 +33,8 @@ from .entity import Entity  # noqa: F401
 from .group_entity import GroupEntity  # noqa: F401
 from .role import Role  # noqa: F401
 from .role_builder import RoleBuilder  # noqa: F401
-from .helpers import build_entity, check_role_validity  # noqa: F401
+from .helpers import (  # noqa: F401
+    build_entity,
+    check_role_validity,
+    check_variable_defined_for_entity,
+    )
