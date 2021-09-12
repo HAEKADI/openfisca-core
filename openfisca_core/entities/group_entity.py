@@ -31,9 +31,9 @@ class GroupEntity:
         plural (:obj:`str`): The ``key``, pluralised.
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
-        roles (List[Role]): A list of the roles of the group entity.
-        roles_description(List[dict]): A list of the role attributes.
-        flattened_roles(List[Role]): ``roles`` flattened out.
+        roles (:obj:`list` of :obj:`.Role`): List of the roles of the entity.
+        roles_description(:obj:`list` of :obj:`dict`): List of roles to build.
+        flattened_roles(:obj:`list` of :obj:`.Role`): ``roles`` flattened out.
         is_person (:obj:`bool`): Represents an individual? Defaults to False.
         variable (:obj:`callable`, optional): Find a :class:`.Variable`.
 
@@ -49,14 +49,68 @@ class GroupEntity:
         ...     "key": "parent",
         ...     "subroles": ["first_parent", "second_parent"],
         ...     }]
-        >>> GroupEntity(
+
+        >>> group_entity = GroupEntity(
         ...     "household",
         ...     "households",
         ...     "A household",
         ...     "All the people who live together in the same place.",
         ...     roles
         ...    )
+        >>> group_entity
         GroupEntity(household)
+
+    Methods:
+        variable:
+            Finds a :obj:`.Variable`, see
+            :meth:`.TaxBenefitSystem.get_variable`.
+
+            Args:
+                variable_name (:obj:`str`):
+                    The variable to be found.
+                check_existence (:obj:`bool`):
+                    Was the variable found? Defaults to False.
+
+            Returns:
+                :obj:`.Variable` or :obj:`None`:
+                :obj:`.Variable` when the variable exists.
+                :obj:`None` when ``variable`` is not defined.
+                :obj:`None` when the variable does't exist.
+
+            Examples:
+                >>> from openfisca_core.entities import Entity
+                >>> from openfisca_core.taxbenefitsystems import (
+                ...    TaxBenefitSystem,
+                ...    )
+                >>> from openfisca_core.variables import Variable
+
+                >>> entity = Entity(
+                ...     "individual",
+                ...     "individuals",
+                ...     "An individual",
+                ...     "The minimal legal entity on which a rule migh...",
+                ...    )
+
+                >>> class Variable(Variable):
+                ...     definition_period = "month"
+                ...     value_type = float
+                ...     entity = group_entity
+
+                >>> tbs = TaxBenefitSystem([entity, group_entity])
+                >>> tbs.load_variable(Variable)
+                <openfisca_core.entities.group_entity.Variable...
+
+                >>> get_variable = tbs.get_variable
+                >>> get_variable("Variable")
+                <openfisca_core.entities.group_entity.Variable...
+
+                >>> group_entity.variable = tbs.get_variable
+                >>> group_entity.variable("Variable")
+                <openfisca_core.entities.group_entity.Variable...
+
+    .. versionchanged:: 35.7.0
+       Hereafter ``is_person`` is declared as a class variable instead of
+       as an attribute.
 
     .. versionchanged:: 35.7.0
         Hereafter ``variable`` allows querying a :class:`.TaxBenefitSystem`
@@ -77,18 +131,7 @@ class GroupEntity:
     label: str
     doc: str
     roles: dataclasses.InitVar[Iterable[RoleLike]]
-
-    #: bool: A group entity represents several individuals.
-    #:
-    #: .. versionchanged:: 35.7.0
-    #:    Hereafter declared as a class variable instead of as an attribute.
-    #:
     is_person: ClassVar[bool] = False
-
-    #: :class:`.Descriptable`: Find a :class:`.Variable`.
-    #:
-    #: .. versionadded:: 35.7.0
-    #:
     variable: Descriptable[Modelable] = dataclasses.field(
         init = False,
         compare = False,
@@ -153,9 +196,10 @@ class GroupEntity:
             check_existence: Was the variable found? Defaults to False.
 
         Returns:
-            :obj:`.Variable`: When the variable exists.
-            None: When ``variable`` is not defined.
-            None: When the variable does't exist.
+            :obj:`.Variable` or :obj:`None`:
+            :obj:`.Variable` when the variable exists.
+            :obj:`None` when ``variable`` is not defined.
+            :obj:`None` when the variable does't exist.
 
         .. seealso::
             Method :meth:`.TaxBenefitSystem.get_variable`.
@@ -180,8 +224,10 @@ class GroupEntity:
             variable_name: The :obj:`.Variable` to be found.
 
         Returns:
-            None: When :class:`.Variable` does not exist.
-            None: When :class:`.Variable` exists, and its entity is ``self``.
+            :obj:`None`:
+            :obj:`None` when :class:`.Variable` does not exist.
+            :obj:`None` when :class:`.Variable` exists and
+            :attr:`.Variable.entity` is ``self``.
 
         .. seealso::
             :class:`.Variable` and :attr:`.Variable.entity`.
@@ -204,7 +250,7 @@ class GroupEntity:
             role: Any object.
 
         Returns:
-            None.
+            :obj:`None`.
 
         .. deprecated:: 35.7.0
             :meth:`.check_role_validity` has been deprecated and will be

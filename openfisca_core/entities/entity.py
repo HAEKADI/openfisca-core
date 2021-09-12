@@ -21,7 +21,6 @@ class Entity:
         label (:obj:`str`): A summary description.
         doc (:obj:`str`): A full description, dedented.
         is_person (:obj:`bool`): Represents an individual? Defaults to True.
-        variable (:obj:`callable`, optional): Find a :class:`.Variable`.
 
     Args:
         key: Key to identify the :class:`.Entity`.
@@ -30,9 +29,6 @@ class Entity:
         doc: A full description.
 
     Examples:
-        >>> from openfisca_core.taxbenefitsystems import TaxBenefitSystem
-        >>> from openfisca_core.variables import Variable
-
         >>> entity = Entity(
         ...     "individual",
         ...     "individuals",
@@ -42,34 +38,61 @@ class Entity:
         >>> entity
         Entity(individual)
 
-        >>> class Variable(Variable):
-        ...     definition_period = "month"
-        ...     value_type = float
-        ...     entity = entity
+    Methods:
+        variable:
+            Finds a :obj:`.Variable`, see
+            :meth:`.TaxBenefitSystem.get_variable`.
 
-        >>> tbs = TaxBenefitSystem([entity])
-        >>> tbs.load_variable(Variable)
-        <openfisca_core.entities.entity.Variable...
+            Args:
+                variable_name (:obj:`str`):
+                    The variable to be found.
+                check_existence (:obj:`bool`):
+                    Was the variable found? Defaults to False.
 
-        >>> get_variable = tbs.get_variable
-        >>> get_variable("Variable")
-        <openfisca_core.entities.entity.Variable...
+            Returns:
+                :obj:`.Variable` or :obj:`None`:
+                :obj:`.Variable` when the variable exists.
+                :obj:`None` when ``variable`` is not defined.
+                :obj:`None` when the variable does't exist.
 
-        >>> entity.variable = tbs.get_variable
-        >>> entity.variable("Variable")
-        <openfisca_core.entities.entity.Variable...
+            Examples:
+                >>> from openfisca_core.taxbenefitsystems import (
+                ...     TaxBenefitSystem,
+                ...     )
+                >>> from openfisca_core.variables import Variable
 
-        .. versionchanged:: 35.7.0
-            Hereafter ``variable`` allows querying a :class:`.TaxBenefitSystem`
-            for a :class:`.Variable`.
+                >>> class Variable(Variable):
+                ...     definition_period = "month"
+                ...     value_type = float
+                ...     entity = entity
 
-        .. versionchanged:: 35.7.0
-            Hereafter an :obj:`.Entity` is represented by its ``key`` as
-            ``Entity(key)``.
+                >>> tbs = TaxBenefitSystem([entity])
+                >>> tbs.load_variable(Variable)
+                <openfisca_core.entities.entity.Variable...
 
-        .. versionchanged:: 35.7.0
-            Hereafter the equality of an :obj:`.Entity` is determined by its
-            data attributes.
+                >>> get_variable = tbs.get_variable
+                >>> get_variable("Variable")
+                <openfisca_core.entities.entity.Variable...
+
+                >>> entity.variable = tbs.get_variable
+                >>> entity.variable("Variable")
+                <openfisca_core.entities.entity.Variable...
+
+    .. versionchanged:: 35.7.0
+       Hereafter ``is_person`` is declared as a class variable instead of
+       as an attribute.
+
+    .. versionchanged:: 35.7.0
+        Hereafter ``variable`` allows querying a :class:`.TaxBenefitSystem`
+        for a :class:`.Variable`.
+
+    .. versionchanged:: 35.7.0
+        Hereafter an :obj:`.Entity` is represented by its ``key`` as
+        ``Entity(key)``.
+
+    .. versionchanged:: 35.7.0
+        Hereafter the equality of an :obj:`.Entity` is determined by its
+        data attributes.
 
     """
 
@@ -77,18 +100,7 @@ class Entity:
     plural: str
     label: str
     doc: str
-
-    #: bool: An entity represents an individual.
-    #:
-    #: .. versionchanged:: 35.7.0
-    #:    Hereafter declared as a class variable instead of as an attribute.
-    #:
     is_person: ClassVar[bool] = True
-
-    #: :class:`.Descriptable`: Find a :class:`.Variable`.
-    #:
-    #: .. versionadded:: 35.7.0
-    #:
     variable: Descriptable[Modelable] = dataclasses.field(
         init = False,
         compare = False,
@@ -133,9 +145,10 @@ class Entity:
             check_existence: Was the variable found? Defaults to False.
 
         Returns:
-            :obj:`.Variable`: When the variable exists.
-            None: When ``variable`` is not defined.
-            None: When the variable does't exist.
+            :obj:`.Variable` or :obj:`None`:
+            :obj:`.Variable` when the variable exists.
+            :obj:`None` when ``variable`` is not defined.
+            :obj:`None` when the variable does't exist.
 
         .. seealso::
             Method :meth:`.TaxBenefitSystem.get_variable`.
@@ -160,8 +173,10 @@ class Entity:
             variable_name: The :obj:`.Variable` to be found.
 
         Returns:
-            None: When :class:`.Variable` does not exist.
-            None: When :class:`.Variable` exists, and its entity is ``self``.
+            :obj:`None`:
+            :obj:`None` when :class:`.Variable` does not exist.
+            :obj:`None` when :class:`.Variable` exists and
+            :attr:`.Variable.entity` is ``self``.
 
         .. seealso::
             :class:`.Variable` and :attr:`.Variable.entity`.
@@ -184,7 +199,7 @@ class Entity:
             role: Any object.
 
         Returns:
-            None.
+            :obj:`None`.
 
         .. deprecated:: 35.7.0
             :meth:`.check_role_validity` has been deprecated and will be

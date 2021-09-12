@@ -28,8 +28,9 @@ def build_entity(
         class_override: ?
 
     Returns:
-        :class:`.Entity`: When ``is_person`` is True.
-        :class:`.GroupEntity`: When ``is_person`` is False.
+        :obj:`.Entity` or :obj:`.GroupEntity`:
+        :obj:`.Entity`: When ``is_person`` is True.
+        :obj:`.GroupEntity`: When ``is_person`` is False.
 
     Raises:
         ValueError: If ``roles`` is not iterable.
@@ -76,7 +77,7 @@ def check_role_validity(role: Any) -> None:
         ValueError: When ``role`` is not a :class:`.Role`.
 
     Examples:
-        >>> from . import Role
+        >>> from openfisca_core.entities import Role
         >>> role = Role({"key": "key"}, object())
         >>> check_role_validity(role)
 
@@ -102,8 +103,10 @@ def check_variable_defined_for_entity(
         variable_name: The :obj:`.Variable` to be found.
 
     Returns:
-        None: When :class:`.Variable` does not exist.
-        None: When :class:`.Variable` exists, and its entity is ``entity``.
+        :obj:`None`:
+        :obj:`None` when :class:`.Variable` does not exist.
+        :obj:`None` when :class:`.Variable` exists and
+        :attr:`.Variable.entity` is ``entity``.
 
     Raises:
         ValueError: When the :obj:`.Variable` exists but its ``entity`` is not
