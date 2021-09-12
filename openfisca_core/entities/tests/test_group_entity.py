@@ -23,6 +23,16 @@ def group_entity(roles):
         )
 
 
+def test_init_when_doc_indented():
+    """Dedents the ``doc`` attribute if it is passed at initialisation."""
+
+    key = "\tkey"
+    doc = "\tdoc"
+    entity = GroupEntity(key, "label", "plural", doc, [])
+    assert entity.key == key
+    assert entity.doc != doc
+
+
 def test_group_entity_with_roles(group_entity):
     """Assigns a :obj:`.Role` for each role-like passed as argument."""
 
