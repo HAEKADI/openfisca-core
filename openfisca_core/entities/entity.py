@@ -118,7 +118,7 @@ class Entity:
 
         return entities.check_role_validity(role)
 
-    @commons.deprecated(since = "35.5.0", expires = "the future")
+    @commons.deprecated(since = "35.7.0", expires = "the future")
     def get_variable(self, variable_name: str, check_existence: bool = False) -> Optional[Modelable]:
         """Gets ``variable_name`` from ``variable``.
 
