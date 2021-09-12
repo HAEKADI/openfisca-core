@@ -9,14 +9,14 @@ class RoleBuilder:
     """Builds roles & sub-roles from a given input.
 
     Attributes:
-        builder (:obj:`.Personifiable`):
-            A builder object, like a :class:`.GroupEntity` for example.
-        buildee (:obj:`.Rolifiable`):
-            The objects to be built, in this case :class:`.Role`.
+        builder (:obj:`.Entity` or :obj:`.GroupEntity`):
+            A builder object.
+        buildee (:obj:`.Role`):
+            The objects to be built.
 
     Args:
-        builder: A builder object, like a :class:`.GroupEntity` for example.
-        buildee: The objects to be built, in this case :class:`.Role`.
+        builder: A builder object.
+        buildee: The objects to be built.
 
     Examples:
         >>> from openfisca_core.entities import GroupEntity, Role
@@ -72,7 +72,7 @@ class RoleBuilder:
             item: A role-like item, see :class:`.RoleLike`.
 
         Returns:
-            A role.
+            :obj:`.Role`: A :obj:`.Role`.
 
         .. versionadded:: 35.7.0
 
