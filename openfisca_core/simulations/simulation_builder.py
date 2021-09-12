@@ -4,7 +4,7 @@ from typing import Dict, List, Iterable
 
 import numpy
 
-from openfisca_core import periods
+from openfisca_core import entities, periods
 from openfisca_core.errors import PeriodMismatchError, SituationParsingError, VariableNotFoundError
 from openfisca_core.populations import Population
 from openfisca_core.types import Personifiable
@@ -351,7 +351,7 @@ class SimulationBuilder:
         for variable_name, variable_values in instance_object.items():
             path_in_json = [entity.plural, instance_id, variable_name]
             try:
-                entity.check_variable_defined_for_entity(variable_name)
+                entities.check_variable_defined_for_entity(entity, variable_name)
             except ValueError as e:  # The variable is defined for another entity
                 raise SituationParsingError(path_in_json, e.args[0])
             except VariableNotFoundError as e:  # The variable doesn't exist
