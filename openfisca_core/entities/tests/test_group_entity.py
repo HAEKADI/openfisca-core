@@ -36,7 +36,7 @@ def test_init_when_doc_indented():
 def test_group_entity_with_roles(group_entity):
     """Assigns a :obj:`.Role` for each role-like passed as argument."""
 
-    assert str(group_entity.PARENT) == "Role(parent)"
+    assert group_entity.PARENT
 
 
 def test_group_entity_with_subroles(group_entity):
