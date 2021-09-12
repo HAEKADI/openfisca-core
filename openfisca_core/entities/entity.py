@@ -1,3 +1,4 @@
+import dataclasses
 import os
 import textwrap
 from typing import Any, Optional
@@ -9,6 +10,7 @@ from openfisca_core.types import Descriptable, Modelable, Representable
 from .. import entities
 
 
+@dataclasses.dataclass
 class Entity:
     """Represents an entity on which calculations can be run.
 
@@ -39,7 +41,7 @@ class Entity:
         ...     "The minimal legal entity on which a rule might be applied.",
         ...    )
         >>> entity
-        <openfisca_core.entities.entity.Entity...
+        Entity(individual)
 
         >>> class Variable(Variable):
         ...     definition_period = "month"
@@ -58,6 +60,19 @@ class Entity:
         >>> entity.variable("Variable")
         <openfisca_core.entities.entity.Variable...
 
+        .. versionchanged:: 35.7.0
+            Hereafter ``variable`` allows querying a :class:`.TaxBenefitSystem`
+            for a :class:`.Variable`.
+
+        .. versionchanged:: 35.7.0
+            Hereafter an :obj:`.Entity` is represented by its ``key`` as
+            ``Entity(key)``.
+
+        .. versionchanged:: 35.7.0
+            Hereafter the equality of an :obj:`.Entity` is determined by its
+            data attributes: ``key``, ``plural``, ``label``, ``doc``, and
+            ``is_person``.
+
     """
 
     key: str
@@ -65,19 +80,20 @@ class Entity:
     label: str
     doc: str
     is_person: bool = True
-
-    variable: Descriptable[Modelable] = MethodDescriptor("variable")
-    """Queries :class:`.TaxBenefitSystem` to find a :class:`.Variable`.
-
-    .. versionadded:: 35.7.0
-
-    """
+    variable: Descriptable[Modelable] = dataclasses.field(
+        repr = False,
+        compare = False,
+        default = MethodDescriptor("variable"),
+        )
 
     def __init__(self, key: str, plural: str, label: str, doc: str) -> None:
         self.key = key
         self.plural = plural
         self.label = label
         self.doc = textwrap.dedent(doc)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.key})"
 
     @commons.deprecated(since = "35.7.0", expires = "the future")
     def set_tax_benefit_system(self, tax_benefit_system: Representable) -> None:
@@ -178,10 +194,10 @@ class Entity:
             ...     "individual",
             ...     "individuals",
             ...     "An individual",
-            ...     "The minimal legal entity on which a rule might be applied.",
+            ...     "The minimal legal entity on which a rule can be applied.",
             ...    )
             >>> entity
-            <openfisca_core.entities.entity.Entity...
+            Entity(individual)
 
             >>> class Variable(Variable):
             ...     definition_period = "month"
@@ -199,10 +215,13 @@ class Entity:
             :class:`.Variable` and :attr:`.Variable.entity`.
 
         .. versionchanged:: 35.7.0
-            Now also returns None when :class:`.Variable` is not found.
+            Hereafter returns None when :class:`.Variable` is not found.
 
         .. versionchanged:: 35.7.0
-            Now also returns None when ``variable`` is not defined.
+            Hereafter returns None when ``variable`` is not defined.
+
+        .. versionchanged:: 35.7.0
+            Hereafter checks for equality instead of just ``key``.
 
         """
 
@@ -212,16 +231,16 @@ class Entity:
         variable = self.variable(variable_name, check_existence = True)
 
         if variable is not None:
-            variable_entity = variable.entity
+            entity = variable.entity
 
-            # Should be this:
-            # if variable_entity is not self:
-            if variable_entity.key != self.key:
+            if entity != self:
                 message = os.linesep.join([
-                    "You tried to compute the variable '{0}' for the entity '{1}';".format(variable_name, self.plural),
-                    "however the variable '{0}' is defined for '{1}'.".format(variable_name, variable_entity.plural),
-                    "Learn more about entities in our documentation:",
-                    "<https://openfisca.org/doc/coding-the-legislation/50_entities.html>."])
+                    f"You tried to compute the variable '{variable_name}' for",
+                    f"the entity '{self.plural}'; however the variable",
+                    f"'{variable_name}' is defined for '{entity.plural}'.",
+                    f"Learn more about entities in our documentation:",
+                    f"<https://openfisca.org/doc/coding-the-legislation/50_entities.html>.",
+                    ])
                 raise ValueError(message)
 
         return None

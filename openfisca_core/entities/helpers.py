@@ -40,7 +40,7 @@ def build_entity(
         ...     "Banks loaning jointly.",
         ...     roles = [],
         ...     )
-        <openfisca_core.entities.group_entity.GroupEntity...
+        GroupEntity(syndicate)
 
         >>> build_entity(
         ...     "company",
@@ -48,7 +48,7 @@ def build_entity(
         ...     "A small or medium company.",
         ...     is_person = True,
         ...     )
-        <openfisca_core.entities.entity.Entity...
+        Entity(company)
 
     .. versionchanged:: 35.7.0
         Instead of raising :exc:`TypeError` when ``roles`` is None, it does

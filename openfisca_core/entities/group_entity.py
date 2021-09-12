@@ -44,7 +44,7 @@ class GroupEntity(Entity):
         ...     "All the people who live together in the same place.",
         ...     roles
         ...    )
-        <openfisca_core.entities.group_entity.GroupEntity...
+        GroupEntity(household)
 
     """
 
