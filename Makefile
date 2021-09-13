@@ -1,7 +1,7 @@
 info = $$(tput setaf 6)[i]$$(tput sgr0)
-pass = $$(tput setaf 2)[✓]$$(tput sgr0)
 warn = $$(tput setaf 3)[!]$$(tput sgr0)
 work = $$(tput setaf 5)[⚙]$$(tput sgr0)
+pass = echo $$(tput setaf 2)[✓]$$(tput sgr0) Good work! =\> $$(tput setaf 8)$1$$(tput sgr0)$$(tput setaf 2)passed$$(tput sgr0) 🚀
 help = sed -n "/^$1/ { x ; p ; } ; s/\#\#/$(work)/ ; s/\./.../ ; x" ${MAKEFILE_LIST}
 repo = https://github.com/openfisca/openfisca-doc
 branch = $(shell git branch --show-current)
@@ -93,6 +93,7 @@ test-doc:
 	@${MAKE} test-doc-checkout
 	@${MAKE} test-doc-install
 	@${MAKE} test-doc-build
+	@$(call pass,$@:)
 
 ## Update the local copy of the doc.
 test-doc-checkout:
@@ -140,7 +141,6 @@ test-doc-install:
 test-doc-build:
 	@$(call help,$@:)
 	@sphinx-build -M dummy doc/source doc/build -n -q -W
-	@echo "$(pass) Good work, all tests passed! 🚀"
 
 ## Serve the openfisca Web API.
 api:
