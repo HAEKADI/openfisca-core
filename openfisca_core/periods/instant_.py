@@ -5,6 +5,33 @@ from openfisca_core import periods
 
 
 class Instant(tuple):
+    """An instant in time (year, month, day).
+
+    An :class:`.Instant` represents the most atomic and indivisible unit time
+    of a legislations.
+
+    Current implementation considers this unit to be a day, so
+    :obj:`instants <.Instant>` can be thought of as "day dates".
+
+    Args:
+        iterable (tuple(int, int, int)):
+            The ``year``, ``month``, and ``day``, accordingly.
+
+    Examples:
+        >>> instant = Instant((2021, 9, 13))
+        >>> instant
+        Instant((2021, 9, 13))
+
+        >>> instant.year
+        2021
+
+        >>> instant.month
+        9
+
+        >>> instant.day
+        13
+
+    """
 
     def __repr__(self) -> str:
         """Casts an :obj:`.Instant` to its "official" :obj:`str` form.
@@ -40,6 +67,7 @@ class Instant(tuple):
         '2021-09-13'
 
         """
+
         instant_str = periods.STR_BY_INSTANT_CACHE.get(self)
 
         if instant_str is None:
