@@ -7,22 +7,35 @@ from openfisca_core.periods import config
 
 class Instant(tuple):
 
-    def __repr__(self):
-        """
-        Transform instant to to its Python representation as a string.
+    def __repr__(self) -> str:
+        """Casts an :obj:`.Instant` to its "official" :obj:`str` form.
 
-        >>> repr(instant(2014))
-        'Instant((2014, 1, 1))'
-        >>> repr(instant('2014-2'))
-        'Instant((2014, 2, 1))'
-        >>> repr(instant('2014-2-3'))
-        'Instant((2014, 2, 3))'
-        """
-        return '{}({})'.format(self.__class__.__name__, super(Instant, self).__repr__())
+        :meth:`.repr` is mainly used for debugging and development, and its
+        goal is to be unambiguous. :meth:`.repr` computes the "official"
+        :obj:`str` representation of an :obj:`.Instant`.
 
-    def __str__(self):
+        Returns:
+            :obj:`str`: The "official" string representation of an
+            :obj:`.Instant`.
+
+        Examples:
+            >>> repr(Instant((2021, 9, 13)))
+            'Instant((2021, 9, 13))'
+
         """
-        Transform instant to a string.
+
+        return f"{self.__class__.__name__}({super().__repr__()})"
+
+    def __str__(self) -> str:
+        """Casts an :obj:`.Instant` to its "unofficial" :obj:`str` form.
+
+        :meth:`.str` is mainly used for creating output for end user, and its
+        goal is to be readable. :meth:`.str` :meth:`.repr` computes the
+        "unofficial" :obj:`str` representation of an :obj:`.Instant`.
+
+        Returns:
+            :obj:`str`: The "unofficial" string representation of an
+            :obj:`.Instant`.
 
         >>> str(instant(2014))
         '2014-01-01'
