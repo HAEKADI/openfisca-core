@@ -15,7 +15,7 @@ class EnumArray(numpy.ndarray):
 
     Note:
         Subclassing `numpy.ndarray` is a little tricky™. To read more about the
-        :meth:`.__new__` and `.__array_finalize__` methods below, see
+        :meth:`.__new__` and :meth:`.__array_finalize__` methods below, see
         `Subclassing ndarray`_.
 
     Examples:

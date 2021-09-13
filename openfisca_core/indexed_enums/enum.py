@@ -93,13 +93,14 @@ class Enum(enum.Enum):
 
     @classmethod
     def encode(cls, array: Encodable) -> EnumArray:
-        """Encodes an :class:`.Encodable` array into an :class:`.EnumArray.`
+        """Encodes an encodable array into an :obj:`.EnumArray`.
 
         Args:
             array: Array to encode.
 
         Returns:
-            An array with the encoded input values.
+            :obj:`.EnumArray`: An :obj:`array <.EnumArray>` with the encoded
+            input values.
 
         Examples:
             >>> class MyEnum(Enum):
@@ -113,28 +114,28 @@ class Enum(enum.Enum):
             >>> MyEnum.encode(enum_array)
             EnumArray([<MyEnum.bar: b'bar'>])
 
-            # ArrayLike["Enum"]
+            # ArrayTipe[Enum]
 
             >>> array = numpy.array([MyEnum.bar])
             >>> enum_array = MyEnum.encode(array)
             >>> enum_array[0] == MyEnum.bar.index
             True
 
-            # ArrayLike[bytes]
+            # ArrayType[bytes]
 
             >>> array = numpy.array([b"bar"])
             >>> enum_array = MyEnum.encode(array)
             >>> enum_array[0] == MyEnum.bar.index
             True
 
-            # ArrayLike[int]
+            # ArrayType[int]
 
             >>> array = numpy.array([1])
             >>> enum_array = MyEnum.encode(array)
             >>> enum_array[0] == MyEnum.bar.index
             True
 
-            # ArrayLike[str]
+            # ArrayType[str]
 
             >>> array = numpy.array(["bar"])
             >>> enum_array = MyEnum.encode(array)
