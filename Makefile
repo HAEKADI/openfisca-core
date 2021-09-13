@@ -52,6 +52,7 @@ lint-style: \
 	lint-style-doc-commons \
 	lint-style-doc-entities \
 	lint-style-doc-indexed_enums \
+	lint-style-doc-periods \
 	lint-style-doc-types
 	@$(call pass,$@:)
 
@@ -72,6 +73,7 @@ lint-types: \
 	lint-types-strict-commons \
 	lint-types-strict-entities \
 	lint-types-strict-indexed_enums \
+	lint-types-strict-periods \
 	lint-types-strict-types
 	@$(call pass,$@:)
 
