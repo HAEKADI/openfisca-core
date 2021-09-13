@@ -63,8 +63,9 @@ class Instant(tuple):
             :obj:`str`: The "unofficial" string representation of an
             :obj:`.Instant`.
 
-        >>> str(Instant((2021, 9, 13)))
-        '2021-09-13'
+        Examples:
+            >>> str(Instant((2021, 9, 13)))
+            '2021-09-13'
 
         """
 
@@ -76,49 +77,69 @@ class Instant(tuple):
         return instant_str
 
     @property
-    def date(self):
-        """
-        Convert instant to a date.
+    def date(self) -> datetime.time:
+        """Converts instant to a date.
 
-        >>> instant(2014).date
-        datetime.date(2014, 1, 1)
-        >>> instant('2014-2').date
-        datetime.date(2014, 2, 1)
-        >>> instant('2014-2-3').date
-        datetime.date(2014, 2, 3)
+        Returns:
+            :obj:`datetime.date`: The converted :obj:`.Instant`.
+
+        Examples:
+            >>> Instant((2021, 9, 13)).date
+            datetime.date(2021, 9, 13)
+
         """
+
         instant_date = periods.DATE_BY_INSTANT_CACHE.get(self)
+
         if instant_date is None:
             periods.DATE_BY_INSTANT_CACHE[self] = instant_date = datetime.date(*self)
+
         return instant_date
 
     @property
-    def day(self):
-        """
-        Extract day from instant.
+    def year(self) -> int:
+        """Extracts year from :obj:`.Instant`.
 
-        >>> instant(2014).day
-        1
-        >>> instant('2014-2').day
-        1
-        >>> instant('2014-2-3').day
-        3
+        Returns:
+            int: The ``year``.
+
+        Examples:
+            >>> Instant((2021, 9, 13)).month
+            2021
+
         """
-        return self[2]
+
+        return self[0]
 
     @property
-    def month(self):
-        """
-        Extract month from instant.
+    def month(self) -> int:
+        """Extracts month from :obj:`.Instant`.
 
-        >>> instant(2014).month
-        1
-        >>> instant('2014-2').month
-        2
-        >>> instant('2014-2-3').month
-        2
+        Returns:
+            int: The ``month``.
+
+        Examples:
+            >>> Instant((2021, 9, 13)).month
+            9
+
         """
+
         return self[1]
+
+    @property
+    def day(self) -> int:
+        """Extracts day from :obj:`.Instant`.
+
+        Returns:
+            int: The ``day``.
+
+        Examples:
+            >>> Instant((2021, 9, 13)).day
+            13
+
+        """
+
+        return self[2]
 
     def period(self, unit, size = 1):
         """
@@ -271,17 +292,3 @@ class Instant(tuple):
                     day = month_last_day
 
         return self.__class__((year, month, day))
-
-    @property
-    def year(self):
-        """
-        Extract year from instant.
-
-        >>> instant(2014).year
-        2014
-        >>> instant('2014-2').year
-        2014
-        >>> instant('2014-2-3').year
-        2014
-        """
-        return self[0]
