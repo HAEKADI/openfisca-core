@@ -140,11 +140,11 @@ class Enum(enum.Enum):
             >>> enum_array[0] == MyEnum.bar.index
             True
 
-        .. versionchanged:: 35.5.0
+        .. versionchanged:: 35.8.0
             Fixed a bug when encoding :class:`bytes` arrays, now they're casted
             to :obj:`str` prior to encoding.
 
-        .. versionchanged:: 35.5.0
+        .. versionchanged:: 35.8.0
             Fixed a bug when encoding scalar arrays of :class:`.Enum` items,
             now they're encoded as expected.
 
@@ -170,7 +170,6 @@ class Enum(enum.Enum):
                 conditions = [array == item.name for item in cls]
 
             if numpy.issubdtype(array.dtype, cls):
-
                 # Ensure we are comparing the comparable.
                 #
                 # The problem this fixes:
