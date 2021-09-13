@@ -1,18 +1,36 @@
 import re
 from typing import Dict, Pattern
 
-DAY = 'day'
-MONTH = 'month'
-YEAR = 'year'
-ETERNITY = 'eternity'
+DAY: str = "day"
+"""Immutable object representing a day."""
 
-str_by_instant_cache: Dict = {}
+MONTH: str = "month"
+"""Immutable object representing a month."""
+
+YEAR: str = "year"
+"""Immutable object representing a year."""
+
+ETERNITY: str = "eternity"
+"""Immutable object representing the eternity."""
+
+STR_BY_INSTANT_CACHE: Dict = {}
 """Cache to store :obj:`str` reprentations of :obj:`.Instant`."""
 
-date_by_instant_cache: Dict = {}
+DATE_BY_INSTANT_CACHE: Dict = {}
+"""Cache to store :obj:`datetime.date` reprentations of :obj:`.Instant`."""
 
-# Matches "2015", "2015-01", "2015-01-01"
-# Does not match "2015-13", "2015-12-32"
 INSTANT_PATTERN: Pattern = re.compile(r"^\d{4}(-(0[1-9]|1[012]))?(-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]))?$")
+"""Pattern to validate a valid :obj:`.Instant`.
 
-year_or_month_or_day_re: Pattern = re.compile(r'(18|19|20)\d{2}(-(0?[1-9]|1[0-2])(-([0-2]?\d|3[0-1]))?)?$')
+Matches: "2015", "2015-01", "2015-01-01"…
+Does not match: "2015-13", "2015-12-32"…
+
+"""
+
+YEAR_OR_MONTH_OR_DAY_RE: Pattern = re.compile(r"(18|19|20)\d{2}(-(0?[1-9]|1[0-2])(-([0-2]?\d|3[0-1]))?)?$")
+"""???
+
+.. deprecated:: 34.9.0
+    ??? has been deprecated and it will be removed in 36.0.0.
+
+"""
