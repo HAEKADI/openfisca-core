@@ -22,6 +22,7 @@
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
 from .buildable import Buildable  # noqa: F401
+from .choosable import Choosable  # noqa: F401
 from .descriptable import Descriptable  # noqa: F401
 from .modelable import Modelable  # noqa: F401
 from .personifiable import Personifiable  # noqa: F401

@@ -5,7 +5,7 @@ from typing import Union
 
 import numpy
 
-from openfisca_core.types import ArrayLike, ArrayType
+from openfisca_core.types import ArrayType, Choosable
 
 from .. import indexed_enums as enums
 from .enum_array import EnumArray
@@ -13,7 +13,7 @@ from .enum_array import EnumArray
 #: Type of any encodable array.
 Encodable = Union[
     EnumArray,
-    ArrayLike["Enum"],
+    ArrayType[Choosable],
     ArrayType[bytes],
     ArrayType[int],
     ArrayType[str],
@@ -109,7 +109,7 @@ class Enum(enum.Enum):
             # EnumArray
 
             >>> array = numpy.array([1])
-            >>> enum_array = enums.EnumArray(array, MyEnum)
+            >>> enum_array = EnumArray(array, MyEnum)
             >>> MyEnum.encode(enum_array)
             EnumArray([<MyEnum.bar: b'bar'>])
 
@@ -197,4 +197,4 @@ class Enum(enum.Enum):
                 .select(conditions, choices) \
                 .astype(enums.ENUM_ARRAY_DTYPE)
 
-        return enums.EnumArray(array, cls)
+        return EnumArray(array, cls)

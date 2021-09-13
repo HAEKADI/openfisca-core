@@ -4,9 +4,7 @@ from typing import Any, NoReturn, Optional, Type, Union
 
 import numpy
 
-from openfisca_core.types import ArrayLike, ArrayType
-
-from .. import indexed_enums as enums
+from openfisca_core.types import ArrayLike, ArrayType, Choosable
 
 
 class EnumArray(numpy.ndarray):
@@ -21,9 +19,10 @@ class EnumArray(numpy.ndarray):
         `Subclassing ndarray`_.
 
     Examples:
+        >>> from openfisca_core.indexed_enums import Enum
         >>> from openfisca_core.variables import Variable
 
-        >>> class Housing(enums.Enum):
+        >>> class Housing(Enum):
         ...     owner = "Owner"
         ...     tenant = "Tenant"
         ...     free_lodger = "Free lodger"
@@ -34,7 +33,7 @@ class EnumArray(numpy.ndarray):
         EnumArray([<Housing.tenant: 'Tenant'>])
 
         >>> class OccupancyStatus(Variable):
-        ...     value_type = enums.Enum
+        ...     value_type = Enum
         ...     possible_values = Housing
 
         >>> EnumArray(array, OccupancyStatus.possible_values)
@@ -48,7 +47,7 @@ class EnumArray(numpy.ndarray):
     def __new__(
             cls,
             input_array: ArrayType[int],
-            possible_values: Optional[Type[enums.Enum]] = None,
+            possible_values: Optional[Type[Choosable]] = None,
             ) -> EnumArray:
         """See comment above…"""
 
@@ -80,12 +79,14 @@ class EnumArray(numpy.ndarray):
             True, False, or a boolean :class:`numpy.ndarray`.
 
         Examples:
-            >>> class MyEnum(enums.Enum):
+            >>> from openfisca_core.indexed_enums import Enum
+
+            >>> class MyEnum(Enum):
             ...     foo = b"foo"
             ...     bar = b"bar"
 
             >>> array = numpy.array([1])
-            >>> enum_array = enums.EnumArray(array, MyEnum)
+            >>> enum_array = EnumArray(array, MyEnum)
 
             >>> enum_array == 1
             array([ True])
@@ -119,12 +120,14 @@ class EnumArray(numpy.ndarray):
             True, False, or a boolean :class:`numpy.ndarray`.
 
         Examples:
-            >>> class MyEnum(enums.Enum):
+            >>> from openfisca_core.indexed_enums import Enum
+
+            >>> class MyEnum(Enum):
             ...     foo = b"foo"
             ...     bar = b"bar"
 
             >>> array = numpy.array([1])
-            >>> enum_array = enums.EnumArray(array, MyEnum)
+            >>> enum_array = EnumArray(array, MyEnum)
 
             >>> enum_array != 1
             array([False])
@@ -160,14 +163,16 @@ class EnumArray(numpy.ndarray):
     __and__ = _forbidden_operation
     __or__ = _forbidden_operation
 
-    def decode(self) -> ArrayLike[enums.Enum]:
+    def decode(self) -> ArrayLike[Choosable]:
         """Decodes itself to a normal array.
 
         Returns:
             The enum items of the :obj:`.EnumArray`.
 
         Examples:
-            >>> class MyEnum(enums.Enum):
+            >>> from openfisca_core.indexed_enums import Enum
+
+            >>> class MyEnum(Enum):
             ...     foo = b"foo"
             ...     bar = b"bar"
 
@@ -190,7 +195,9 @@ class EnumArray(numpy.ndarray):
             The string identifiers of the :obj:`.EnumArray`.
 
         Examples:
-            >>> class MyEnum(enums.Enum):
+            >>> from openfisca_core.indexed_enums import Enum
+
+            >>> class MyEnum(Enum):
             ...     foo = b"foo"
             ...     bar = b"bar"
 
