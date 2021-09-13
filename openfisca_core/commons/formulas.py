@@ -8,7 +8,7 @@ from openfisca_core.types import ArrayLike, ArrayType
 def apply_thresholds(input: ArrayType[float], thresholds: ArrayLike[float], choices: ArrayLike[float]) -> ArrayType[float]:
     """Makes a choice based on an input and thresholds.
 
-    From list of ``choices``, it selects one of them based from a list of
+    From list of ``choices``, it selects one of them based on a list of
     inputs, depending on the position of each ``input`` whithin a list of
     ``thresholds``. It does so for each ``input`` provided.
 
