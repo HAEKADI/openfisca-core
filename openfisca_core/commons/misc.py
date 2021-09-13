@@ -1,9 +1,11 @@
-from typing import Any
+from typing import TypeVar
 
 from openfisca_core.types import ArrayType
 
+T = TypeVar("T")
 
-def empty_clone(original: Any) -> Any:
+
+def empty_clone(original: T) -> T:
     """Creates an empty instance of the same class of the original object.
 
     Note:
@@ -35,7 +37,7 @@ def empty_clone(original: Any) -> Any:
         def __init__(self) -> None:
             pass
 
-    new = Dummy()
+    new: T = Dummy()
     new.__class__ = original.__class__
     return new
 
@@ -47,6 +49,7 @@ def stringify_array(array: ArrayType) -> str:
         array: An array.
 
     Returns:
+        :obj:`str`:
         "None" if the ``array`` is None, the stringified ``array`` otherwise.
 
     Examples:
