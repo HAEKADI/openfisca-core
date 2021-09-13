@@ -1,13 +1,14 @@
 info = $$(tput setaf 6)[i]$$(tput sgr0)
 warn = $$(tput setaf 3)[!]$$(tput sgr0)
 work = $$(tput setaf 5)[⚙]$$(tput sgr0)
-pass = echo $$(tput setaf 2)[✓]$$(tput sgr0) Good work! =\> $$(tput setaf 8)$1$$(tput sgr0)$$(tput setaf 2)passed$$(tput sgr0) 🚀
+pass = echo $$(tput setaf 2)[✓]$$(tput sgr0) Good work! =\> $$(tput setaf 8)$1$$(tput sgr0)$$(tput setaf 2)passed$$(tput sgr0) $$(tput setaf 1)❤$$(tput sgr0)
 help = sed -n "/^$1/ { x ; p ; } ; s/\#\#/$(work)/ ; s/\./.../ ; x" ${MAKEFILE_LIST}
 repo = https://github.com/openfisca/openfisca-doc
 branch = $(shell git branch --show-current)
 
 ## Same as `make test`.
 all: test
+	@$(call pass,$@:)
 
 ## Install project dependencies.
 install:
@@ -39,6 +40,7 @@ clean: \
 check-syntax-errors: .
 	@$(call help,$@:)
 	@python -m compileall -q $?
+	@$(call pass,$@:)
 
 ## Run linters to check for syntax and style errors.
 check-style: $(shell git ls-files "*.py")
@@ -57,10 +59,14 @@ check-style: $(shell git ls-files "*.py")
 	@# See: `pylint --list-msgs`
 	@pylint --enable=classes,exceptions,imports,miscellaneous,refactoring --disable=W0201,W0231 openfisca_core/commons
 
+	@# Exit.
+	@$(call pass,$@:)
+
 ## Run static type checkers for type errors.
 check-types: openfisca_core openfisca_web_api
 	@$(call help,$@:)
 	@mypy $?
+	@$(call pass,$@:)
 
 ## Run code formatters to correct style errors.
 format-style: $(shell git ls-files "*.py")
@@ -71,6 +77,7 @@ format-style: $(shell git ls-files "*.py")
 test: clean check-syntax-errors check-style check-types
 	@$(call help,$@:)
 	@PYTEST_ADDOPTS="${PYTEST_ADDOPTS}" pytest --cov=openfisca_core --cov=openfisca_web_api
+	@$(call pass,$@:)
 
 ## Check that the current changes do not break the doc.
 test-doc:
