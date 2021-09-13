@@ -11,18 +11,18 @@ class deprecated:
 
     Attributes:
         since (:obj:`str`): Since when the functionality is deprecated.
-        expires (:obj:`str`): When wil it be removed forever?
+        expires (:obj:`str`): When will it be removed forever?
 
     Args:
         since: Since when the functionality is deprecated.
-        expires: When wil it be removed forever?
+        expires: When will it be removed forever?
 
     Examples:
         >>> @deprecated(since = "35.5.0", expires = "in the future")
         ... def obsolete():
         ...     return "I'm obsolete!"
 
-    .. versionadded: 35.6.0
+    .. versionadded:: 35.6.0
 
     """
 
@@ -37,7 +37,7 @@ class deprecated:
             function: The function or method to decorate.
 
         Returns:
-            The decorated function.
+            :obj:`callable`: The decorated function.
 
         Examples:
             >>> def obsolete():
