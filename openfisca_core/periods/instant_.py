@@ -1,7 +1,13 @@
+from __future__ import annotations
+
 import calendar
 import datetime
 
+from typing_extensions import Literal
+
 from openfisca_core import periods
+
+UnitType = Literal["day", "month", "year"]
 
 
 class Instant(tuple):
@@ -104,7 +110,7 @@ class Instant(tuple):
             int: The ``year``.
 
         Examples:
-            >>> Instant((2021, 9, 13)).month
+            >>> Instant((2021, 9, 13)).year
             2021
 
         """
@@ -141,17 +147,31 @@ class Instant(tuple):
 
         return self[2]
 
-    def period(self, unit, size = 1):
-        """
-        Create a new period starting at instant.
+    def period(self, unit: UnitType, size: int = 1) -> periods.Period:
+        """Creates a new :obj:`.Period` starting at :obj:`.Instant`.
 
-        >>> instant(2014).period('month')
-        Period(('month', Instant((2014, 1, 1)), 1))
-        >>> instant('2014-2').period('year', 2)
-        Period(('year', Instant((2014, 2, 1)), 2))
-        >>> instant('2014-2-3').period('day', size = 2)
-        Period(('day', Instant((2014, 2, 3)), 2))
+        Todo:
+            * Somehow remove cyclic dependency.
+
+        Args:
+            unit: ``day`` or ``month`` or ``year``.
+            size: How many of ``unit``.
+
+        Returns:
+            A new object :obj:`.Period`.
+
+        Examples:
+            >>> Instant((2021, 9, 13)).period(periods.YEAR)
+            Period(('year', Instant((2021, 9, 13)), 1))
+
+            >>> Instant((2021, 9, 13)).period(periods.MONTH, 2)
+            Period(('month', Instant((2021, 9, 13)), 2))
+
+            >>> Instant((2021, 9, 13)).period(periods.DAY, 1000)
+            Period(('day', Instant((2021, 9, 13)), 1000))
+
         """
+
         assert unit in (periods.DAY, periods.MONTH, periods.YEAR), 'Invalid unit: {} of type {}'.format(unit, type(unit))
         assert isinstance(size, int) and size >= 1, 'Invalid size: {} of type {}'.format(size, type(size))
         return periods.Period((unit, self, size))
