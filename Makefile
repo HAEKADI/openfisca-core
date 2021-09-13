@@ -1,4 +1,8 @@
-help = sed -n "/^$1/ { x ; p ; } ; s/\#\#/[⚙]/ ; s/\./.../ ; x" ${MAKEFILE_LIST}
+info = $$(tput setaf 6)[i]$$(tput sgr0)
+pass = $$(tput setaf 2)[✓]$$(tput sgr0)
+warn = $$(tput setaf 3)[!]$$(tput sgr0)
+work = $$(tput setaf 5)[⚙]$$(tput sgr0)
+help = sed -n "/^$1/ { x ; p ; } ; s/\#\#/$(work)/ ; s/\./.../ ; x" ${MAKEFILE_LIST}
 repo = https://github.com/openfisca/openfisca-doc
 branch = $(shell git branch --show-current)
 
@@ -101,12 +105,25 @@ test-doc-checkout:
 		[ "${branch}" != "master" ] \
 			&& { \
 				{ \
+					>&2 echo "$(info) Trying to checkout the branch 'openfisca-doc/${branch}'..." ; \
 					git branch -D ${branch} 2> /dev/null ; \
-					git checkout ${branch} ; \
+					git checkout ${branch} 2> /dev/null ; \
 				} \
 					&& git pull --ff-only origin ${branch} \
 					|| { \
-						>&2 echo "[!] The branch '${branch}' doesn't exist, checking out 'master' instead..." ; \
+						>&2 echo "$(warn) The branch 'openfisca-doc/${branch}' was not found, falling back to 'openfisca-doc/master'..." ; \
+						>&2 echo "" ; \
+						>&2 echo "$(info) This is perfectly normal, one of two things can ensue:" ; \
+						>&2 echo "$(info)" ; \
+						>&2 echo "$(info) $$(tput setaf 2)[If tests pass]$$(tput sgr0)" ; \
+						>&2 echo "$(info)     * No further action required on your side..." ; \
+						>&2 echo "$(info)" ; \
+						>&2 echo "$(info) $$(tput setaf 1)[If tests fail]$$(tput sgr0)" ; \
+						>&2 echo "$(info)     * Create the branch '${branch}' in 'openfisca-doc'... " ; \
+						>&2 echo "$(info)     * Push your fixes..." ; \
+						>&2 echo "$(info)     * Run 'make test-doc' again..." ; \
+						>&2 echo "" ; \
+						>&2 echo "$(work) Checking out 'openfisca-doc/master'..." ; \
 						git pull --ff-only origin master ; \
 					} \
 			} \
@@ -123,6 +140,7 @@ test-doc-install:
 test-doc-build:
 	@$(call help,$@:)
 	@sphinx-build -M dummy doc/source doc/build -n -q -W
+	@echo "$(pass) Good work, all tests passed! 🚀"
 
 ## Serve the openfisca Web API.
 api:
