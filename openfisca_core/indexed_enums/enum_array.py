@@ -47,7 +47,7 @@ class EnumArray(numpy.ndarray):
 
     def __new__(
             cls,
-            input_array: numpy.int_,
+            input_array: ArrayType[int],
             possible_values: Optional[Type[enums.Enum]] = None,
             ) -> EnumArray:
         """See comment above…"""
@@ -56,7 +56,7 @@ class EnumArray(numpy.ndarray):
         obj.possible_values = possible_values
         return obj
 
-    def __array_finalize__(self, obj: Optional[numpy.int_]) -> None:
+    def __array_finalize__(self, obj: Optional[ArrayType[int]]) -> None:
         """See comment above…"""
 
         if obj is None:
