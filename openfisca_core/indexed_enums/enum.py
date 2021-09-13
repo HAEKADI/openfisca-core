@@ -8,10 +8,11 @@ import numpy
 from openfisca_core.types import ArrayLike, ArrayType
 
 from .. import indexed_enums as enums
+from .enum_array import EnumArray
 
 #: Type of any encodable array.
 Encodable = Union[
-    enums.EnumArray,
+    EnumArray,
     ArrayLike["Enum"],
     ArrayType[bytes],
     ArrayType[int],
@@ -91,7 +92,7 @@ class Enum(enum.Enum):
     __hash__ = object.__hash__
 
     @classmethod
-    def encode(cls, array: Encodable) -> enums.EnumArray:
+    def encode(cls, array: Encodable) -> EnumArray:
         """Encodes an :class:`.Encodable` array into an :class:`.EnumArray.`
 
         Args:
@@ -153,7 +154,7 @@ class Enum(enum.Enum):
 
         """
 
-        if isinstance(array, enums.EnumArray):
+        if isinstance(array, EnumArray):
 
             return array
 
