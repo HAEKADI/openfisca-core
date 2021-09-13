@@ -14,10 +14,8 @@ A = Union[
     ]
 
 ArrayLike = Union[A, Sequence[T]]
-
-""":obj:`.Generic`: Type of any castable to :class:`.ndarray`.
-
-These include any :obj:`.ndarray` and sequences (like
+""":obj:`typing.Generic`: Type of any castable to :class:`numpy.ndarray`.
+These include any :obj:`numpy.ndarray` and sequences (like
 :obj:`list`, :obj:`tuple`, and so on).
 
 Examples:
