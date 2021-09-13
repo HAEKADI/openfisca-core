@@ -1,4 +1,4 @@
-"""Provides a way of representing the entities of a machine-consumable ruleset.
+"""Provides a way of representing the entities of a rule system.
 
 Each rule system is comprised by legislation and regulations to be applied upon
 "someone". In legal and economical terms, "someone" is referred to as people:
