@@ -106,7 +106,9 @@ jobs:
 
       - run:
           name: Run core & web-api tests
-          command: PYTEST_ADDOPTS="--exitfirst" make test-code
+          command: |
+            pip install --editable . --upgrade --no-dependencies
+            PYTEST_ADDOPTS="--exitfirst" make test-code
 
       - persist_to_workspace:
           root: .
