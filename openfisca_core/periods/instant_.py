@@ -40,10 +40,10 @@ class Instant(tuple):
         '2021-09-13'
 
         """
-        instant_str = periods.str_by_instant_cache.get(self)
+        instant_str = periods.STR_BY_INSTANT_CACHE.get(self)
 
         if instant_str is None:
-            periods.str_by_instant_cache[self] = instant_str = self.date.isoformat()
+            periods.STR_BY_INSTANT_CACHE[self] = instant_str = self.date.isoformat()
 
         return instant_str
 
@@ -59,9 +59,9 @@ class Instant(tuple):
         >>> instant('2014-2-3').date
         datetime.date(2014, 2, 3)
         """
-        instant_date = periods.date_by_instant_cache.get(self)
+        instant_date = periods.DATE_BY_INSTANT_CACHE.get(self)
         if instant_date is None:
-            periods.date_by_instant_cache[self] = instant_date = datetime.date(*self)
+            periods.DATE_BY_INSTANT_CACHE[self] = instant_date = datetime.date(*self)
         return instant_date
 
     @property
