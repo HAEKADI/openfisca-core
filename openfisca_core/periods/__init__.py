@@ -22,21 +22,27 @@
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
 from .config import (  # noqa: F401
-    date_by_instant_cache,
     DAY,
-    ETERNITY,
-    INSTANT_PATTERN,
     MONTH,
-    str_by_instant_cache,
     YEAR,
-    year_or_month_or_day_re,
+    ETERNITY,
+    )
+
+from .config import (  # noqa: F401
+    INSTANT_PATTERN,
+    YEAR_OR_MONTH_OR_DAY_RE,
+    )
+
+from .config import (  # noqa: F401
+    STR_BY_INSTANT_CACHE,
+    DATE_BY_INSTANT_CACHE,
     )
 
 from .helpers import (  # noqa: F401
+    N_,
     instant,
     instant_date,
     key_period_size,
-    N_,
     period,
     unit_weight,
     unit_weights,
@@ -44,3 +50,9 @@ from .helpers import (  # noqa: F401
 
 from .instant_ import Instant  # noqa: F401
 from .period_ import Period  # noqa: F401
+
+# For backwards compatibility
+
+str_by_instant_cache = STR_BY_INSTANT_CACHE
+date_by_instant_cache = DATE_BY_INSTANT_CACHE
+year_or_month_or_day_re = YEAR_OR_MONTH_OR_DAY_RE
