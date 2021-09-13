@@ -5,7 +5,11 @@ import numpy
 from openfisca_core.types import ArrayLike, ArrayType
 
 
-def average_rate(target: ArrayType[float], varying: ArrayLike[float], trim: Optional[ArrayLike[float]] = None) -> ArrayType[float]:
+def average_rate(
+        target: ArrayType[float],
+        varying: ArrayLike[float],
+        trim: Optional[ArrayLike[float]] = None,
+        ) -> ArrayType[float]:
     """Computes the average rate of a target net income.
 
     Given a ``target`` net income, and according to the ``varying`` gross
@@ -21,6 +25,8 @@ def average_rate(target: ArrayType[float], varying: ArrayLike[float], trim: Opti
         trim: The lower and upper bounds of the average rate.
 
     Returns:
+        :obj:`numpy.ndarray` of :obj:`float`:
+
         The average rate for each target.
 
         When ``trim`` is provided, values that are out of the provided bounds
@@ -36,14 +42,29 @@ def average_rate(target: ArrayType[float], varying: ArrayLike[float], trim: Opti
     """
 
     average_rate = 1 - target / varying
+
     if trim is not None:
-        average_rate = numpy.where(average_rate <= max(trim), average_rate, numpy.nan)
-        average_rate = numpy.where(average_rate >= min(trim), average_rate, numpy.nan)
+
+        average_rate = numpy.where(
+            average_rate <= max(trim),
+            average_rate,
+            numpy.nan,
+            )
+
+        average_rate = numpy.where(
+            average_rate >= min(trim),
+            average_rate,
+            numpy.nan,
+            )
 
     return average_rate
 
 
-def marginal_rate(target: ArrayType[float], varying: ArrayType[float], trim: Optional[ArrayLike[float]] = None) -> ArrayType[float]:
+def marginal_rate(
+        target: ArrayType[float],
+        varying: ArrayType[float],
+        trim: Optional[ArrayLike[float]] = None,
+        ) -> ArrayType[float]:
     """Computes the marginal rate of a target net income.
 
     Given a ``target`` net income, and according to the ``varying`` gross
@@ -59,6 +80,8 @@ def marginal_rate(target: ArrayType[float], varying: ArrayType[float], trim: Opt
         trim: The lower and upper bounds of the marginal rate.
 
     Returns:
+        :obj:`numpy.ndarray` of :obj:`float`:
+
         The marginal rate for each target.
 
         When ``trim`` is provided, values that are out of the provided bounds
@@ -73,9 +96,25 @@ def marginal_rate(target: ArrayType[float], varying: ArrayType[float], trim: Opt
 
     """
 
-    marginal_rate = 1 - (target[:-1] - target[1:]) / (varying[:-1] - varying[1:])
+    marginal_rate = (
+        + 1
+        - (target[:-1]
+        - target[1:]) / (varying[:-1]
+        - varying[1:])
+        )
+
     if trim is not None:
-        marginal_rate = numpy.where(marginal_rate <= max(trim), marginal_rate, numpy.nan)
-        marginal_rate = numpy.where(marginal_rate >= min(trim), marginal_rate, numpy.nan)
+
+        marginal_rate = numpy.where(
+            marginal_rate <= max(trim),
+            marginal_rate,
+            numpy.nan,
+            )
+
+        marginal_rate = numpy.where(
+            marginal_rate >= min(trim),
+            marginal_rate,
+            numpy.nan,
+            )
 
     return marginal_rate
