@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 import datetime
 import os
+import typing
+from typing import Dict, Optional, Union
 
-from openfisca_core import periods
+from openfisca_core import commons, periods
 
 from .unit import Unit
 
@@ -61,9 +65,9 @@ def instant(instant):
 def instant_date(instant):
     if instant is None:
         return None
-    instant_date = config.date_by_instant_cache.get(instant)
+    instant_date = periods.DATE_BY_INSTANT_CACHE.get(instant)
     if instant_date is None:
-        config.date_by_instant_cache[instant] = instant_date = datetime.date(*instant)
+        periods.DATE_BY_INSTANT_CACHE[instant] = instant_date = datetime.date(*instant)
     return instant_date
 
 
@@ -89,7 +93,7 @@ def period(value):
         return value
 
     if isinstance(value, periods.Instant):
-        return periods.Period((Unit.Day.key, value, 1))
+        return periods.Period((Unit.Day, value, 1))
 
     def parse_simple_period(value):
         """
@@ -106,11 +110,11 @@ def period(value):
                 except ValueError:
                     return None
                 else:
-                    return periods.Period((Unit.Day.key, periods.Instant((date.year, date.month, date.day)), 1))
+                    return periods.Period((Unit.Day, periods.Instant((date.year, date.month, date.day)), 1))
             else:
-                return periods.Period((Unit.Month.key, periods.Instant((date.year, date.month, 1)), 1))
+                return periods.Period((Unit.Month, periods.Instant((date.year, date.month, 1)), 1))
         else:
-            return periods.Period((Unit.Year.key, periods.Instant((date.year, date.month, 1)), 1))
+            return periods.Period((Unit.Year, periods.Instant((date.year, date.month, 1)), 1))
 
     def raise_error(value):
         message = os.linesep.join([
@@ -120,12 +124,12 @@ def period(value):
             ])
         raise ValueError(message)
 
-    if value == 'ETERNITY' or value == Unit.Eternity.key:
+    if value == 'ETERNITY' or value == Unit.Eternity:
         return periods.Period(('eternity', instant(datetime.date.min), float("inf")))
 
     # check the type
     if isinstance(value, int):
-        return periods.Period((Unit.Year.key, periods.Instant((value, 1, 1)), 1))
+        return periods.Period((Unit.Year, periods.Instant((value, 1, 1)), 1))
     if not isinstance(value, str):
         raise_error(value)
 
@@ -142,7 +146,8 @@ def period(value):
 
     # left-most component must be a valid unit
     unit = components[0]
-    if unit not in (Unit.Day.key, Unit.Month.key, Unit.Year.key):
+
+    if unit not in Unit.ethereal():
         raise_error(value)
 
     # middle component must be a valid iso period
@@ -164,41 +169,120 @@ def period(value):
         raise_error(value)
 
     # reject ambiguous period such as month:2014
-    if unit_weight(base_period.unit) > unit_weight(unit):
+    if base_period.unit > unit:
         raise_error(value)
 
     return periods.Period((unit, base_period.start, size))
 
 
-def key_period_size(period):
+def key_period_size(period: periods.Period) -> str:
+    """Defines a key in order to sort periods by length.
+
+    It uses two aspects: first, ``unit``, then, ``size``.
+
+    Args:
+        period: An :mod:`.openfisca_core` :obj:`.Period`.
+
+    Returns:
+        :obj:`str`: A string.
+
+    Examples:
+        >>> instant = periods.Instant((2021, 9, 14))
+
+        >>> period = periods.Period((Unit.Day, instant, 1))
+        >>> key_period_size(period)
+        '100_1'
+
+        >>> period = periods.Period(("month", instant, 2))
+        >>> key_period_size(period)
+        '200_2'
+
+        >>> period = periods.Period(("Year", instant, 3))
+        >>> key_period_size(period)
+        '300_3'
+
+        >>> period = periods.Period(("ETERNITY", instant, 4))
+        >>> key_period_size(period)
+        '400_4'
+
+    .. versionchanged:: 35.9.0
+        Hereafter uses :attr:`.Unit.weight`.
+
     """
-    Defines a key in order to sort periods by length. It uses two aspects : first unit then size
 
-    :param period: an OpenFisca period
-    :return: a string
+    unit: Union[Unit, str]
+    size: int
 
-    >>> key_period_size(period('2014'))
-    '2_1'
-    >>> key_period_size(period('2013'))
-    '2_1'
-    >>> key_period_size(period('2014-01'))
-    '1_1'
+    unit, _, size = period
+
+    if isinstance(unit, str):
+        unit = Unit[unit]
+
+    return f"{unit.weight}_{size}"
+
+
+@commons.deprecated(since = "35.9.0", expires = "the future")
+def unit_weights() -> Dict[str, int]:
+    """Finds the weight of each date unit.
+
+    Returns:
+        dict(str, int): A dictionary with the corresponding values.
+
+    Examples:
+        >>> unit_weights()
+        {'day': 100, 'month': 200, 'year': 300, 'eternity': 400}
+
+    .. deprecated:: 35.9.0
+        :func:`.unit_weights` has been deprecated and will be
+        removed in the future. The functionality is now provided by
+        :func:`.Unit.weights`.
 
     """
 
-    unit, start, size = period
-
-    return '{}_{}'.format(unit_weight(unit), size)
+    return Unit.weights()
 
 
-def unit_weights():
-    return {
-        Unit.Day.key: 100,
-        Unit.Month.key: 200,
-        Unit.Year.key: 300,
-        Unit.Eternity.key: 400,
-        }
+@typing.overload
+def unit_weight(unit: str) -> Optional[int]:
+    ...
 
 
+@typing.overload
+def unit_weight(unit: Unit) -> Optional[int]:
+    ...
+
+
+@commons.deprecated(since = "35.9.0", expires = "the future")
 def unit_weight(unit):
-    return unit_weights()[unit]
+    """Finds the weight of a specific date unit.
+
+    Args:
+        unit: The unit to find the weight for.
+
+    Returns:
+        int: The weight.
+
+    Examples:
+        >>> unit_weight(Unit.Day)
+        100
+
+        >>> unit_weight('DAY')
+        100
+
+        >>> unit_weight('Day')
+        100
+
+        >>> unit_weight('day')
+        100
+
+    .. deprecated:: 35.9.0
+        :func:`.unit_weight` has been deprecated and will be
+        removed in the future. The functionality is now provided by
+        :attr:`.Unit.weight`.
+
+    """
+
+    if isinstance(unit, str):
+        unit = Unit[unit]
+
+    return unit.weight

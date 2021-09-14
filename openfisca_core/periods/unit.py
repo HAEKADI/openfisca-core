@@ -369,3 +369,17 @@ class Unit(Enum, metaclass = UnitMeta):
         """
 
         return self.key.upper()
+
+    def lower(self) -> str:
+        """Lowecases the :class:`.Unit`.
+
+        Returns:
+            :obj:`str`: The lowercased :class:`.Unit`.
+
+        Examples:
+            >>> Unit.Day.lower()
+            'day'
+
+        """
+
+        return self.key.lower()

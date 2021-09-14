@@ -37,8 +37,6 @@ from .helpers import (  # noqa: F401
     instant_date,
     key_period_size,
     period,
-    unit_weight,
-    unit_weights,
     )
 
 from .instant_ import Instant  # noqa: F401
@@ -53,3 +51,5 @@ for item in Unit:
 str_by_instant_cache = STR_BY_INSTANT_CACHE
 date_by_instant_cache = DATE_BY_INSTANT_CACHE
 year_or_month_or_day_re = YEAR_OR_MONTH_OR_DAY_RE
+
+from .helpers import unit_weight, unit_weights  # noqa: F401
