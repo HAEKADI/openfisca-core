@@ -23,11 +23,11 @@ def instant(instant):
     Instant((2014, 1, 1))
     >>> instant('2014-02')
     Instant((2014, 2, 1))
-    >>> instant('2014-3-2')
+    >>> instant('2014-03-02')
     Instant((2014, 3, 2))
-    >>> instant(instant('2014-3-2'))
+    >>> instant(instant('2014-03-02'))
     Instant((2014, 3, 2))
-    >>> instant(period('month', '2014-3-2'))
+    >>> instant(period('month:2014-3-2'))
     Instant((2014, 3, 2))
 
     >>> instant(None)
@@ -75,19 +75,19 @@ def period(value):
     """Return a new period, aka a triple (unit, start_instant, size).
 
     >>> period('2014')
-    Period((YEAR, Instant((2014, 1, 1)), 1))
+    Period((<Unit.Year: ('year', 300)>, Instant((2014, 1, 1)), 1))
     >>> period('year:2014')
-    Period((YEAR, Instant((2014, 1, 1)), 1))
+    Period(('year', Instant((2014, 1, 1)), 1))
 
     >>> period('2014-2')
-    Period((MONTH, Instant((2014, 2, 1)), 1))
+    Period((<Unit.Month: ('month', 200)>, Instant((2014, 2, 1)), 1))
     >>> period('2014-02')
-    Period((MONTH, Instant((2014, 2, 1)), 1))
+    Period((<Unit.Month: ('month', 200)>, Instant((2014, 2, 1)), 1))
     >>> period('month:2014-2')
-    Period((MONTH, Instant((2014, 2, 1)), 1))
+    Period(('month', Instant((2014, 2, 1)), 1))
 
     >>> period('year:2014-2')
-    Period((YEAR, Instant((2014, 2, 1)), 1))
+    Period(('year', Instant((2014, 2, 1)), 1))
     """
     if isinstance(value, periods.Period):
         return value
