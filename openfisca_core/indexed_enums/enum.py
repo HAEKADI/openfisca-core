@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import enum
-from typing import Union
+from typing import Any, Union
 
 import numpy
 
@@ -25,6 +25,12 @@ class Enum(enum.Enum):
 
     Whose items have an :obj:`int` index. This is useful and performant when
     running simulations on large populations.
+
+    Attributes:
+        index (:obj:`int`): The ``index`` of the :class:`.Enum` member.
+        name (:obj:`str`): The ``name`` of the :class:`.Enum` member.
+        value: The ``value`` of the :class:`.Enum` member.
+
 
     Examples:
         >>> class Housing(Enum):
@@ -58,6 +64,10 @@ class Enum(enum.Enum):
         'Tenant'
 
     """
+
+    index: int
+    name: str
+    value: Any
 
     def __init__(self, name: str) -> None:
         """ Tweaks :class:`~enum.Enum` to add an index to each enum item.

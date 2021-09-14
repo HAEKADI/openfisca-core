@@ -50,6 +50,7 @@ from .helpers import (  # noqa: F401
 
 from .instant_ import Instant  # noqa: F401
 from .period_ import Period  # noqa: F401
+from .unit import Unit  # noqa: F401
 
 # For backwards compatibility
 
