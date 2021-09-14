@@ -3,16 +3,11 @@ from __future__ import annotations
 import calendar
 import datetime
 import functools
-import typing
-
-from typing_extensions import Literal
 
 from openfisca_core import periods
+from openfisca_core.types import EtherealLike
 
 from .unit import Unit
-
-# TODO: cast periods.* to str
-UnitType = Literal[Unit.Day, Unit.Month, Unit.Year]
 
 
 class Instant(tuple):
@@ -154,7 +149,7 @@ class Instant(tuple):
 
         return self[2]
 
-    def period(self, unit: UnitType, size: int = 1) -> periods.Period:
+    def period(self, unit: EtherealLike, size: int = 1) -> periods.Period:
         """Creates a new :obj:`.Period` starting at :obj:`.Instant`.
 
         Todo:
@@ -170,26 +165,24 @@ class Instant(tuple):
 
         Examples:
             >>> Instant((2021, 9, 13)).period(Unit.Year)
-            Period((<Unit.Year: ('year', 300)>, Instant((2021, 9, 13)), 1))
+            Period((Unit.Year(('year', 300)), Instant((2021, 9, 13)), 1))
 
             >>> Instant((2021, 9, 13)).period(Unit.Month, 2)
-            Period((<Unit.Month: ('month', 200)>, Instant((2021, 9, 13)), 2))
+            Period((Unit.Month(('month', 200)), Instant((2021, 9, 13)), 2))
 
             >>> Instant((2021, 9, 13)).period(Unit.Day, 1000)
-            Period((<Unit.Day: ('day', 100)>, Instant((2021, 9, 13)), 1000))
+            Period((Unit.Day(('day', 100)), Instant((2021, 9, 13)), 1000))
 
         """
 
-        assert unit in Unit.ethereal(), 'Invalid unit: {} of type {}'.format(unit, type(unit))
-        assert isinstance(size, int) and size >= 1, 'Invalid size: {} of type {}'.format(size, type(size))
+        assert unit in Unit, \
+            f"Invalid unit: {unit} of type {type(unit)}. Expecting any of " \
+            f"{', '.join(str(unit) for unit in Unit)}."
+
+        assert isinstance(size, int) and size >= 1, \
+            f"Invalid size: {size} of type {type(size)}"
+
         return periods.Period((unit, self, size))
-
-    OffsetLiteral = Literal["first-of", "last-of"]
-
-    @typing.overload
-    def offset(self, offset: OffsetLiteral, unit: Unit) -> Instant:
-        ...
-
 
     def offset(self, offset, unit):
         """

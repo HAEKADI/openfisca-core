@@ -64,35 +64,36 @@ class Unit(Enum, metaclass = UnitMeta):
         value (tuple(str, int)): The ``key`` and ``weighr`` of each item.
 
     Examples:
+
         >>> Unit
         <enum 'Unit'>
 
         >>> list(Unit)
-        [<Unit.Day: ('day', 100)>, ...]
+        [Unit.Day(('day', 100)), Unit.Month(('month', 200)), ...]
 
         >>> len(Unit)
         4
 
         >>> Unit.Day
-        <Unit.Day: ('day', 100)>
+        Unit.Day(('day', 100))
 
         >>> str(Unit.Day)
         'day'
 
         >>> Unit["DAY"]
-        <Unit.Day: ('day', 100)>
+        Unit.Day(('day', 100))
 
         >>> Unit["Day"]
-        <Unit.Day: ('day', 100)>
+        Unit.Day(('day', 100))
 
         >>> Unit["day"]
-        <Unit.Day: ('day', 100)>
+        Unit.Day(('day', 100))
 
         >>> Unit(('day', 100))
-        <Unit.Day: ('day', 100)>
+        Unit.Day(('day', 100))
 
         >>> Unit[Unit.Day]
-        <Unit.Day: ('day', 100)>
+        Unit.Day(('day', 100))
 
         >>> Unit.Day.index
         0
@@ -224,7 +225,12 @@ class Unit(Enum, metaclass = UnitMeta):
     Year = ("year", 300)
     Eternity = ("eternity", 400)
 
+    def __repr__(self) -> str:
+
+        return f"{self.__class__.__name__}.{self.name}({self.value})"
+
     def __str__(self) -> str:
+
         return self.key
 
     def __hash__(self) -> int:
