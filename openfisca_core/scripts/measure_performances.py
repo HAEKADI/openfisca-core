@@ -13,11 +13,11 @@ import numpy as np
 from numpy.core.defchararray import startswith
 
 from openfisca_core import periods, simulations
-from openfisca_core.periods import ETERNITY
 from openfisca_core.entities import build_entity
-from openfisca_core.variables import Variable
+from openfisca_core.periods import Unit
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 from openfisca_core.tools import assert_near
+from openfisca_core.variables import Variable
 
 
 args = None
@@ -82,7 +82,7 @@ class city_code(Variable):
     value_type = 'FixedStr'
     max_length = 5
     entity = Famille
-    definition_period = ETERNITY
+    definition_period = Unit.Eternity
     label = """Code INSEE "city_code" de la commune de résidence de la famille"""
 
 

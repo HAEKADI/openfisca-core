@@ -2,7 +2,8 @@ import numpy
 
 from openfisca_country_template import entities
 
-from openfisca_core import commons, periods
+from openfisca_core import commons
+from openfisca_core.periods import Unit
 from openfisca_core.simulations import SimulationBuilder
 from openfisca_core.variables import Variable
 
@@ -12,14 +13,14 @@ from pytest import fixture, approx
 class choice(Variable):
     value_type = int
     entity = entities.Person
-    definition_period = periods.MONTH
+    definition_period = Unit.Month
 
 
 class uses_multiplication(Variable):
     value_type = int
     entity = entities.Person
     label = 'Variable with formula that uses multiplication'
-    definition_period = periods.MONTH
+    definition_period = Unit.Month
 
     def formula(person, period):
         choice = person('choice', period)
@@ -31,7 +32,7 @@ class returns_scalar(Variable):
     value_type = int
     entity = entities.Person
     label = 'Variable with formula that returns a scalar value'
-    definition_period = periods.MONTH
+    definition_period = Unit.Month
 
     def formula(person, period):
         return 666
@@ -41,7 +42,7 @@ class uses_switch(Variable):
     value_type = int
     entity = entities.Person
     label = 'Variable with formula that uses switch'
-    definition_period = periods.MONTH
+    definition_period = Unit.Month
 
     def formula(person, period):
         choice = person('choice', period)

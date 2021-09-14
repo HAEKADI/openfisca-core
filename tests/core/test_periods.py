@@ -3,7 +3,7 @@
 
 import pytest
 
-from openfisca_core.periods import Period, Instant, YEAR, MONTH, DAY, period
+from openfisca_core.periods import Period, Instant, Unit, period
 
 first_jan = Instant((2014, 1, 1))
 first_march = Instant((2014, 3, 1))
@@ -17,43 +17,43 @@ Test Period -> String
 # Years
 
 def test_year():
-    assert str(Period((YEAR, first_jan, 1))) == '2014'
+    assert str(Period((Unit.Year, first_jan, 1))) == '2014'
 
 
 def test_12_months_is_a_year():
-    assert str(Period((MONTH, first_jan, 12))) == '2014'
+    assert str(Period((Unit.Month, first_jan, 12))) == '2014'
 
 
 def test_rolling_year():
-    assert str(Period((MONTH, first_march, 12))) == 'year:2014-03'
-    assert str(Period((YEAR, first_march, 1))) == 'year:2014-03'
+    assert str(Period((Unit.Month, first_march, 12))) == 'year:2014-03'
+    assert str(Period((Unit.Year, first_march, 1))) == 'year:2014-03'
 
 
 def test_several_years():
-    assert str(Period((YEAR, first_jan, 3))) == 'year:2014:3'
-    assert str(Period((YEAR, first_march, 3))) == 'year:2014-03:3'
+    assert str(Period((Unit.Year, first_jan, 3))) == 'year:2014:3'
+    assert str(Period((Unit.Year, first_march, 3))) == 'year:2014-03:3'
 
 
 # Months
 
 def test_month():
-    assert str(Period((MONTH, first_jan, 1))) == '2014-01'
+    assert str(Period((Unit.Month, first_jan, 1))) == '2014-01'
 
 
 def test_several_months():
-    assert str(Period((MONTH, first_jan, 3))) == 'month:2014-01:3'
-    assert str(Period((MONTH, first_march, 3))) == 'month:2014-03:3'
+    assert str(Period((Unit.Month, first_jan, 3))) == 'month:2014-01:3'
+    assert str(Period((Unit.Month, first_march, 3))) == 'month:2014-03:3'
 
 
 # Days
 
 def test_day():
-    assert str(Period((DAY, first_jan, 1))) == '2014-01-01'
+    assert str(Period((Unit.Day, first_jan, 1))) == '2014-01-01'
 
 
 def test_several_days():
-    assert str(Period((DAY, first_jan, 3))) == 'day:2014-01-01:3'
-    assert str(Period((DAY, first_march, 3))) == 'day:2014-03-01:3'
+    assert str(Period((Unit.Day, first_jan, 3))) == 'day:2014-01-01:3'
+    assert str(Period((Unit.Day, first_march, 3))) == 'day:2014-03-01:3'
 
 
 '''
@@ -64,15 +64,15 @@ Test String -> Period
 # Years
 
 def test_parsing_year():
-    assert period('2014') == Period((YEAR, first_jan, 1))
+    assert period('2014') == Period((Unit.Year, first_jan, 1))
 
 
 def test_parsing_rolling_year():
-    assert period('year:2014-03') == Period((YEAR, first_march, 1))
+    assert period('year:2014-03') == Period((Unit.Year, first_march, 1))
 
 
 def test_parsing_several_years():
-    assert period('year:2014:2') == Period((YEAR, first_jan, 2))
+    assert period('year:2014:2') == Period((Unit.Year, first_jan, 2))
 
 
 def test_wrong_syntax_several_years():
@@ -83,11 +83,11 @@ def test_wrong_syntax_several_years():
 # Months
 
 def test_parsing_month():
-    assert period('2014-01') == Period((MONTH, first_jan, 1))
+    assert period('2014-01') == Period((Unit.Month, first_jan, 1))
 
 
 def test_parsing_several_months():
-    assert period('month:2014-03:3') == Period((MONTH, first_march, 3))
+    assert period('month:2014-03:3') == Period((Unit.Month, first_march, 3))
 
 
 def test_wrong_syntax_several_months():
@@ -98,11 +98,11 @@ def test_wrong_syntax_several_months():
 # Days
 
 def test_parsing_day():
-    assert period('2014-01-01') == Period((DAY, first_jan, 1))
+    assert period('2014-01-01') == Period((Unit.Day, first_jan, 1))
 
 
 def test_parsing_several_days():
-    assert period('day:2014-03-01:3') == Period((DAY, first_march, 3))
+    assert period('day:2014-03-01:3') == Period((Unit.Day, first_march, 3))
 
 
 def test_wrong_syntax_several_days():
@@ -160,7 +160,7 @@ def test_ambiguous_period():
 
 def test_deprecated_signature():
     with pytest.raises(TypeError):
-        period(MONTH, 2014)
+        period(Unit.Month, 2014)
 
 
 def test_wrong_argument():
@@ -184,13 +184,13 @@ def test_empty_string():
 
 
 @pytest.mark.parametrize("test", [
-    (period('year:2014:2'), YEAR, 2, period('2014'), period('2015')),
-    (period(2017), MONTH, 12, period('2017-01'), period('2017-12')),
-    (period('year:2014:2'), MONTH, 24, period('2014-01'), period('2015-12')),
-    (period('month:2014-03:3'), MONTH, 3, period('2014-03'), period('2014-05')),
-    (period(2017), DAY, 365, period('2017-01-01'), period('2017-12-31')),
-    (period('year:2014:2'), DAY, 730, period('2014-01-01'), period('2015-12-31')),
-    (period('month:2014-03:3'), DAY, 92, period('2014-03-01'), period('2014-05-31')),
+    (period('year:2014:2'), Unit.Year, 2, period('2014'), period('2015')),
+    (period(2017), Unit.Month, 12, period('2017-01'), period('2017-12')),
+    (period('year:2014:2'), Unit.Month, 24, period('2014-01'), period('2015-12')),
+    (period('month:2014-03:3'), Unit.Month, 3, period('2014-03'), period('2014-05')),
+    (period(2017), Unit.Day, 365, period('2017-01-01'), period('2017-12-31')),
+    (period('year:2014:2'), Unit.Day, 730, period('2014-01-01'), period('2015-12-31')),
+    (period('month:2014-03:3'), Unit.Day, 92, period('2014-03-01'), period('2014-05-31')),
     ])
 def test_subperiods(test):
 

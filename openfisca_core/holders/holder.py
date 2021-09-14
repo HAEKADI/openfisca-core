@@ -8,6 +8,7 @@ from openfisca_core import commons, periods, tools
 from openfisca_core.errors import PeriodMismatchError
 from openfisca_core.data_storage import InMemoryStorage, OnDiskStorage
 from openfisca_core.indexed_enums import Enum
+from openfisca_core.periods import Unit
 
 
 class Holder:
@@ -19,7 +20,7 @@ class Holder:
         self.population = population
         self.variable = variable
         self.simulation = population.simulation
-        self._memory_storage = InMemoryStorage(is_eternal = (self.variable.definition_period == periods.ETERNITY))
+        self._memory_storage = InMemoryStorage(is_eternal = (self.variable.definition_period == Unit.Eternity))
 
         # By default, do not activate on-disk storage, or variable dropping
         self._disk_storage = None
@@ -56,7 +57,7 @@ class Holder:
             os.mkdir(storage_dir)
         return OnDiskStorage(
             storage_dir,
-            is_eternal = (self.variable.definition_period == periods.ETERNITY),
+            is_eternal = (self.variable.definition_period == Unit.Eternity),
             preserve_storage_dir = preserve
             )
 
@@ -148,13 +149,14 @@ class Holder:
         """
 
         period = periods.period(period)
-        if period.unit == periods.ETERNITY and self.variable.definition_period != periods.ETERNITY:
+        if period.unit == Unit.Eternity and self.variable.definition_period != Unit.Eternity:
             error_message = os.linesep.join([
-                'Unable to set a value for variable {0} for periods.ETERNITY.',
-                '{0} is only defined for {1}s. Please adapt your input.',
+                'Unable to set a value for variable {0} for {1}.',
+                '{0} is only defined for {2}s. Please adapt your input.',
                 ]).format(
                     self.variable.name,
-                    self.variable.definition_period
+                    Unit.Eternity,
+                    self.variable.definition_period,
                 )
             raise PeriodMismatchError(
                 self.variable.name,
@@ -197,9 +199,9 @@ class Holder:
 
     def _set(self, period, value):
         value = self._to_array(value)
-        if self.variable.definition_period != periods.ETERNITY:
+        if self.variable.definition_period != Unit.Eternity:
             if period is None:
-                raise ValueError('A period must be specified to set values, except for variables with periods.ETERNITY as as period_definition.')
+                raise ValueError(f'A period must be specified to set values, except for variables with {Unit.Eternity} as as period_definition.')
             if (self.variable.definition_period != period.unit or period.size > 1):
                 name = self.variable.name
                 period_size_adj = f'{period.unit}' if (period.size == 1) else f'{period.size}-{period.unit}s'

@@ -6,7 +6,7 @@ import numpy
 from openfisca_core import commons, periods
 from openfisca_core.errors import CycleError, SpiralError
 from openfisca_core.indexed_enums import Enum, EnumArray
-from openfisca_core.periods import Period
+from openfisca_core.periods import Period, Unit
 from openfisca_core.tracers import FullTracer, SimpleTracer, TracingParameterNodeAtInstant
 from openfisca_core.warnings import TempfileWarning
 
@@ -152,14 +152,14 @@ class Simulation:
             period = periods.period(period)
 
         # Check that the requested period matches definition_period
-        if periods.unit_weight(variable.definition_period) > periods.unit_weight(period.unit):
+        if variable.definition_period > period.unit:
             raise ValueError("Unable to compute variable '{0}' for period {1}: '{0}' can only be computed for {2}-long periods. You can use the DIVIDE option to get an estimate of {0} by dividing the yearly value by 12, or change the requested period to 'period.this_year'.".format(
                 variable.name,
                 period,
                 variable.definition_period
                 ))
 
-        if variable.definition_period not in [periods.DAY, periods.MONTH, periods.YEAR]:
+        if variable.definition_period not in Unit.ethereal():
             raise ValueError("Unable to sum constant variable '{}' over period {}: only variables defined daily, monthly, or yearly can be summed over time.".format(
                 variable.name,
                 period))
@@ -176,7 +176,7 @@ class Simulation:
             period = periods.period(period)
 
         # Check that the requested period matches definition_period
-        if variable.definition_period != periods.YEAR:
+        if variable.definition_period != Unit.Year:
             raise ValueError("Unable to divide the value of '{}' over time on period {}: only variables defined yearly can be divided over time.".format(
                 variable_name,
                 period))
@@ -184,10 +184,10 @@ class Simulation:
         if period.size != 1:
             raise ValueError("DIVIDE option can only be used for a one-year or a one-month requested period")
 
-        if period.unit == periods.MONTH:
+        if period.unit == Unit.Month:
             computation_period = period.this_year
             return self.calculate(variable_name, period = computation_period) / 12.
-        elif period.unit == periods.YEAR:
+        elif period.unit == Unit.Year:
             return self.calculate(variable_name, period)
 
         raise ValueError("Unable to divide the value of '{}' to match period {}.".format(
@@ -237,16 +237,16 @@ class Simulation:
         """
         Check that a period matches the variable definition_period
         """
-        if variable.definition_period == periods.ETERNITY:
+        if variable.definition_period == Unit.Eternity:
             return  # For variables which values are constant in time, all periods are accepted
 
-        if variable.definition_period == periods.MONTH and period.unit != periods.MONTH:
+        if variable.definition_period == Unit.Month and period.unit != Unit.Month:
             raise ValueError("Unable to compute variable '{0}' for period {1}: '{0}' must be computed for a whole month. You can use the ADD option to sum '{0}' over the requested period, or change the requested period to 'period.first_month'.".format(
                 variable.name,
                 period
                 ))
 
-        if variable.definition_period == periods.YEAR and period.unit != periods.YEAR:
+        if variable.definition_period == Unit.Year and period.unit != Unit.Year:
             raise ValueError("Unable to compute variable '{0}' for period {1}: '{0}' must be computed for a whole year. You can use the DIVIDE option to get an estimate of {0} by dividing the yearly value by 12, or change the requested period to 'period.this_year'.".format(
                 variable.name,
                 period
@@ -256,7 +256,7 @@ class Simulation:
             raise ValueError("Unable to compute variable '{0}' for period {1}: '{0}' must be computed for a whole {2}. You can use the ADD option to sum '{0}' over the requested period.".format(
                 variable.name,
                 period,
-                'month' if variable.definition_period == periods.MONTH else 'year'
+                'month' if variable.definition_period == Unit.Month else 'year'
                 ))
 
     def _cast_formula_result(self, value, variable):

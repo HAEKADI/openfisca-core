@@ -2,27 +2,28 @@ import pytest
 
 from openfisca_country_template import entities, situation_examples
 
-from openfisca_core import periods, simulations, tools
+from openfisca_core import simulations, tools
+from openfisca_core.periods import Unit
 from openfisca_core.simulations import SimulationBuilder
 from openfisca_core.variables import Variable
 
 
 class simple_variable(Variable):
     entity = entities.Person
-    definition_period = periods.MONTH
+    definition_period = Unit.Month
     value_type = int
 
 
 class variable_with_calculate_output_add(Variable):
     entity = entities.Person
-    definition_period = periods.MONTH
+    definition_period = Unit.Month
     value_type = int
     calculate_output = simulations.calculate_output_add
 
 
 class variable_with_calculate_output_divide(Variable):
     entity = entities.Person
-    definition_period = periods.YEAR
+    definition_period = Unit.Year
     value_type = int
     calculate_output = simulations.calculate_output_divide
 

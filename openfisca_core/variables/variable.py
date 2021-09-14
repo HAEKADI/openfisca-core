@@ -8,7 +8,7 @@ import numpy
 
 from openfisca_core import periods, tools
 from openfisca_core.indexed_enums import Enum, EnumArray
-from openfisca_core.periods import Period
+from openfisca_core.periods import Period, Unit
 from openfisca_core.types import Personifiable
 
 from . import config, helpers
@@ -115,7 +115,7 @@ class Variable:
         else:
             self.default_value = self.set(attr, 'default_value', allowed_type = self.value_type, default = config.VALUE_TYPES[self.value_type].get('default'))
         self.entity = self.set(attr, 'entity', required = True, setter = self.set_entity)
-        self.definition_period = self.set(attr, 'definition_period', required = True, allowed_values = (periods.DAY, periods.MONTH, periods.YEAR, periods.ETERNITY))
+        self.definition_period = self.set(attr, 'definition_period', required = True, allowed_values = Unit.keys())
         self.label = self.set(attr, 'label', allowed_type = str, setter = self.set_label)
         self.end = self.set(attr, 'end', allowed_type = str, setter = self.set_end)
         self.reference = self.set(attr, 'reference', setter = self.set_reference)

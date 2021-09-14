@@ -1,9 +1,9 @@
-from openfisca_core import periods
+from openfisca_core.periods import Unit
 from openfisca_core.variables import Variable
 
 
 class TestVariable(Variable):
-    definition_period = periods.ETERNITY
+    definition_period = Unit.Eternity
     value_type = float
 
     def __init__(self, entity):

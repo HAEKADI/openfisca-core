@@ -164,18 +164,18 @@ class Instant(tuple):
             A new object :obj:`.Period`.
 
         Examples:
-            >>> Instant((2021, 9, 13)).period(periods.YEAR)
+            >>> Instant((2021, 9, 13)).period(Unit.Year)
             Period(('year', Instant((2021, 9, 13)), 1))
 
-            >>> Instant((2021, 9, 13)).period(periods.MONTH, 2)
+            >>> Instant((2021, 9, 13)).period(Unit.Month, 2)
             Period(('month', Instant((2021, 9, 13)), 2))
 
-            >>> Instant((2021, 9, 13)).period(periods.DAY, 1000)
+            >>> Instant((2021, 9, 13)).period(Unit.Day, 1000)
             Period(('day', Instant((2021, 9, 13)), 1000))
 
         """
 
-        assert unit in (periods.DAY, periods.MONTH, periods.YEAR), 'Invalid unit: {} of type {}'.format(unit, type(unit))
+        assert unit in Unit.ethereal(), 'Invalid unit: {} of type {}'.format(unit, type(unit))
         assert isinstance(size, int) and size >= 1, 'Invalid size: {} of type {}'.format(size, type(size))
         return periods.Period((unit, self, size))
 
@@ -261,22 +261,22 @@ class Instant(tuple):
         Instant((2014, 12, 31))
         """
         year, month, day = self
-        assert unit in (periods.DAY, periods.MONTH, periods.YEAR), 'Invalid unit: {} of type {}'.format(unit, type(unit))
+        assert unit in Unit.ethereal(), 'Invalid unit: {} of type {}'.format(unit, type(unit))
         if offset == 'first-of':
-            if unit == periods.MONTH:
+            if unit == Unit.Month:
                 day = 1
-            elif unit == periods.YEAR:
+            elif unit == Unit.Year:
                 month = 1
                 day = 1
         elif offset == 'last-of':
-            if unit == periods.MONTH:
+            if unit == Unit.Month:
                 day = calendar.monthrange(year, month)[1]
-            elif unit == periods.YEAR:
+            elif unit == Unit.Year:
                 month = 12
                 day = 31
         else:
             assert isinstance(offset, int), 'Invalid offset: {} of type {}'.format(offset, type(offset))
-            if unit == periods.DAY:
+            if unit == Unit.Day:
                 day += offset
                 if offset < 0:
                     while day < 1:
@@ -294,7 +294,7 @@ class Instant(tuple):
                             month = 1
                         day -= month_last_day
                         month_last_day = calendar.monthrange(year, month)[1]
-            elif unit == periods.MONTH:
+            elif unit == Unit.Month:
                 month += offset
                 if offset < 0:
                     while month < 1:
@@ -307,7 +307,7 @@ class Instant(tuple):
                 month_last_day = calendar.monthrange(year, month)[1]
                 if day > month_last_day:
                     day = month_last_day
-            elif unit == periods.YEAR:
+            elif unit == Unit.Year:
                 year += offset
                 # Handle february month of leap year.
                 month_last_day = calendar.monthrange(year, month)[1]

@@ -3,7 +3,7 @@ import warnings
 import pytest
 
 from openfisca_core import periods
-from openfisca_core.periods import Instant
+from openfisca_core.periods import Instant, Unit
 from openfisca_core.tools import assert_near
 from openfisca_core.parameters import ValuesHistory, ParameterNode
 from openfisca_country_template.entities import Household, Person
@@ -15,7 +15,7 @@ class goes_to_school(Variable):
     default_value = True
     entity = Person
     label = "The person goes to school (only relevant for children)"
-    definition_period = MONTH
+    definition_period = Unit.Month
 
 
 class WithBasicIncomeNeutralized(Reform):
@@ -216,7 +216,7 @@ def test_add_variable(make_simulation, tax_benefit_system):
         value_type = int
         label = "Nouvelle variable introduite par la réforme"
         entity = Household
-        definition_period = MONTH
+        definition_period = Unit.Month
 
         def formula(household, period):
             return household.empty_array() + 10
@@ -240,7 +240,7 @@ def test_add_dated_variable(make_simulation, tax_benefit_system):
         value_type = int
         label = "Nouvelle variable introduite par la réforme"
         entity = Household
-        definition_period = MONTH
+        definition_period = Unit.Month
 
         def formula_2010_01_01(household, period):
             return household.empty_array() + 10
@@ -263,7 +263,7 @@ def test_add_dated_variable(make_simulation, tax_benefit_system):
 def test_update_variable(make_simulation, tax_benefit_system):
 
     class disposable_income(Variable):
-        definition_period = MONTH
+        definition_period = Unit.Month
 
         def formula_2018(household, period):
             return household.empty_array() + 10
@@ -294,7 +294,7 @@ def test_update_variable(make_simulation, tax_benefit_system):
 def test_replace_variable(tax_benefit_system):
 
     class disposable_income(Variable):
-        definition_period = MONTH
+        definition_period = Unit.Month
         entity = Person
         label = "Disposable income"
         value_type = float
@@ -355,7 +355,7 @@ def test_attributes_conservation(tax_benefit_system):
         value_type = int
         entity = Person
         label = "Variable with many attributes"
-        definition_period = MONTH
+        definition_period = Unit.Month
         set_input = set_input_divide_by_period
         calculate_output = calculate_output_add
 

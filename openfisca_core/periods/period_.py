@@ -58,26 +58,26 @@ class Period(tuple):
         """
 
         unit, start_instant, size = self
-        if unit == Unit.Eternity.key:
+        if unit == Unit.Eternity:
             return 'ETERNITY'
         year, month, day = start_instant
 
         # 1 year long period
-        if (unit == Unit.Month.key and size == 12 or unit == Unit.Year.key and size == 1):
+        if (unit == Unit.Month and size == 12 or unit == Unit.Year and size == 1):
             if month == 1:
                 # civil year starting from january
                 return str(year)
             else:
                 # rolling year
-                return '{}:{}-{:02d}'.format(Unit.Year.key, year, month)
+                return '{}:{}-{:02d}'.format(Unit.Year, year, month)
         # simple month
-        if unit == Unit.Month.key and size == 1:
+        if unit == Unit.Month and size == 1:
             return '{}-{:02d}'.format(year, month)
         # several civil years
-        if unit == Unit.Year.key and month == 1:
+        if unit == Unit.Year and month == 1:
             return '{}:{}:{}'.format(unit, year, size)
 
-        if unit == Unit.Day.key:
+        if unit == Unit.Day:
             if size == 1:
                 return '{}-{:02d}-{:02d}'.format(year, month, day)
             else:
@@ -171,17 +171,17 @@ class Period(tuple):
         >>> period('year:2014:2').get_subperiods(YEAR)
         >>> [period('2014'), period('2015')]
         """
-        if periods.unit_weight(self.unit) < periods.unit_weight(unit):
+        if self.unit < unit:
             raise ValueError('Cannot subdivide {0} into {1}'.format(self.unit, unit))
 
-        if unit == Unit.Year.key:
-            return [self.this_year.offset(i, Unit.Year.key) for i in range(self.size)]
+        if unit == Unit.Year:
+            return [self.this_year.offset(i, Unit.Year) for i in range(self.size)]
 
-        if unit == Unit.Month.key:
-            return [self.first_month.offset(i, Unit.Month.key) for i in range(self.size_in_months)]
+        if unit == Unit.Month:
+            return [self.first_month.offset(i, Unit.Month) for i in range(self.size_in_months)]
 
-        if unit == Unit.Day.key:
-            return [self.first_day.offset(i, Unit.Day.key) for i in range(self.size_in_days)]
+        if unit == Unit.Day:
+            return [self.first_day.offset(i, Unit.Day) for i in range(self.size_in_days)]
 
     def offset(self, offset, unit = None):
         """
@@ -346,9 +346,9 @@ class Period(tuple):
         >>> period('year', '2012', 1).size_in_months
         12
         """
-        if (self[0] == Unit.Month.key):
+        if (self[0] == Unit.Month):
             return self[2]
-        if(self[0] == Unit.Year.key):
+        if(self[0] == Unit.Year):
             return self[2] * 12
         raise ValueError("Cannot calculate number of months in {0}".format(self[0]))
 
@@ -364,10 +364,10 @@ class Period(tuple):
         """
         unit, instant, length = self
 
-        if unit == Unit.Day.key:
+        if unit == Unit.Day:
             return length
-        if unit in [Unit.Month.key, Unit.Year.key]:
-            last_day = self.start.offset(length, unit).offset(-1, Unit.Day.key)
+        if unit in [Unit.Month, Unit.Year]:
+            last_day = self.start.offset(length, unit).offset(-1, Unit.Day)
             return (last_day.date - self.start.date).days + 1
 
         raise ValueError("Cannot calculate number of days in {0}".format(unit))
@@ -410,7 +410,7 @@ class Period(tuple):
         """
         unit, start_instant, size = self
         year, month, day = start_instant
-        if unit == Unit.Eternity.key:
+        if unit == Unit.Eternity:
             return periods.Instant((float("inf"), float("inf"), float("inf")))
         if unit == 'day':
             if size > 1:

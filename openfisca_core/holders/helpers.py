@@ -2,7 +2,7 @@ import logging
 
 import numpy
 
-from openfisca_core import periods
+from openfisca_core.periods import Unit
 
 log = logging.getLogger(__name__)
 
@@ -20,10 +20,10 @@ def set_input_dispatch_by_period(holder, period, array):
     period_size = period.size
     period_unit = period.unit
 
-    if holder.variable.definition_period == periods.MONTH:
-        cached_period_unit = periods.MONTH
-    elif holder.variable.definition_period == periods.YEAR:
-        cached_period_unit = periods.YEAR
+    if holder.variable.definition_period == Unit.Month:
+        cached_period_unit = Unit.Month
+    elif holder.variable.definition_period == Unit.Year:
+        cached_period_unit = Unit.Year
     else:
         raise ValueError('set_input_dispatch_by_period can be used only for yearly or monthly variables.')
 
@@ -55,10 +55,10 @@ def set_input_divide_by_period(holder, period, array):
     period_size = period.size
     period_unit = period.unit
 
-    if holder.variable.definition_period == periods.MONTH:
-        cached_period_unit = periods.MONTH
-    elif holder.variable.definition_period == periods.YEAR:
-        cached_period_unit = periods.YEAR
+    if holder.variable.definition_period == Unit.Month:
+        cached_period_unit = Unit.Month
+    elif holder.variable.definition_period == Unit.Year:
+        cached_period_unit = Unit.Year
     else:
         raise ValueError('set_input_divide_by_period can be used only for yearly or monthly variables.')
 
