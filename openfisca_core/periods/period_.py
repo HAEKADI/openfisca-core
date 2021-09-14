@@ -3,7 +3,8 @@ from __future__ import annotations
 import calendar
 
 from openfisca_core import periods
-from openfisca_core.periods import config, helpers
+
+from .unit import Unit
 
 
 class Period(tuple):
@@ -57,26 +58,26 @@ class Period(tuple):
         """
 
         unit, start_instant, size = self
-        if unit == config.ETERNITY:
+        if unit == Unit.Eternity.key:
             return 'ETERNITY'
         year, month, day = start_instant
 
         # 1 year long period
-        if (unit == config.MONTH and size == 12 or unit == config.YEAR and size == 1):
+        if (unit == Unit.Month.key and size == 12 or unit == Unit.Year.key and size == 1):
             if month == 1:
                 # civil year starting from january
                 return str(year)
             else:
                 # rolling year
-                return '{}:{}-{:02d}'.format(config.YEAR, year, month)
+                return '{}:{}-{:02d}'.format(Unit.Year.key, year, month)
         # simple month
-        if unit == config.MONTH and size == 1:
+        if unit == Unit.Month.key and size == 1:
             return '{}-{:02d}'.format(year, month)
         # several civil years
-        if unit == config.YEAR and month == 1:
+        if unit == Unit.Year.key and month == 1:
             return '{}:{}:{}'.format(unit, year, size)
 
-        if unit == config.DAY:
+        if unit == Unit.Day.key:
             if size == 1:
                 return '{}-{:02d}-{:02d}'.format(year, month, day)
             else:
@@ -170,17 +171,17 @@ class Period(tuple):
         >>> period('year:2014:2').get_subperiods(YEAR)
         >>> [period('2014'), period('2015')]
         """
-        if helpers.unit_weight(self.unit) < helpers.unit_weight(unit):
+        if periods.unit_weight(self.unit) < periods.unit_weight(unit):
             raise ValueError('Cannot subdivide {0} into {1}'.format(self.unit, unit))
 
-        if unit == config.YEAR:
-            return [self.this_year.offset(i, config.YEAR) for i in range(self.size)]
+        if unit == Unit.Year.key:
+            return [self.this_year.offset(i, Unit.Year.key) for i in range(self.size)]
 
-        if unit == config.MONTH:
-            return [self.first_month.offset(i, config.MONTH) for i in range(self.size_in_months)]
+        if unit == Unit.Month.key:
+            return [self.first_month.offset(i, Unit.Month.key) for i in range(self.size_in_months)]
 
-        if unit == config.DAY:
-            return [self.first_day.offset(i, config.DAY) for i in range(self.size_in_days)]
+        if unit == Unit.Day.key:
+            return [self.first_day.offset(i, Unit.Day.key) for i in range(self.size_in_days)]
 
     def offset(self, offset, unit = None):
         """
@@ -345,9 +346,9 @@ class Period(tuple):
         >>> period('year', '2012', 1).size_in_months
         12
         """
-        if (self[0] == config.MONTH):
+        if (self[0] == Unit.Month.key):
             return self[2]
-        if(self[0] == config.YEAR):
+        if(self[0] == Unit.Year.key):
             return self[2] * 12
         raise ValueError("Cannot calculate number of months in {0}".format(self[0]))
 
@@ -363,10 +364,10 @@ class Period(tuple):
         """
         unit, instant, length = self
 
-        if unit == config.DAY:
+        if unit == Unit.Day.key:
             return length
-        if unit in [config.MONTH, config.YEAR]:
-            last_day = self.start.offset(length, unit).offset(-1, config.DAY)
+        if unit in [Unit.Month.key, Unit.Year.key]:
+            last_day = self.start.offset(length, unit).offset(-1, Unit.Day.key)
             return (last_day.date - self.start.date).days + 1
 
         raise ValueError("Cannot calculate number of days in {0}".format(unit))
@@ -409,7 +410,7 @@ class Period(tuple):
         """
         unit, start_instant, size = self
         year, month, day = start_instant
-        if unit == config.ETERNITY:
+        if unit == Unit.Eternity.key:
             return periods.Instant((float("inf"), float("inf"), float("inf")))
         if unit == 'day':
             if size > 1:

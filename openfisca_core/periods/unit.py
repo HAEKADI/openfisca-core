@@ -18,33 +18,33 @@ class Unit(Enum):
         <enum 'Unit'>
 
         >>> list(Unit)
-        [<Unit.day: ('day', 100)>, ...]
+        [<Unit.Day: ('day', 100)>, ...]
 
         >>> len(Unit)
         4
 
-        >>> Unit.day
-         <Unit.day: ('day', 100)>
+        >>> Unit.Day
+         <Unit.Day: ('day', 100)>
 
-        >>> Unit["day"]
-         <Unit.day: ('day', 100)>
+        >>> Unit["Day"]
+         <Unit.Day: ('day', 100)>
 
         >>> Unit(('day', 100))
-         <Unit.day: ('day', 100)>
+         <Unit.Day: ('day', 100)>
 
-        >>> Unit.day.index
+        >>> Unit.Day.index
         0
 
-        >>> Unit.day.name
-        'day'
+        >>> Unit.Day.name
+        'Day'
 
-        >>> Unit.day.value
+        >>> Unit.Day.value
         ('day', 100)
 
-        >>> Unit.day.key
+        >>> Unit.Day.key
         'day'
 
-        >>> Unit.day.weight
+        >>> Unit.Day.weight
         100
 
         >>> Unit.keys()
@@ -67,10 +67,10 @@ class Unit(Enum):
 
     # Members
 
-    day = ("day", 100)
-    month = ("month", 200)
-    year = ("year", 300)
-    eternity = ("eternity", 400)
+    Day = ("day", 100)
+    Month = ("month", 200)
+    Year = ("year", 300)
+    Eternity = ("eternity", 400)
 
     def __init__(self, name: str, weight: int) -> None:
         super().__init__(name)

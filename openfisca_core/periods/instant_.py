@@ -7,7 +7,10 @@ from typing_extensions import Literal
 
 from openfisca_core import periods
 
-UnitType = Literal["day", "month", "year"]
+from .unit import Unit
+
+# TODO: cast periods.* to str
+UnitType = Literal[Unit.Day, Unit.Month, Unit.Year]
 
 
 class Instant(tuple):

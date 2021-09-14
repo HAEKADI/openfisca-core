@@ -22,13 +22,6 @@
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
 from .config import (  # noqa: F401
-    DAY,
-    MONTH,
-    YEAR,
-    ETERNITY,
-    )
-
-from .config import (  # noqa: F401
     INSTANT_PATTERN,
     YEAR_OR_MONTH_OR_DAY_RE,
     )
@@ -53,6 +46,9 @@ from .period_ import Period  # noqa: F401
 from .unit import Unit  # noqa: F401
 
 # For backwards compatibility
+
+for item in Unit:
+    globals()[item.name.upper()] = item.key
 
 str_by_instant_cache = STR_BY_INSTANT_CACHE
 date_by_instant_cache = DATE_BY_INSTANT_CACHE
