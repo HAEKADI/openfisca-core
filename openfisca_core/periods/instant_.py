@@ -4,8 +4,8 @@ import calendar
 import datetime
 import functools
 
-from openfisca_core import periods
-from openfisca_core.types import EtherealLike
+from openfisca_core import commons, periods
+from openfisca_core.types import EtherealLike, Timeable
 
 from .unit import Unit
 
@@ -149,7 +149,8 @@ class Instant(tuple):
 
         return self[2]
 
-    def period(self, unit: EtherealLike, size: int = 1) -> periods.Period:
+    @commons.deprecated(since = "35.9.0", expires = "the future")
+    def period(self, unit: EtherealLike, size: int = 1) -> Timeable:
         """Creates a new :obj:`.Period` starting at :obj:`.Instant`.
 
         Todo:
@@ -163,15 +164,9 @@ class Instant(tuple):
         Returns:
             A new object :obj:`.Period`.
 
-        Examples:
-            >>> Instant((2021, 9, 13)).period(Unit.Year)
-            Period((Unit.Year(('year', 300)), Instant((2021, 9, 13)), 1))
-
-            >>> Instant((2021, 9, 13)).period(Unit.Month, 2)
-            Period((Unit.Month(('month', 200)), Instant((2021, 9, 13)), 2))
-
-            >>> Instant((2021, 9, 13)).period(Unit.Day, 1000)
-            Period((Unit.Day(('day', 100)), Instant((2021, 9, 13)), 1000))
+        .. deprecated:: 35.9.0
+            :meth:`.period` has been deprecated and will be removed in the
+            future. The functionality is now provided by :func:`.period`.
 
         """
 
@@ -182,7 +177,7 @@ class Instant(tuple):
         assert isinstance(size, int) and size >= 1, \
             f"Invalid size: {size} of type {type(size)}"
 
-        return periods.Period((unit, self, size))
+        return periods.period(f"{str(unit)}:{str(self)}:{size}")
 
     def offset(self, offset, unit):
         """

@@ -61,4 +61,5 @@ from .protocols import (  # noqa: F401
     Personifiable,
     Representable,
     Rolifiable,
+    Timeable,
     )

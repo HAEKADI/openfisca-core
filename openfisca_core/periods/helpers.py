@@ -75,14 +75,14 @@ def period(value):
     """Return a new period, aka a triple (unit, start_instant, size).
 
     >>> period('2014')
-    Period((<Unit.Year: ('year', 300)>, Instant((2014, 1, 1)), 1))
+    Period((Unit.Year(('year', 300)), Instant((2014, 1, 1)), 1))
     >>> period('year:2014')
     Period(('year', Instant((2014, 1, 1)), 1))
 
     >>> period('2014-2')
-    Period((<Unit.Month: ('month', 200)>, Instant((2014, 2, 1)), 1))
+    Period((Unit.Month(('month', 200)), Instant((2014, 2, 1)), 1))
     >>> period('2014-02')
-    Period((<Unit.Month: ('month', 200)>, Instant((2014, 2, 1)), 1))
+    Period((Unit.Month(('month', 200)), Instant((2014, 2, 1)), 1))
     >>> period('month:2014-2')
     Period(('month', Instant((2014, 2, 1)), 1))
 

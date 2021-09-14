@@ -28,3 +28,4 @@ from .modelable import Modelable  # noqa: F401
 from .personifiable import Personifiable  # noqa: F401
 from .representable import Representable  # noqa: F401
 from .rolifiable import Rolifiable  # noqa: F401
+from .timeable import Timeable  # noqa: F401
