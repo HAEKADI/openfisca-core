@@ -21,14 +21,11 @@
 #
 # See: https://www.python.org/dev/peps/pep-0008/#imports
 
+from typing import Any, Dict
+
 from .config import (  # noqa: F401
     INSTANT_PATTERN,
     YEAR_OR_MONTH_OR_DAY_RE,
-    )
-
-from .config import (  # noqa: F401
-    STR_BY_INSTANT_CACHE,
-    DATE_BY_INSTANT_CACHE,
     )
 
 from .helpers import (  # noqa: F401
@@ -45,11 +42,33 @@ from .unit import Unit  # noqa: F401
 
 # For backwards compatibility
 
+from .helpers import unit_weight, unit_weights  # noqa: F401
+
 for item in Unit:
     globals()[item.name.upper()] = item.key
 
-str_by_instant_cache = STR_BY_INSTANT_CACHE
-date_by_instant_cache = DATE_BY_INSTANT_CACHE
-year_or_month_or_day_re = YEAR_OR_MONTH_OR_DAY_RE
+str_by_instant_cache: Dict[Any, Any] = {}
+"""Cache to store :obj:`str` reprentations of :obj:`.Instant`.
 
-from .helpers import unit_weight, unit_weights  # noqa: F401
+.. deprecated:: 35.9.0
+    This cache has been deprecated and will be removed in the future. The
+    functionality is now provided by :func:`functools.lru_cache`.
+
+"""
+
+date_by_instant_cache: Dict[Any, Any] = {}
+"""Cache to store :obj:`datetime.date` reprentations of :obj:`.Instant`.
+
+.. deprecated:: 35.9.0
+    This cache has been deprecated and will be removed in the future. The
+    functionality is now provided by :func:`functools.lru_cache`.
+
+"""
+
+year_or_month_or_day_re = YEAR_OR_MONTH_OR_DAY_RE
+"""???
+
+.. deprecated:: 35.9.0
+    ??? has been deprecated and it will be removed in 36.0.0.
+
+"""

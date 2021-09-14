@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import calendar
 import datetime
+import functools
 
 from typing_extensions import Literal
 
@@ -42,6 +43,7 @@ class Instant(tuple):
 
     """
 
+    @functools.lru_cache(maxsize = None)
     def __repr__(self) -> str:
         """Casts an :obj:`.Instant` to its "official" :obj:`str` form.
 
@@ -57,10 +59,14 @@ class Instant(tuple):
             >>> repr(Instant((2021, 9, 13)))
             'Instant((2021, 9, 13))'
 
+            >>> repr(Instant((2021, 9, 14)))
+            'Instant((2021, 9, 14))'
+
         """
 
         return f"{self.__class__.__name__}({super().__repr__()})"
 
+    @functools.lru_cache(maxsize = None)
     def __str__(self) -> str:
         """Casts an :obj:`.Instant` to its "unofficial" :obj:`str` form.
 
@@ -76,17 +82,15 @@ class Instant(tuple):
             >>> str(Instant((2021, 9, 13)))
             '2021-09-13'
 
+            >>> str(Instant((2021, 9, 14)))
+            '2021-09-14'
+
         """
 
-        instant_str = periods.STR_BY_INSTANT_CACHE.get(self)
-
-        if instant_str is None:
-            periods.STR_BY_INSTANT_CACHE[self] = instant_str = self.date.isoformat()
-
-        return instant_str
+        return self.date.isoformat()
 
     @property
-    def date(self) -> datetime.time:
+    def date(self) -> datetime.date:
         """Converts instant to a date.
 
         Returns:
@@ -96,14 +100,13 @@ class Instant(tuple):
             >>> Instant((2021, 9, 13)).date
             datetime.date(2021, 9, 13)
 
+            >>> Instant((2021, 9, 14)).date
+            datetime.date(2021, 9, 14)
+
         """
 
-        instant_date = periods.DATE_BY_INSTANT_CACHE.get(self)
-
-        if instant_date is None:
-            periods.DATE_BY_INSTANT_CACHE[self] = instant_date = datetime.date(*self)
-
-        return instant_date
+        decorator = functools.lru_cache(maxsize = None)
+        return decorator(datetime.date)(*self)
 
     @property
     def year(self) -> int:

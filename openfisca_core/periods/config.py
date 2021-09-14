@@ -1,11 +1,5 @@
 import re
-from typing import Dict, Pattern
-
-STR_BY_INSTANT_CACHE: Dict = {}
-"""Cache to store :obj:`str` reprentations of :obj:`.Instant`."""
-
-DATE_BY_INSTANT_CACHE: Dict = {}
-"""Cache to store :obj:`datetime.date` reprentations of :obj:`.Instant`."""
+from typing import Pattern
 
 INSTANT_PATTERN: Pattern = re.compile(r"^\d{4}(-(0[1-9]|1[012]))?(-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]))?$")
 """Pattern to validate a valid :obj:`.Instant`.
