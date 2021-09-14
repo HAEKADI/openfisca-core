@@ -3,6 +3,7 @@ from __future__ import annotations
 import calendar
 import datetime
 import functools
+import typing
 
 from typing_extensions import Literal
 
@@ -158,6 +159,7 @@ class Instant(tuple):
 
         Todo:
             * Somehow remove cyclic dependency.
+            * Fix signature (why dont literal work with enums ...0.
 
         Args:
             unit: ``day`` or ``month`` or ``year``.
@@ -168,13 +170,13 @@ class Instant(tuple):
 
         Examples:
             >>> Instant((2021, 9, 13)).period(Unit.Year)
-            Period(('year', Instant((2021, 9, 13)), 1))
+            Period((<Unit.Year: ('year', 300)>, Instant((2021, 9, 13)), 1))
 
             >>> Instant((2021, 9, 13)).period(Unit.Month, 2)
-            Period(('month', Instant((2021, 9, 13)), 2))
+            Period((<Unit.Month: ('month', 200)>, Instant((2021, 9, 13)), 2))
 
             >>> Instant((2021, 9, 13)).period(Unit.Day, 1000)
-            Period(('day', Instant((2021, 9, 13)), 1000))
+            Period((<Unit.Day: ('day', 100)>, Instant((2021, 9, 13)), 1000))
 
         """
 
@@ -182,87 +184,100 @@ class Instant(tuple):
         assert isinstance(size, int) and size >= 1, 'Invalid size: {} of type {}'.format(size, type(size))
         return periods.Period((unit, self, size))
 
+    OffsetLiteral = Literal["first-of", "last-of"]
+
+    @typing.overload
+    def offset(self, offset: OffsetLiteral, unit: Unit) -> Instant:
+        ...
+
+
     def offset(self, offset, unit):
         """
         Increment (or decrement) the given instant with offset units.
 
-        >>> instant(2014).offset(1, 'day')
-        Instant((2014, 1, 2))
-        >>> instant(2014).offset(1, 'month')
-        Instant((2014, 2, 1))
-        >>> instant(2014).offset(1, 'year')
-        Instant((2015, 1, 1))
+        Todo:
+            * split in factories, or functions, etc.
 
-        >>> instant('2014-1-31').offset(1, 'day')
-        Instant((2014, 2, 1))
-        >>> instant('2014-1-31').offset(1, 'month')
-        Instant((2014, 2, 28))
-        >>> instant('2014-1-31').offset(1, 'year')
-        Instant((2015, 1, 31))
 
-        >>> instant('2011-2-28').offset(1, 'day')
+        >>> Instant((2021, 1, 1)).offset(1, 'day')
+        Instant((2021, 1, 2))
+        >>> Instant((2021, 1, 1)).offset(1, 'month')
+        Instant((2021, 2, 1))
+        >>> Instant((2021, 1, 1)).offset(1, 'year')
+        Instant((2022, 1, 1))
+
+        >>> Instant((2021, 1, 31)).offset(1, 'day')
+        Instant((2021, 2, 1))
+        >>> Instant((2021, 1, 31)).offset(1, 'month')
+        Instant((2021, 2, 28))
+        >>> Instant((2021, 1, 31)).offset(1, 'year')
+        Instant((2022, 1, 31))
+
+        >>> Instant((2011, 2, 28)).offset(1, 'day')
         Instant((2011, 3, 1))
-        >>> instant('2011-2-28').offset(1, 'month')
+        >>> Instant((2011, 2, 28)).offset(1, 'month')
         Instant((2011, 3, 28))
-        >>> instant('2012-2-29').offset(1, 'year')
+        >>> Instant((2012, 2, 29)).offset(1, 'year')
         Instant((2013, 2, 28))
 
-        >>> instant(2014).offset(-1, 'day')
-        Instant((2013, 12, 31))
-        >>> instant(2014).offset(-1, 'month')
-        Instant((2013, 12, 1))
-        >>> instant(2014).offset(-1, 'year')
-        Instant((2013, 1, 1))
+        >>> Instant((2021, 1, 1)).offset(-1, 'day')
+        Instant((2020, 12, 31))
+        >>> Instant((2021, 1, 1)).offset(-1, 'month')
+        Instant((2020, 12, 1))
+        >>> Instant((2021, 1, 1)).offset(-1, 'year')
+        Instant((2020, 1, 1))
 
-        >>> instant('2011-3-1').offset(-1, 'day')
+        >>> Instant((2011, 3, 1)).offset(-1, 'day')
         Instant((2011, 2, 28))
-        >>> instant('2011-3-31').offset(-1, 'month')
+        >>> Instant((2011, 3, 31)).offset(-1, 'month')
         Instant((2011, 2, 28))
-        >>> instant('2012-2-29').offset(-1, 'year')
+        >>> Instant((2012, 2, 29)).offset(-1, 'year')
         Instant((2011, 2, 28))
 
-        >>> instant('2014-1-30').offset(3, 'day')
-        Instant((2014, 2, 2))
-        >>> instant('2014-10-2').offset(3, 'month')
-        Instant((2015, 1, 2))
-        >>> instant('2014-1-1').offset(3, 'year')
-        Instant((2017, 1, 1))
+        >>> Instant((2021, 1, 30)).offset(3, 'day')
+        Instant((2021, 2, 2))
+        >>> Instant((2021, 10, 2)).offset(3, 'month')
+        Instant((2022, 1, 2))
+        >>> Instant((2021, 1, 1)).offset(3, 'year')
+        Instant((2024, 1, 1))
 
-        >>> instant(2014).offset(-3, 'day')
-        Instant((2013, 12, 29))
-        >>> instant(2014).offset(-3, 'month')
-        Instant((2013, 10, 1))
-        >>> instant(2014).offset(-3, 'year')
-        Instant((2011, 1, 1))
+        >>> Instant((2021, 1, 1)).offset(-3, 'day')
+        Instant((2020, 12, 29))
+        >>> Instant((2021, 1, 1)).offset(-3, 'month')
+        Instant((2020, 10, 1))
+        >>> Instant((2021, 1, 1)).offset(-3, 'year')
+        Instant((2018, 1, 1))
 
-        >>> instant(2014).offset('first-of', 'month')
-        Instant((2014, 1, 1))
-        >>> instant('2014-2').offset('first-of', 'month')
-        Instant((2014, 2, 1))
-        >>> instant('2014-2-3').offset('first-of', 'month')
-        Instant((2014, 2, 1))
+        >>> Instant((2021, 1, 1)).offset('first-of', 'month')
+        Instant((2021, 1, 1))
+        >>> Instant((2021, 2, 1)).offset('first-of', 'month')
+        Instant((2021, 2, 1))
+        >>> Instant((2021, 2, 3)).offset('first-of', 'month')
+        Instant((2021, 2, 1))
 
-        >>> instant(2014).offset('first-of', 'year')
-        Instant((2014, 1, 1))
-        >>> instant('2014-2').offset('first-of', 'year')
-        Instant((2014, 1, 1))
-        >>> instant('2014-2-3').offset('first-of', 'year')
-        Instant((2014, 1, 1))
+        >>> Instant((2021, 1, 1)).offset('first-of', 'year')
+        Instant((2021, 1, 1))
+        >>> Instant((2021, 2, 1)).offset('first-of', 'year')
+        Instant((2021, 1, 1))
+        >>> Instant((2021, 2, 3)).offset('first-of', 'year')
+        Instant((2021, 1, 1))
 
-        >>> instant(2014).offset('last-of', 'month')
-        Instant((2014, 1, 31))
-        >>> instant('2014-2').offset('last-of', 'month')
-        Instant((2014, 2, 28))
-        >>> instant('2012-2-3').offset('last-of', 'month')
+        >>> Instant((2021, 1, 1)).offset('last-of', 'month')
+        Instant((2021, 1, 31))
+        >>> Instant((2021, 2, 1)).offset('last-of', 'month')
+        Instant((2021, 2, 28))
+        >>> Instant((2012, 2, 3)).offset('last-of', 'month')
         Instant((2012, 2, 29))
 
-        >>> instant(2014).offset('last-of', 'year')
-        Instant((2014, 12, 31))
-        >>> instant('2014-2').offset('last-of', 'year')
-        Instant((2014, 12, 31))
-        >>> instant('2014-2-3').offset('last-of', 'year')
-        Instant((2014, 12, 31))
+        >>> Instant((2021, 1, 1)).offset('last-of', 'year')
+        Instant((2021, 12, 31))
+        >>> Instant((2021, 2, 1)).offset('last-of', 'year')
+        Instant((2021, 12, 31))
+        >>> Instant((2021, 2, 3)).offset('last-of', 'year')
+        Instant((2021, 12, 31))
+
         """
+
         year, month, day = self
         assert unit in Unit.ethereal(), 'Invalid unit: {} of type {}'.format(unit, type(unit))
         if offset == 'first-of':
