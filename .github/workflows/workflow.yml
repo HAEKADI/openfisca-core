@@ -1,0 +1,91 @@
+name: OpenFisca France
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Cache build
+        id: restore-build
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-build-${{ hashFiles('setup.py') }} # Cache the entire build Python environment
+      - name: Build package
+        if: steps.restore-build.outputs.cache-hit != 'true'
+        run: make build
+      - name: Cache build release
+        id: restore-build-release
+        uses: actions/cache@v2
+        with:
+          path: dist
+          key: ${{ env.pythonLocation }}-build-release-${{ hashFiles('setup.py') }}
+
+  lint-files:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetch all the tags
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Cache build
+        id: restore-build
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-build-${{ hashFiles('setup.py') }}
+      - run: make check-syntax-errors
+      - run: make check-style
+      - name: Lint Python files
+        run: "${GITHUB_WORKSPACE}/.github/lint-changed-python-files.sh"
+      - name: Lint YAML tests
+        run: "${GITHUB_WORKSPACE}/.github/lint-changed-yaml-tests.sh"
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Cache build
+        id: restore-build
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ env.pythonLocation }}-build-${{ hashFiles('setup.py') }}
+      - name: Run Core tests
+        run: env PYTEST_ADDOPTS="--exitfirst" make test
+      - name: Check NumPy typing against latest 3 minor versions
+        run: for i in {1..3}; do VERSION=(${GITHUB_WORKSPACE}/.github/get-numpy-version.py prev) && pip install numpy==$VERSION && make check-types; done
+      - name: Run Country Template tests
+        run: |
+          COUNTRY_TEMPLATE_PATH=`python -c "import openfisca_country_template; print(openfisca_country_template.CountryTaxBenefitSystem().get_package_metadata()['location'])"`
+          openfisca test $COUNTRY_TEMPLATE_PATH/openfisca_country_template/tests/
+
+  check-version-and-changelog:
+    runs-on: ubuntu-latest
+    needs: [ lint-files, test ] # Last job to run
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetch all the tags
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Check version number has been properly updated
+        run: "${GITHUB_WORKSPACE}/.github/is-version-number-acceptable.sh"
